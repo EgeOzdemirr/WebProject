@@ -2,11 +2,14 @@ using WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
 using WebProject.Order.Application.Interfaces;
 using WebProject.Order.Application.Services;
+using WebProject.Order.Persistence.Context;
 using WebProject.Order.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<OrderContext>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddApplicationService(builder.Configuration);
