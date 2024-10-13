@@ -21,13 +21,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{A420E0C3-6208-4431-81E7-3F1378257918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Order.Domain", "Services\Order\Core\WebProject.Order.Domain\WebProject.Order.Domain.csproj", "{2EFD27E9-9D32-45BE-8D77-82592D92BF83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Order.Domain", "Services\Order\Core\WebProject.Order.Domain\WebProject.Order.Domain.csproj", "{2EFD27E9-9D32-45BE-8D77-82592D92BF83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Order.Application", "Services\Order\Core\WebProject.Order.Application\WebProject.Order.Application.csproj", "{E8E935AD-C29F-49D2-A1FA-DE6C82127B33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Order.Application", "Services\Order\Core\WebProject.Order.Application\WebProject.Order.Application.csproj", "{E8E935AD-C29F-49D2-A1FA-DE6C82127B33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Order.Persistence", "Services\Order\Infrastructure\WebProject.Order.Persistence\WebProject.Order.Persistence.csproj", "{E403088A-1F11-4B6D-B73E-0BB9FEBED96B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Order.Persistence", "Services\Order\Infrastructure\WebProject.Order.Persistence\WebProject.Order.Persistence.csproj", "{E403088A-1F11-4B6D-B73E-0BB9FEBED96B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Order.WebApi", "Services\Order\Presentation\WebProject.Order.WebApi\WebProject.Order.WebApi.csproj", "{56ED22DA-B1C9-4AE1-8FED-FF8EEFB9B854}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Order.WebApi", "Services\Order\Presentation\WebProject.Order.WebApi\WebProject.Order.WebApi.csproj", "{56ED22DA-B1C9-4AE1-8FED-FF8EEFB9B854}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{FBEF4121-839D-4D6C-BD69-4D30D340975D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.IdentityServer", "IdentityServer\WebProject.IdentityServer\WebProject.IdentityServer.csproj", "{703AFDFF-C7FD-4FD2-9F94-8ADA1F1259BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirements", "{959E65A3-B50C-42C6-A5CA-4A78A385EB32}"
+	ProjectSection(SolutionItems) = preProject
+		PortNumbers.txt = PortNumbers.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +68,10 @@ Global
 		{56ED22DA-B1C9-4AE1-8FED-FF8EEFB9B854}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56ED22DA-B1C9-4AE1-8FED-FF8EEFB9B854}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56ED22DA-B1C9-4AE1-8FED-FF8EEFB9B854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{703AFDFF-C7FD-4FD2-9F94-8ADA1F1259BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703AFDFF-C7FD-4FD2-9F94-8ADA1F1259BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703AFDFF-C7FD-4FD2-9F94-8ADA1F1259BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703AFDFF-C7FD-4FD2-9F94-8ADA1F1259BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +89,7 @@ Global
 		{E8E935AD-C29F-49D2-A1FA-DE6C82127B33} = {8D636E23-A727-4E60-A491-6FC544640421}
 		{E403088A-1F11-4B6D-B73E-0BB9FEBED96B} = {85B011E0-B946-45CA-AA0B-FEEAE1EC6862}
 		{56ED22DA-B1C9-4AE1-8FED-FF8EEFB9B854} = {A420E0C3-6208-4431-81E7-3F1378257918}
+		{703AFDFF-C7FD-4FD2-9F94-8ADA1F1259BA} = {FBEF4121-839D-4D6C-BD69-4D30D340975D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E750064F-9DA5-4976-A7B1-2357458FEA26}
