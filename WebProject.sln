@@ -40,15 +40,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirement
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cargo", "Cargo", "{E8B7BEE8-B1E5-405B-8AA0-D3A26423E501}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Cargo.EntityLayer", "Services\Cargo\WebProject.Cargo.EntityLayer\WebProject.Cargo.EntityLayer.csproj", "{E3C4FF12-007D-480A-9AF6-F15F4F12A429}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Cargo.EntityLayer", "Services\Cargo\WebProject.Cargo.EntityLayer\WebProject.Cargo.EntityLayer.csproj", "{E3C4FF12-007D-480A-9AF6-F15F4F12A429}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Cargo.BusinessLayer", "Services\Cargo\WebProject.Cargo.BusinessLayer\WebProject.Cargo.BusinessLayer.csproj", "{4D9F8F5B-D473-48A4-A2FB-81F306170148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Cargo.BusinessLayer", "Services\Cargo\WebProject.Cargo.BusinessLayer\WebProject.Cargo.BusinessLayer.csproj", "{4D9F8F5B-D473-48A4-A2FB-81F306170148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Cargo.DataAccessLayer", "Services\Cargo\WebProject.Cargo.DataAccessLayer\WebProject.Cargo.DataAccessLayer.csproj", "{5EE62DBD-21DD-45BA-B7FA-BC67C2D42169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Cargo.DataAccessLayer", "Services\Cargo\WebProject.Cargo.DataAccessLayer\WebProject.Cargo.DataAccessLayer.csproj", "{5EE62DBD-21DD-45BA-B7FA-BC67C2D42169}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Cargo.DtoLayer", "Services\Cargo\WebProject.Cargo.DtoLayer\WebProject.Cargo.DtoLayer.csproj", "{EE14261B-58C9-414D-9B7C-1BE7967BDF08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Cargo.DtoLayer", "Services\Cargo\WebProject.Cargo.DtoLayer\WebProject.Cargo.DtoLayer.csproj", "{EE14261B-58C9-414D-9B7C-1BE7967BDF08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Cargo.WebApi", "Services\Cargo\WebProject.Cargo.WebApi\WebProject.Cargo.WebApi.csproj", "{25EA8B3B-EE33-4753-B4CE-B63A8ECE69C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Cargo.WebApi", "Services\Cargo\WebProject.Cargo.WebApi\WebProject.Cargo.WebApi.csproj", "{25EA8B3B-EE33-4753-B4CE-B63A8ECE69C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{5E42E0D2-8AF3-4D52-9554-116BD75A1F4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Basket", "Services\Basket\WebProject.Basket\WebProject.Basket.csproj", "{96DFF469-434E-499A-BBEA-C6D142493159}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{02CB29B7-AC6B-4C19-95E2-AB14087BEDB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.WebUI", "Frontends\WebProject.WebUI\WebProject.WebUI.csproj", "{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +112,14 @@ Global
 		{25EA8B3B-EE33-4753-B4CE-B63A8ECE69C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25EA8B3B-EE33-4753-B4CE-B63A8ECE69C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25EA8B3B-EE33-4753-B4CE-B63A8ECE69C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DFF469-434E-499A-BBEA-C6D142493159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DFF469-434E-499A-BBEA-C6D142493159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DFF469-434E-499A-BBEA-C6D142493159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DFF469-434E-499A-BBEA-C6D142493159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +144,9 @@ Global
 		{5EE62DBD-21DD-45BA-B7FA-BC67C2D42169} = {E8B7BEE8-B1E5-405B-8AA0-D3A26423E501}
 		{EE14261B-58C9-414D-9B7C-1BE7967BDF08} = {E8B7BEE8-B1E5-405B-8AA0-D3A26423E501}
 		{25EA8B3B-EE33-4753-B4CE-B63A8ECE69C0} = {E8B7BEE8-B1E5-405B-8AA0-D3A26423E501}
+		{5E42E0D2-8AF3-4D52-9554-116BD75A1F4F} = {0144C97E-B8E6-4BBF-869C-B898069FC546}
+		{96DFF469-434E-499A-BBEA-C6D142493159} = {5E42E0D2-8AF3-4D52-9554-116BD75A1F4F}
+		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1} = {02CB29B7-AC6B-4C19-95E2-AB14087BEDB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E750064F-9DA5-4976-A7B1-2357458FEA26}
