@@ -6,7 +6,7 @@ using WebProject.Catalog.Services.ProductServices;
 
 namespace WebProject.Catalog.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -51,6 +51,13 @@ namespace WebProject.Catalog.Controllers
         {
             await _productService.UpdateProductAsync(updateProductDto);
             return Ok("ürün başarıyla güncellendi");
+        }
+
+        [HttpGet("ProductListWithCategory")]
+        public async Task<IActionResult> ProductListWithCategory()
+        {
+            var values = await _productService.GetProductsWithCategoryAsync();
+            return Ok(values);
         }
     }
 }

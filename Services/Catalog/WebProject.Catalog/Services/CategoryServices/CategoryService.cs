@@ -14,9 +14,9 @@ namespace WebProject.Catalog.Services.CategoryServices
 
         public CategoryService(IMapper mapper, IDatabaseSettings _databaseSettings)
         {
-            var client=new MongoClient(_databaseSettings.ConnectionString);
+            var client = new MongoClient(_databaseSettings.ConnectionString);
             var database = client.GetDatabase(_databaseSettings.DatabaseName);
-            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategorycollectionName);
+            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
             _mapper = mapper;
         }
 
@@ -47,7 +47,7 @@ namespace WebProject.Catalog.Services.CategoryServices
         public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
             var values = _mapper.Map<Category>(updateCategoryDto);
-            await _categoryCollection.FindOneAndReplaceAsync(x=>x.CategoryId == updateCategoryDto.CategoryId, values);
+            await _categoryCollection.FindOneAndReplaceAsync(x => x.CategoryId == updateCategoryDto.CategoryId, values);
         }
     }
 }

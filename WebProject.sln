@@ -36,6 +36,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirements", "{959E65A3-B50C-42C6-A5CA-4A78A385EB32}"
 	ProjectSection(SolutionItems) = preProject
 		PortNumbers.txt = PortNumbers.txt
+		SimpleCodes.txt = SimpleCodes.txt
+		TextFile4.txt = TextFile4.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cargo", "Cargo", "{E8B7BEE8-B1E5-405B-8AA0-D3A26423E501}"
@@ -52,11 +54,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Cargo.WebApi", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{5E42E0D2-8AF3-4D52-9554-116BD75A1F4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Basket", "Services\Basket\WebProject.Basket\WebProject.Basket.csproj", "{96DFF469-434E-499A-BBEA-C6D142493159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Basket", "Services\Basket\WebProject.Basket\WebProject.Basket.csproj", "{96DFF469-434E-499A-BBEA-C6D142493159}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{02CB29B7-AC6B-4C19-95E2-AB14087BEDB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.WebUI", "Frontends\WebProject.WebUI\WebProject.WebUI.csproj", "{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.WebUI", "Frontends\WebProject.WebUI\WebProject.WebUI.csproj", "{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.DtoLayer", "Frontends\WebProject.DtoLayer\WebProject.DtoLayer.csproj", "{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +124,10 @@ Global
 		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,6 +155,7 @@ Global
 		{5E42E0D2-8AF3-4D52-9554-116BD75A1F4F} = {0144C97E-B8E6-4BBF-869C-B898069FC546}
 		{96DFF469-434E-499A-BBEA-C6D142493159} = {5E42E0D2-8AF3-4D52-9554-116BD75A1F4F}
 		{07FB33BD-9F34-45A9-9A20-855D21A4C1E1} = {02CB29B7-AC6B-4C19-95E2-AB14087BEDB1}
+		{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28} = {02CB29B7-AC6B-4C19-95E2-AB14087BEDB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E750064F-9DA5-4976-A7B1-2357458FEA26}

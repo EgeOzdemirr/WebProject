@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using System.Reflection;
+using WebProject.Catalog.Services.BrandServices;
 using WebProject.Catalog.Services.CategoryServices;
+using WebProject.Catalog.Services.FeatureServices;
+using WebProject.Catalog.Services.FeatureSliderServices;
+using WebProject.Catalog.Services.OfferDiscountServices;
 using WebProject.Catalog.Services.ProductDetailServices;
 using WebProject.Catalog.Services.ProductImageServices;
 using WebProject.Catalog.Services.ProductServices;
+using WebProject.Catalog.Services.SpecialOfferServices;
 using WebProject.Catalog.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,10 +22,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Add services to the container.
+builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IFeatureService, FeatureService>();
+builder.Services.AddScoped<IFeatureSliderService, FeatureSliderService>();
+builder.Services.AddScoped<IOfferDiscountService, OfferDiscountService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
+builder.Services.AddScoped<ISpecialOfferService, SpecialOfferService>();
 
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
