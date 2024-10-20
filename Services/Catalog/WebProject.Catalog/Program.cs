@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using System.Reflection;
+using WebProject.Catalog.Services.AboutServices;
 using WebProject.Catalog.Services.BrandServices;
 using WebProject.Catalog.Services.CategoryServices;
 using WebProject.Catalog.Services.FeatureServices;
@@ -22,6 +23,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Add services to the container.
+builder.Services.AddScoped<IAboutService, AboutService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();

@@ -2,6 +2,7 @@
 {
     public class DatabaseSettings:IDatabaseSettings
     {
+        public string AboutCollectionName { get; set; }
         public string BrandCollectionName { get; set; }
         public string CategoryCollectionName { get; set; }
         public string FeatureCollectionName { get ; set ; }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WebProject.Catalog.Dtos.AboutDtos;
 using WebProject.Catalog.Dtos.BrandDtos;
 using WebProject.Catalog.Dtos.CategoryDtos;
 using WebProject.Catalog.Dtos.FeatureDtos;
@@ -16,6 +17,11 @@ namespace WebProject.Catalog.Mapping
     {
         public GeneralMapping() 
         {
+            CreateMap<About, ResultAboutDto>().ReverseMap();
+            CreateMap<About, CreateAboutDto>().ReverseMap();
+            CreateMap<About, UpdateAboutDto>().ReverseMap();
+            CreateMap<About, GetByIdAboutDto>().ReverseMap();
+
             CreateMap<Brand, ResultBrandDto>().ReverseMap();
             CreateMap<Brand, CreateBrandDto>().ReverseMap();
             CreateMap<Brand, UpdateBrandDto>().ReverseMap();
