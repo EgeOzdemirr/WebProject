@@ -44,6 +44,12 @@ namespace WebProject.Catalog.Services.ProductDetailServices
             return _mapper.Map<GetByIdProductDetailDto>(values);
         }
 
+        public async Task<GetByIdProductDetailDto> GetByProductIdProductDetailAsync(string id)
+        {
+            var values = await _ProductDetailCollection.Find<ProductDetail>(x => x.ProductId == id).FirstOrDefaultAsync();
+            return _mapper.Map<GetByIdProductDetailDto>(values);
+        }
+
         public async Task UpdateProductDetailAsync(UpdateProductDetailDto updateProductDetailDto)
         {
             var values = _mapper.Map<ProductDetail>(updateProductDetailDto);
