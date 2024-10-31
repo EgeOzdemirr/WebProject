@@ -40,6 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirement
 		ReviewPartial.txt = ReviewPartial.txt
 		SimpleCodes.txt = SimpleCodes.txt
 		TextFile4.txt = TextFile4.txt
+		UserExample.txt = UserExample.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cargo", "Cargo", "{E8B7BEE8-B1E5-405B-8AA0-D3A26423E501}"

@@ -1,0 +1,4 @@
+Kullanýcý Adý ---- Þifre
+ali01    ----  1111aA*
+ayse01   ----  2222aA*
+mehmet03 ----  3333aA*
