@@ -4,6 +4,7 @@ using System.Reflection;
 using WebProject.Catalog.Services.AboutServices;
 using WebProject.Catalog.Services.BrandServices;
 using WebProject.Catalog.Services.CategoryServices;
+using WebProject.Catalog.Services.ContactServices;
 using WebProject.Catalog.Services.FeatureServices;
 using WebProject.Catalog.Services.FeatureSliderServices;
 using WebProject.Catalog.Services.OfferDiscountServices;
@@ -26,6 +27,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddScoped<IAboutService, AboutService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IFeatureSliderService, FeatureSliderService>();
 builder.Services.AddScoped<IOfferDiscountService, OfferDiscountService>();

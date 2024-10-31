@@ -2,6 +2,7 @@
 using WebProject.Catalog.Dtos.AboutDtos;
 using WebProject.Catalog.Dtos.BrandDtos;
 using WebProject.Catalog.Dtos.CategoryDtos;
+using WebProject.Catalog.Dtos.ContactDtos;
 using WebProject.Catalog.Dtos.FeatureDtos;
 using WebProject.Catalog.Dtos.FeatureSliderDtos;
 using WebProject.Catalog.Dtos.OfferDiscountDtos;
@@ -31,6 +32,11 @@ namespace WebProject.Catalog.Mapping
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Category, UpdateCategoryDto>().ReverseMap();
             CreateMap<Category, GetByIdCategoryDto>().ReverseMap();
+
+            CreateMap<Contact, ResultContactDto>().ReverseMap();
+            CreateMap<Contact, CreateContactDto>().ReverseMap();
+            CreateMap<Contact, UpdateContactDto>().ReverseMap();
+            CreateMap<Contact, GetByIdContactDto>().ReverseMap();
 
             CreateMap<Feature, ResultFeatureDto>().ReverseMap();
             CreateMap<Feature, CreateFeatureDto>().ReverseMap();

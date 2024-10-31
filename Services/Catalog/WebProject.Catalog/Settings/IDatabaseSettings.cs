@@ -5,6 +5,7 @@
         public string AboutCollectionName { get; set; }
         public string BrandCollectionName { get; set; }
         public string CategoryCollectionName { get; set; }
+        public string ContactCollectionName { get; set; }
         public string FeatureCollectionName { get; set; }
         public string FeatureSliderCollectionName { get; set; }
         public string OfferDiscountCollectionName { get; set; }
