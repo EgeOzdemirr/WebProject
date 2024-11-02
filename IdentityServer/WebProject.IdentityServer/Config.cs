@@ -60,7 +60,7 @@ namespace WebProject.IdentityServer
                 ClientName="Web Project Visitor User",
                 AllowedGrantTypes=GrantTypes.ClientCredentials,
                 ClientSecrets={new Secret("webprojectsecret".Sha256())},
-                AllowedScopes={ "DiscountFullPermission" }
+                AllowedScopes={ "DiscountFullPermission", "CatalogFullPermission", "CatalogReadPermission" }
             },
 
             //Manager
@@ -70,7 +70,7 @@ namespace WebProject.IdentityServer
                 ClientName="Web Project Manager User",
                 AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
                 ClientSecrets={new Secret("webprojectsecret".Sha256())},
-                AllowedScopes={"CatalogFullPermission", "CatalogReadPermission" }
+                AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission" }
             },
 
             //Admin

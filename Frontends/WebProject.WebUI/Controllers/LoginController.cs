@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿//using AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,16 +8,19 @@ using System.Text;
 using System.Text.Json;
 using WebProject.DtoLayer.IdentityDtos.LoginDtos;
 using WebProject.WebUI.Models;
+using WebProject.WebUI.Services;
 
 namespace WebProject.WebUI.Controllers
 {
 	public class LoginController : Controller
 	{
 		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly ILoginService _loginService;
 
-		public LoginController(IHttpClientFactory httpClientFactory)
+		public LoginController(IHttpClientFactory httpClientFactory, ILoginService loginService)
 		{
 			_httpClientFactory = httpClientFactory;
+			_loginService = loginService;
 		}
 
 		[HttpGet]
@@ -28,6 +32,7 @@ namespace WebProject.WebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Index(CreateLoginDto createLoginDto)
 		{
+			
 			var client = _httpClientFactory.CreateClient();
 			var content = new StringContent(JsonSerializer.Serialize(createLoginDto), Encoding.UTF8, "application/json");
 			var response = await client.PostAsync("http://localhost:5001/api/Logins", content);
@@ -56,6 +61,7 @@ namespace WebProject.WebUI.Controllers
 						};	
 
 						await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProps);
+						var id = _loginService.GetUserId;
 						return RedirectToAction("Index", "Default");
 					}
 				}

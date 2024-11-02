@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebProject.Catalog.Dtos.SpecialOfferDtos;
 using WebProject.Catalog.Services.SpecialOfferServices;
 
 namespace WebProject.Catalog.Controllers
 {
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [ApiController]
     public class SpecialOffersController : ControllerBase
     {

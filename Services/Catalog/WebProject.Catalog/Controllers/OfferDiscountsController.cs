@@ -6,8 +6,8 @@ using WebProject.Catalog.Services.OfferDiscountServices;
 
 namespace WebProject.Catalog.Controllers
 {
-    [AllowAnonymous]
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [ApiController]
     public class OfferDiscountsController : ControllerBase
     {

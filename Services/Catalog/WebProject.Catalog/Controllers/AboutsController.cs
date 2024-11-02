@@ -6,7 +6,7 @@ using WebProject.Catalog.Services.AboutServices;
 
 namespace WebProject.Catalog.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AboutsController : ControllerBase

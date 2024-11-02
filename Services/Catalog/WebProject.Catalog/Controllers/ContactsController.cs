@@ -7,9 +7,8 @@ using WebProject.Catalog.Services.ContactServices;
 
 namespace WebProject.Catalog.Controllers
 {
-
-    [AllowAnonymous]
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [ApiController]
     public class ContactsController : ControllerBase
     {

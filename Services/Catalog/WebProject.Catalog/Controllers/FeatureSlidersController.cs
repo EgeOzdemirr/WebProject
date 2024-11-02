@@ -7,8 +7,8 @@ using WebProject.Catalog.Services.FeatureSliderServices;
 
 namespace WebProject.Catalog.Controllers
 {
-    [AllowAnonymous]
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [ApiController]
     public class FeatureSlidersController : ControllerBase
     {

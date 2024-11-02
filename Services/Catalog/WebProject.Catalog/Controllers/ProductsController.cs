@@ -6,8 +6,8 @@ using WebProject.Catalog.Services.ProductServices;
 
 namespace WebProject.Catalog.Controllers
 {
-    [AllowAnonymous]
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
