@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebProject.WebUI.Services;
+using WebProject.WebUI.Services.Concretes;
+using WebProject.WebUI.Services.Interfaces;
+using WebProject.WebUI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +19,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCo
         opt.Cookie.Name = "WebProjectJwt";
     });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie
+    (CookieAuthenticationDefaults.AuthenticationScheme, opt =>
+    {
+        opt.LoginPath = "/Login/Index/";
+        opt.ExpireTimeSpan = TimeSpan.FromDays(5);
+        opt.Cookie.Name = "WebProjectCookie";
+        opt.SlidingExpiration = true;
+    });
+
+
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<ILoginService, LoginService>(); 
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 
 var app = builder.Build();
 

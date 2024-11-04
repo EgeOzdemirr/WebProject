@@ -60,7 +60,8 @@ namespace WebProject.IdentityServer
                 ClientName="Web Project Visitor User",
                 AllowedGrantTypes=GrantTypes.ClientCredentials,
                 ClientSecrets={new Secret("webprojectsecret".Sha256())},
-                AllowedScopes={ "DiscountFullPermission", "CatalogFullPermission", "CatalogReadPermission" }
+                AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission" },
+                AllowAccessTokensViaBrowser=true
             },
 
             //Manager

@@ -69,6 +69,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Comment", "Comment", "{8BE1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Comment", "Services\Comment\WebProject.Comment\WebProject.Comment.csproj", "{17C6F05E-71D8-4A23-9452-55386C3161DA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{02AF845A-EA8B-4608-A2CE-0064A499A1D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RapidApi", "RapidApi", "{DB3F99AF-C800-49E7-A73D-CBDB3E8FA264}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.OcelotGateway", "ApiGateway\WebProject.OcelotGateway\WebProject.OcelotGateway.csproj", "{DCD5AC5D-5BE7-4E41-A142-E5AEE41F3AAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +145,10 @@ Global
 		{17C6F05E-71D8-4A23-9452-55386C3161DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C6F05E-71D8-4A23-9452-55386C3161DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C6F05E-71D8-4A23-9452-55386C3161DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD5AC5D-5BE7-4E41-A142-E5AEE41F3AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD5AC5D-5BE7-4E41-A142-E5AEE41F3AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD5AC5D-5BE7-4E41-A142-E5AEE41F3AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD5AC5D-5BE7-4E41-A142-E5AEE41F3AAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -169,6 +179,7 @@ Global
 		{CD69EBE7-8B0A-4E3C-A23E-FE39AF923A28} = {02CB29B7-AC6B-4C19-95E2-AB14087BEDB1}
 		{8BE1F4E7-F3E3-4892-B8B7-DA53135AE72D} = {0144C97E-B8E6-4BBF-869C-B898069FC546}
 		{17C6F05E-71D8-4A23-9452-55386C3161DA} = {8BE1F4E7-F3E3-4892-B8B7-DA53135AE72D}
+		{DCD5AC5D-5BE7-4E41-A142-E5AEE41F3AAA} = {02AF845A-EA8B-4608-A2CE-0064A499A1D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E750064F-9DA5-4976-A7B1-2357458FEA26}

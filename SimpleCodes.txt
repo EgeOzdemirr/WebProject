@@ -19,6 +19,8 @@
                 </div>
             </div>
 
+-----------------------------------------------------------------------------------------------------------------------------------
+
 KATEGORÝYE GÖRE ÜRÜN GETÝRME DEFAULT.CSHTML KODU
             <div class="row">
     @foreach (var item in Model)
@@ -53,3 +55,31 @@ KATEGORÝYE GÖRE ÜRÜN GETÝRME DEFAULT.CSHTML KODU
     }
 </div>
 
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+			string token;
+			using(var httpClient = new HttpClient())
+			{
+				var request = new HttpRequestMessage
+				{
+					RequestUri = new Uri("http://localhost:5001/connect/Token"),
+					Method = HttpMethod.Post,
+					Content = new FormUrlEncodedContent(new Dictionary<string, string>
+					{
+						{"client_id","WebProjectVisitorId" },
+						{"client_secret","webprojectsecret" },
+						{"grant_type", "client_credentials" }
+					})
+				};
+				using(var response = await httpClient.SendAsync(request))
+				{
+					if(response.IsSuccessStatusCode)
+					{
+						var content = await response.Content.ReadAsStringAsync();
+						var tokenResponse = JsonObject.Parse(content);
+						token = tokenResponse["access_token"].ToString();
+					}
+				}
+			}
