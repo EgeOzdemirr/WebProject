@@ -36,6 +36,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirements", "{959E65A3-B50C-42C6-A5CA-4A78A385EB32}"
 	ProjectSection(SolutionItems) = preProject
 		FontAwesome.txt = FontAwesome.txt
+		LoginIndex.txt = LoginIndex.txt
 		OcelotCodeExample.txt = OcelotCodeExample.txt
 		PortNumbers.txt = PortNumbers.txt
 		ReviewPartial.txt = ReviewPartial.txt

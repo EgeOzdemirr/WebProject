@@ -15,52 +15,107 @@ namespace WebProject.WebUI.Services.Concretes
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ClientSettings _clientSettings;
+        private readonly ServiceApiSettings _serviceApiSettings;
 
-        public IdentityService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings)
+        public IdentityService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings,
+            IOptions<ServiceApiSettings> serviceApiSettings)
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
             _clientSettings = clientSettings.Value;
+            _serviceApiSettings = serviceApiSettings.Value;
         }
 
-        public async Task<bool> SignIn(SignInDto signInDto)
+        public async Task<bool> GetRefreshToken()
         {
             var discoveryEndPoint = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                Address= "http://localhost:5001",
+                Address = _serviceApiSettings.IdentityServerUrl,
                 Policy = new DiscoveryPolicy
                 {
                     RequireHttps = false
                 }
             });
 
-            var passwordTokenRequest = new PasswordTokenRequest
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            RefreshTokenRequest refreshTokenRequest = new()
             {
                 ClientId = _clientSettings.WebProjectManagerClient.ClientId,
                 ClientSecret = _clientSettings.WebProjectManagerClient.ClientSecret,
-                UserName = signInDto.UserName,
-                Password = signInDto.Password,
+                RefreshToken = refreshToken,
                 Address = discoveryEndPoint.TokenEndpoint
             };
 
-            var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
+            var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
 
-            var userInfoRequest = new UserInfoRequest
+            var authenticationToken = new List<AuthenticationToken>()
             {
-                Token = token.AccessToken,
-                Address = discoveryEndPoint.UserInfoEndpoint
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.AccessToken,
+                    Value = token.AccessToken
+                },
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.RefreshToken,
+                    Value = token.RefreshToken
+                },
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.ExpiresIn,
+                    Value = DateTime.Now.AddSeconds(token.ExpiresIn).ToString()
+                }
             };
 
-            var userValues = await _httpClient.GetUserInfoAsync(userInfoRequest);
+            var result = await _httpContextAccessor.HttpContext.AuthenticateAsync();
 
-            ClaimsIdentity  claimsIdentity = new ClaimsIdentity(userValues.Claims,
-                CookieAuthenticationDefaults.AuthenticationScheme,"name","role");
+            var properties = result.Properties;
+            properties.StoreTokens(authenticationToken);
 
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,result.Principal, properties);
 
-            var authenticationProperties = new AuthenticationProperties();
+            return true;
+        }
 
-            authenticationProperties.StoreTokens(new List<AuthenticationToken>()
+    public async Task<bool> SignIn(SignInDto signInDto)
+    {
+        var discoveryEndPoint = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+        {
+            Address = _serviceApiSettings.IdentityServerUrl,
+            Policy = new DiscoveryPolicy
+            {
+                RequireHttps = false
+            }
+        });
+
+        var passwordTokenRequest = new PasswordTokenRequest
+        {
+            ClientId = _clientSettings.WebProjectManagerClient.ClientId,
+            ClientSecret = _clientSettings.WebProjectManagerClient.ClientSecret,
+            UserName = signInDto.UserName,
+            Password = signInDto.Password,
+            Address = discoveryEndPoint.TokenEndpoint
+        };
+
+        var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
+
+        var userInfoRequest = new UserInfoRequest
+        {
+            Token = token.AccessToken,
+            Address = discoveryEndPoint.UserInfoEndpoint
+        };
+
+        var userValues = await _httpClient.GetUserInfoAsync(userInfoRequest);
+
+        ClaimsIdentity claimsIdentity = new ClaimsIdentity(userValues.Claims,
+            CookieAuthenticationDefaults.AuthenticationScheme, "name", "role");
+
+        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+        var authenticationProperties = new AuthenticationProperties();
+
+        authenticationProperties.StoreTokens(new List<AuthenticationToken>()
             {
                 new AuthenticationToken
                 {
@@ -79,11 +134,11 @@ namespace WebProject.WebUI.Services.Concretes
                 }
             });
 
-            authenticationProperties.IsPersistent = false;
+        authenticationProperties.IsPersistent = false;
 
-            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
+        await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
 
-            return true;
-        }
+        return true;
     }
+}
 }
