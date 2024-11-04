@@ -12,26 +12,15 @@ namespace WebProject.IdentityServer
     {
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
-            new ApiResource("ResourceCatalog")
-            {
-                Scopes={"CatalogFullPermission","CatalogReadPermission"}
-            },
-            new ApiResource("ResourceDiscount")
-            {
-                Scopes={"DiscountFullPermission"}
-            },
-            new ApiResource("ResourceOrder")
-            {
-                Scopes={"OrderFullPermission"}
-            },
-            new ApiResource("ResourceCargo")
-            {
-                Scopes={"CargoFullPermission"}
-            },
-            new ApiResource("ResourceBasket")
-            {
-                Scopes={"BasketFullPermission"}
-            },
+            new ApiResource("ResourceCatalog") { Scopes = {"CatalogFullPermission", "CatalogReadPermission"}},
+            new ApiResource("ResourceDiscount") { Scopes = {"DiscountFullPermission"}},
+            new ApiResource("ResourceOrder") { Scopes = {"OrderFullPermission"}},
+            new ApiResource("ResourceCargo") { Scopes = {"CargoFullPermission"}},
+            new ApiResource("ResourceBasket") { Scopes = {"BasketFullPermission"}},
+            new ApiResource("ResourceComment") { Scopes = {"CommentFullPermission"}},
+            new ApiResource("ResourcePayment") { Scopes = {"PaymentFullPermission"}},
+            new ApiResource("ResourceImage") { Scopes = {"ImageFullPermission"}},
+            new ApiResource("ResourceOcelot") { Scopes = {"OcelotFullPermission"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
         public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
@@ -42,12 +31,16 @@ namespace WebProject.IdentityServer
         };
         public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
         {
-            new ApiScope("CatalogFullPermission","Full authority for catalog operations"),
-            new ApiScope("CatalogReadPermission","Reading authority for catalog operations"),
-            new ApiScope("DiscountFullPermission","Full authority for discount operations"),
-            new ApiScope("OrderFullPermission","Full authority for order operations"),
-            new ApiScope("CargoFullPermission","Full authority for cargo operations"),
-            new ApiScope("BasketFullPermission","Full authority for basket operations"),
+            new ApiScope("CatalogFullPermission", " Full authority for catalog operations "),
+            new ApiScope("CatalogReadPermission", " Reading authority for catalog operations "),
+            new ApiScope("DiscountFullPermission", " Full authority for discount operations "),
+            new ApiScope("OrderFullPermission", " Full authority for order operations "),
+            new ApiScope("CargoFullPermission", " Full authority for cargo operations "),
+            new ApiScope("BasketFullPermission", " Full authority for basket operations "),
+            new ApiScope("CommentFullPermission", " Full authority for comment operations "),
+            new ApiScope("PaymentFullPermission", " Full authority for payment operations "),
+            new ApiScope("ImageFullPermission", " Full authority for image operations "),
+            new ApiScope("OcelotFullPermission", " Full authority for ocelot operations "),
             new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
         };
 
@@ -56,41 +49,51 @@ namespace WebProject.IdentityServer
             //Visitor
             new Client
             {
-                ClientId="WebProjectVisitorId",
-                ClientName="Web Project Visitor User",
-                AllowedGrantTypes=GrantTypes.ClientCredentials,
-                ClientSecrets={new Secret("webprojectsecret".Sha256())},
-                AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission" },
-                AllowAccessTokensViaBrowser=true
+                ClientId = "WebProjectVisitorId",
+                ClientName = "Web Project Visitor User",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = {new Secret("webprojectsecret".Sha256())},
+                AllowedScopes =
+                {
+                    "CatalogReadPermission", "CatalogFullPermission", "OcelotFullPermission", "CommentFullPermission",
+                    "ImageFullPermission"
+                },
+                AllowAccessTokensViaBrowser = true
             },
 
             //Manager
             new Client
             {
-                ClientId="WebProjectManagerId",
-                ClientName="Web Project Manager User",
-                AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
-                ClientSecrets={new Secret("webprojectsecret".Sha256())},
-                AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission" }
+                ClientId = "WebProjectManagerId",
+                ClientName = "Web Project Manager User",
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                ClientSecrets = {new Secret("webprojectsecret".Sha256())},
+                AllowedScopes =
+                {
+                    "CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission",
+                    "CommentFullPermission", "PaymentFullPermission", "ImageFullPermission"
+                }
             },
 
             //Admin
             new Client
             {
-                ClientId="WebProjectAdminId",
-                ClientName="Web Project Admin User",
-                AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
-                ClientSecrets={new Secret("webprojectsecret".Sha256())},
-                AllowedScopes=
-                { 
-                    "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission", 
+                ClientId = "WebProjectAdminId",
+                ClientName = "Web Project Admin User",
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                ClientSecrets = {new Secret("webprojectsecret".Sha256())},
+                AllowedScopes =
+                {
+                    "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission",
                     "OrderFullPermission", "CargoFullPermission", "BasketFullPermission",
+                    "OcelotFullPermission", "CommentFullPermission", "PaymentFullPermission",
+                    "ImageFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName,
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                 },
-                AccessTokenLifetime=600
+                AccessTokenLifetime = 600
             }
         };
     }
