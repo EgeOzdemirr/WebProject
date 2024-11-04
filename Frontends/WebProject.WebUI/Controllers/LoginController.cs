@@ -8,12 +8,11 @@ using System.Text;
 using System.Text.Json;
 using WebProject.DtoLayer.IdentityDtos.LoginDtos;
 using WebProject.WebUI.Models;
-using WebProject.WebUI.Services;
 using WebProject.WebUI.Services.Interfaces;
 
 namespace WebProject.WebUI.Controllers
 {
-	public class LoginController : Controller
+    public class LoginController : Controller
 	{
 		private readonly IHttpClientFactory _httpClientFactory;
 		private readonly ILoginService _loginService;
@@ -45,7 +44,7 @@ namespace WebProject.WebUI.Controllers
             signInDto.UserName = "ali01";
             signInDto.Password = "1111aA*";
 			await _identityService.SignIn(signInDto);
-			return RedirectToAction("Index", "Test");
+			return RedirectToAction("Index", "User");
 		}
 	}
 }
