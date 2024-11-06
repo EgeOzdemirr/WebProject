@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebProject.DtoLayer.CatalogDtos.CategoryDtos
 {
-    public class ResultCategoryDto
+    public class GetByIdCategoryDto
     {
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }

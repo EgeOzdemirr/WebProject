@@ -3,15 +3,18 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using WebProject.DtoLayer.CatalogDtos.CategoryDtos;
+using WebProject.WebUI.Services.CatalogServices.CategoryServices;
 
 namespace WebProject.WebUI.Controllers
 {
     public class TestController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        public TestController(IHttpClientFactory httpClientFactory)
+        private readonly ICategoryService _categoryService;
+        public TestController(IHttpClientFactory httpClientFactory, ICategoryService categoryService)
         {
             _httpClientFactory = httpClientFactory;
+            _categoryService = categoryService;
         }
 
         public async Task<IActionResult> Index()
@@ -51,6 +54,12 @@ namespace WebProject.WebUI.Controllers
                 return View(values);
             }
             return View();
+        }
+
+        public async Task<IActionResult> Deneme2()
+        {
+            var values = await _categoryService.GetAllCategoryAsync();
+            return View(values);
         }
     }
 }
