@@ -1,6 +1,14 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebProject.Comment.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.Authority = builder.Configuration["IdentityServerUrl"];
+    options.Audience = "ResourceComment";
+    options.RequireHttpsMetadata = false;
+});
 
 // Add services to the container.
 builder.Services.AddDbContext<CommentContext>();
@@ -20,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
