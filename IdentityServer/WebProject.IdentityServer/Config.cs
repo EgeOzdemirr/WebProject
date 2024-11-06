@@ -56,7 +56,8 @@ namespace WebProject.IdentityServer
                 AllowedScopes =
                 {
                     "CatalogReadPermission", "CatalogFullPermission", "OcelotFullPermission", "CommentFullPermission",
-                    "ImageFullPermission"
+                    "ImageFullPermission",
+                    IdentityServerConstants.LocalApi.ScopeName
                 },
                 AllowAccessTokensViaBrowser = true
             },
