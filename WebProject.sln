@@ -35,6 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.IdentityServer",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirements", "{959E65A3-B50C-42C6-A5CA-4A78A385EB32}"
 	ProjectSection(SolutionItems) = preProject
+		CommitCorrection.txt = CommitCorrection.txt
 		FontAwesome.txt = FontAwesome.txt
 		LoginIndex.txt = LoginIndex.txt
 		OcelotCodeExample.txt = OcelotCodeExample.txt
@@ -79,11 +80,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.OcelotGateway", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{4B14BEAD-42DB-479B-B655-FED35D1DC57F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Payment", "Services\Payment\WebProject.Payment\WebProject.Payment.csproj", "{296AB61A-2C88-4E00-A0B5-E4A6ADA10A85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Payment", "Services\Payment\WebProject.Payment\WebProject.Payment.csproj", "{296AB61A-2C88-4E00-A0B5-E4A6ADA10A85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Image", "Image", "{E1F026A5-9034-482D-A5F7-48BD25506889}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Image", "Services\Image\WebProject.Image\WebProject.Image.csproj", "{EA811D50-C0DA-4740-BC44-4687F9B913AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Image", "Services\Image\WebProject.Image\WebProject.Image.csproj", "{EA811D50-C0DA-4740-BC44-4687F9B913AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
