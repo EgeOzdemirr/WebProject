@@ -12,7 +12,7 @@
     "WebProject.Basket": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": false,
+      "launchBrowser": false, 
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:7074;",
       "environmentVariables": {
