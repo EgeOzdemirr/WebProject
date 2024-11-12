@@ -19,7 +19,7 @@ namespace WebProject.WebUI.Handlers
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
+            {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var response = await base.SendAsync(request, cancellationToken);

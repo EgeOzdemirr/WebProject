@@ -2,6 +2,7 @@
 using WebProject.DtoLayer.BasketDtos;
 using WebProject.WebUI.Services.BasketServices;
 using WebProject.WebUI.Services.CatalogServices.ProductServices;
+using WebProject.WebUI.Services.DiscountServices;
 
 namespace WebProject.WebUI.Controllers
 {
@@ -15,11 +16,17 @@ namespace WebProject.WebUI.Controllers
             _basketService = basketService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewBag.directory1 = "Ana Sayfa";
             ViewBag.directory2 = "Ürünler";
             ViewBag.directory3 = "Sepetim";
+            var values = await _basketService.GetBasket();
+            ViewBag.total = values.TotalPrice;
+            var totalPriceWithTax = values.TotalPrice + values.TotalPrice / 100 * 10;
+            var tax = values.TotalPrice / 100 * 10;
+            ViewBag.totalPriceWithTax = totalPriceWithTax;
+            ViewBag.tax = tax;
             return View();
             
         }

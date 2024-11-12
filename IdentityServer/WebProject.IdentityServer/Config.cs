@@ -72,7 +72,7 @@ namespace WebProject.IdentityServer
                 AllowedScopes =
                 {
                     "CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission",
-                    "CommentFullPermission", "PaymentFullPermission", "ImageFullPermission",
+                    "CommentFullPermission", "PaymentFullPermission", "ImageFullPermission", "DiscountFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName,
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,
