@@ -59,5 +59,12 @@ namespace WebProject.Discount.Controllers
             await _discountService.UpdateDiscountCouponAsync(updateCouponDto);
             return Ok("İndirim kuponu başarıyla güncellendi");
         }
+
+        [HttpGet("GetDiscountCouponRate")]
+        public IActionResult GetDiscountCouponRate(string code)
+        {
+            var values = _discountService.GetDiscountCouponCountRate(code);
+            return Ok(values);
+        }
     }
 }

@@ -30,22 +30,22 @@ namespace WebProject.Discount.Services
         }
         public async Task DeleteDiscountCouponAsync(int id)
         {
-                string query = "Delete From Coupons where CouponId=@couponId";
-                var parameters = new DynamicParameters();
-                parameters.Add("couponId", id);
-                using( var connection = _context.CreateConnection())
-                {
-                    await connection.ExecuteAsync(query, parameters);
-                }
+            string query = "Delete From Coupons where CouponId=@couponId";
+            var parameters = new DynamicParameters();
+            parameters.Add("couponId", id);
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
         }
         public async Task<List<ResultDiscountCouponDto>> GetAllDiscountCouponAsync()
         {
-                string query = "Select * from Coupons";
-                using (var connection = _context.CreateConnection())
-                {
-                    var values = await connection.QueryAsync<ResultDiscountCouponDto>(query);
-                    return values.ToList();
-                }
+            string query = "Select * from Coupons";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultDiscountCouponDto>(query);
+                return values.ToList();
+            }
         }
         public async Task<GetByIdDiscountCouponDto> GetByIdDiscountCouponAsync(int id)
         {
@@ -54,7 +54,7 @@ namespace WebProject.Discount.Services
             parameters.Add("@couponId", id);
             using (var connection = _context.CreateConnection())
             {
-                var values = await connection.QueryFirstOrDefaultAsync<GetByIdDiscountCouponDto>(query,parameters);
+                var values = await connection.QueryFirstOrDefaultAsync<GetByIdDiscountCouponDto>(query, parameters);
                 return values;
             }
         }
@@ -64,9 +64,21 @@ namespace WebProject.Discount.Services
             string query = "Select * From Coupons Where Code=@code";
             var parameters = new DynamicParameters();
             parameters.Add("@code", code);
-            using(var connection = _context.CreateConnection())
+            using (var connection = _context.CreateConnection())
             {
                 var values = await connection.QueryFirstOrDefaultAsync<ResultDiscountCouponDto>(query, parameters);
+                return values;
+            }
+        }
+
+        public int GetDiscountCouponCountRate(string code)
+        {
+            string query = "Select Rate From Coupons Where Code=@code";
+            var parameters = new DynamicParameters();
+            parameters.Add("@code", code);
+            using (var connection = _context.CreateConnection())
+            {
+                var values = connection.QueryFirstOrDefault<int>(query, parameters);
                 return values;
             }
         }
