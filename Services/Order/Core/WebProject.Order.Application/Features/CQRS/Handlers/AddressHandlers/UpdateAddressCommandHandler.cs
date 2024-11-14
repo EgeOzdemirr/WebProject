@@ -23,7 +23,7 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
             values.UserId = command.UserId;
             values.District = command.District;
             values.City = command.City;
-            values.Detail = command.Detail;
+            values.AddressLine1 = command.Detail;
             await _repository.UpdateAsync(values);
         }
     }

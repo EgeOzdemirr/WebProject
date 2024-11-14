@@ -22,9 +22,16 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
             await _repository.CreateAsync(new Address
             {
                 UserId = createAddressCommand.UserId,
-                District = createAddressCommand.District,
+                Name = createAddressCommand.Name,
+                Surname = createAddressCommand.Surname,
+                Email = createAddressCommand.Email,
+                Phone = createAddressCommand.Phone,
+                AddressLine1 = createAddressCommand.AddressLine1,
+                AddressLine2 = createAddressCommand.AddressLine2,
+                Country = createAddressCommand.Country,
                 City = createAddressCommand.City,
-                Detail = createAddressCommand.Detail,
+                District = createAddressCommand.District,
+                ZipCode = createAddressCommand.ZipCode
             });
         }
     }

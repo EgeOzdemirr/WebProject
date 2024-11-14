@@ -27,7 +27,7 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
                 UserId = values.UserId,
                 District = values.District,
                 City = values.City,
-                Detail = values.Detail,
+                Detail = values.AddressLine1
             };
         }
     }
