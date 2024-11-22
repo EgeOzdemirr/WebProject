@@ -18,6 +18,7 @@ using WebProject.WebUI.Services.Concretes;
 using WebProject.WebUI.Services.DiscountServices;
 using WebProject.WebUI.Services.Interfaces;
 using WebProject.WebUI.Services.OrderServices.OrderAddressServices;
+using WebProject.WebUI.Services.OrderServices.OrderOrderingServices;
 using WebProject.WebUI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,6 +72,11 @@ builder.Services.AddHttpClient<IUserService, UserService>(opt =>
 builder.Services.AddHttpClient<IBasketService, BasketService>(opt =>
 {
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IOrderOrderingService, OrderOrderingService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Order.Path}");
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 builder.Services.AddHttpClient<IOrderAddressService, OrderAddressService>(opt =>

@@ -133,7 +133,7 @@
       }
     },
 
-    //Images Microservice
+    //Image Microservice
     {
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
@@ -156,4 +156,3 @@
     "BaseUrl" : "http://localhost:5000"
   }
 }
-
