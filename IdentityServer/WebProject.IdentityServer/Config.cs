@@ -75,7 +75,7 @@ namespace WebProject.IdentityServer
                 {
                     "CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission",
                     "CommentFullPermission", "PaymentFullPermission", "ImageFullPermission", "DiscountFullPermission",
-                    "OrderFullPermission", "MessageFullPermission",
+                    "OrderFullPermission", "MessageFullPermission", "CargoFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName,
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,
@@ -95,7 +95,7 @@ namespace WebProject.IdentityServer
                     "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission",
                     "OrderFullPermission", "CargoFullPermission", "BasketFullPermission",
                     "OcelotFullPermission", "CommentFullPermission", "PaymentFullPermission",
-                    "ImageFullPermission",
+                    "ImageFullPermission", "CargoFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName,
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,

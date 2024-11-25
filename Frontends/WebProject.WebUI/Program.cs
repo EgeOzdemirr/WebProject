@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebProject.WebUI.Handlers;
 using WebProject.WebUI.Services.BasketServices;
+using WebProject.WebUI.Services.CargoServices.CargoCompanyServices;
+using WebProject.WebUI.Services.CargoServices.CargoCustomerServices;
 using WebProject.WebUI.Services.CatalogServices.AboutServices;
 using WebProject.WebUI.Services.CatalogServices.BrandServices;
 using WebProject.WebUI.Services.CatalogServices.CategoryServices;
@@ -20,6 +22,11 @@ using WebProject.WebUI.Services.Interfaces;
 using WebProject.WebUI.Services.MessageServices;
 using WebProject.WebUI.Services.OrderServices.OrderAddressServices;
 using WebProject.WebUI.Services.OrderServices.OrderOrderingServices;
+using WebProject.WebUI.Services.StatisticServices.CatalogStatisticServices;
+using WebProject.WebUI.Services.StatisticServices.DiscountStatisticServices;
+using WebProject.WebUI.Services.StatisticServices.MessageStatisticServices;
+using WebProject.WebUI.Services.StatisticServices.UserStatisticServices;
+using WebProject.WebUI.Services.UserIdentityServices;
 using WebProject.WebUI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -70,6 +77,31 @@ builder.Services.AddHttpClient<IUserService, UserService>(opt =>
     opt.BaseAddress = new Uri(values.IdentityServerUrl);
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+builder.Services.AddHttpClient<ICatalogStatisticService, CatalogStatisticService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IMessageStatisticService, MessageStatisticService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IDiscountStatisticService, DiscountStatisticService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Discount.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IUserStatisticService, UserStatisticService>(opt =>
+{
+    opt.BaseAddress = new Uri(values.IdentityServerUrl);
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IUserIdentityService, UserIdentityService>(opt =>
+{
+    opt.BaseAddress = new Uri(values.IdentityServerUrl);
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
 builder.Services.AddHttpClient<IBasketService, BasketService>(opt =>
 {
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
@@ -88,6 +120,16 @@ builder.Services.AddHttpClient<IOrderAddressService, OrderAddressService>(opt =>
 builder.Services.AddHttpClient<IDiscountService, DiscountService>(opt =>
 {
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Discount.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<ICargoCompanyService, CargoCompanyService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<ICargoCustomerService, CargoCustomerService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 builder.Services.AddHttpClient<IMessageService, MessageService>(opt =>

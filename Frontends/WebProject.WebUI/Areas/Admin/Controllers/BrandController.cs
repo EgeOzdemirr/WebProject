@@ -50,8 +50,8 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
             return RedirectToAction("Index", "Brand", new { area = "Admin" });
         }
 
-        [Route("UpdateBrand/{id}")]
         [HttpGet]
+        [Route("UpdateBrand/{id}")]
         public async Task<IActionResult> UpdateBrand(string id)
         {
             BrandViewBagList();
@@ -59,8 +59,8 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
             return View(values);
         }
 
-        [Route("UpdateBrand/{id}")]
         [HttpPost]
+        [Route("UpdateBrand/{id}")]
         public async Task<IActionResult> UpdateBrand(UpdateBrandDto updateBrandDto)
         {
             await _brandService.UpdateBrandAsync(updateBrandDto);

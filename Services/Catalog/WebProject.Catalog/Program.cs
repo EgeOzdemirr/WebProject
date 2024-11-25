@@ -12,6 +12,7 @@ using WebProject.Catalog.Services.ProductDetailServices;
 using WebProject.Catalog.Services.ProductImageServices;
 using WebProject.Catalog.Services.ProductServices;
 using WebProject.Catalog.Services.SpecialOfferServices;
+using WebProject.Catalog.Services.StatisticServices;
 using WebProject.Catalog.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<ISpecialOfferService, SpecialOfferService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

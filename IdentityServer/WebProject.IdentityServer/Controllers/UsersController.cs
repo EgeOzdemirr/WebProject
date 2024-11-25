@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,6 +38,13 @@ namespace WebProject.IdentityServer.Controllers
                 Surname = user.Surname,
                 Email = user.Email
             });
+        }
+
+        [HttpGet("GetAllUserList")]
+        public async Task<IActionResult> GetAllUserList()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return Ok(users); 
         }
     }
 }
