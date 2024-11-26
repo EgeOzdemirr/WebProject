@@ -6,6 +6,7 @@ namespace WebProject.WebUI.Services.MessageServices
     {
         Task<List<ResultInboxMessageDto>> GetInboxMessageAsync(string id);
         Task<List<ResultSendboxMessageDto>> GetSendboxMessageAsync(string id);
+        Task<int> GetTotalMessageCountByReceiverId(string id);
         //Task CreateMessageAsync(CreateMessageDto createMessageDto);
         //Task UpdateMessageAsync(UpdateMessageDto updateMessageDto);
         //Task DeleteMessageAsync(int id);

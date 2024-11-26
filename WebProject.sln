@@ -37,6 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requirements", "Requirement
 	ProjectSection(SolutionItems) = preProject
 		CommitCorrection.txt = CommitCorrection.txt
 		FontAwesome.txt = FontAwesome.txt
+		HeaderDefault.txt = HeaderDefault.txt
 		LoginIndex.txt = LoginIndex.txt
 		OcelotCodeExample.txt = OcelotCodeExample.txt
 		OrderHtml.txt = OrderHtml.txt
@@ -89,7 +90,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Image", "Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message", "Message", "{C7899E75-F3A5-4B8A-9676-EEFC64193E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Message", "Services\Message\WebProject.Message\WebProject.Message.csproj", "{4D884F8A-B94B-4D1C-9539-710CBB76C9D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Message", "Services\Message\WebProject.Message\WebProject.Message.csproj", "{4D884F8A-B94B-4D1C-9539-710CBB76C9D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SignalRRealTime", "SignalRRealTime", "{1C37CBC7-9E94-4ADB-8F9D-E54B05BE6BD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.SignalRRealTimeApi", "Services\SignalRRealTime\WebProject.SignalRRealTimeApi\WebProject.SignalRRealTimeApi.csproj", "{C3F3A604-93A1-4BBE-85B1-98356582EEE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +182,10 @@ Global
 		{4D884F8A-B94B-4D1C-9539-710CBB76C9D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D884F8A-B94B-4D1C-9539-710CBB76C9D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D884F8A-B94B-4D1C-9539-710CBB76C9D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F3A604-93A1-4BBE-85B1-98356582EEE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F3A604-93A1-4BBE-85B1-98356582EEE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F3A604-93A1-4BBE-85B1-98356582EEE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F3A604-93A1-4BBE-85B1-98356582EEE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -214,6 +223,8 @@ Global
 		{EA811D50-C0DA-4740-BC44-4687F9B913AD} = {E1F026A5-9034-482D-A5F7-48BD25506889}
 		{C7899E75-F3A5-4B8A-9676-EEFC64193E3A} = {0144C97E-B8E6-4BBF-869C-B898069FC546}
 		{4D884F8A-B94B-4D1C-9539-710CBB76C9D4} = {C7899E75-F3A5-4B8A-9676-EEFC64193E3A}
+		{1C37CBC7-9E94-4ADB-8F9D-E54B05BE6BD5} = {0144C97E-B8E6-4BBF-869C-B898069FC546}
+		{C3F3A604-93A1-4BBE-85B1-98356582EEE4} = {1C37CBC7-9E94-4ADB-8F9D-E54B05BE6BD5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E750064F-9DA5-4976-A7B1-2357458FEA26}
