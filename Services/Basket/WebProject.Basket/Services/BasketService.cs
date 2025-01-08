@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-using System.Text.Json;
+﻿using System.Text.Json;
 using WebProject.Basket.Dtos;
 using WebProject.Basket.Settings;
 
@@ -8,7 +7,6 @@ namespace WebProject.Basket.Services
     public class BasketService : IBasketService
     {
         private readonly RedisService _redisService;
-
         public BasketService(RedisService redisService)
         {
             _redisService = redisService;
@@ -17,13 +15,11 @@ namespace WebProject.Basket.Services
         {
             await _redisService.GetDb().KeyDeleteAsync(userId);
         }
-
         public async Task<BasketTotalDto> GetBasket(string userId)
         {
             var existBasket = await _redisService.GetDb().StringGetAsync(userId);
             return JsonSerializer.Deserialize<BasketTotalDto>(existBasket);
         }
-
         public async Task SaveBasket(BasketTotalDto basketTotalDto)
         {
             await _redisService.GetDb().StringSetAsync(basketTotalDto.UserId, JsonSerializer.Serialize(basketTotalDto));

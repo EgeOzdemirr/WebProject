@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebProject.Catalog.Dtos.FeatureDtos;
 using WebProject.Catalog.Services.FeatureServices;
+using WebProject.Catalog.Services.ProductRecommendationServices;
 
 namespace WebProject.Catalog.Controllers
 {
@@ -12,10 +13,12 @@ namespace WebProject.Catalog.Controllers
     public class FeaturesController : ControllerBase
     {
         private readonly IFeatureService _featureService;
+        private readonly IProductRecommendationService _productRecommendationService;
 
-        public FeaturesController(IFeatureService featureService)
+        public FeaturesController(IFeatureService featureService, IProductRecommendationService productRecommendationService)
         {
             _featureService = featureService;
+            _productRecommendationService = productRecommendationService;
         }
 
         [HttpGet]
@@ -23,6 +26,14 @@ namespace WebProject.Catalog.Controllers
         {
             var values = await _featureService.GetAllFeatureAsync();
             return Ok(values);
+        }
+
+        [HttpGet("recommended")]
+        public async Task<IActionResult> GetRecommendedProducts()
+        {
+            var userId = User.Identity.Name; // veya Claims'den alın
+            var recommendations = await _productRecommendationService.GetRecommendedProductsAsync(userId);
+            return Ok(recommendations);
         }
 
         [HttpGet("{id}")]

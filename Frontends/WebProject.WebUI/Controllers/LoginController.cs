@@ -14,26 +14,21 @@ namespace WebProject.WebUI.Controllers
 {
     public class LoginController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly IIdentityService _identityService;
-
-        public LoginController(IHttpClientFactory httpClientFactory, IIdentityService identityService)
+        private readonly IIdentityService _identityService;
+        public LoginController(IIdentityService identityService)
         {
-            _httpClientFactory = httpClientFactory;
             _identityService = identityService;
         }
-
         [HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> Index(SignInDto signInDto)
-		{
-            await _identityService.SignIn(signInDto);
-            return RedirectToAction("Index", "User");
+        public IActionResult Index()
+        {
+            return View();
         }
-	}
+        [HttpPost]
+        public async Task<IActionResult> Index(SignInDto signInDto)
+        {
+            await _identityService.SignIn(signInDto);
+            return RedirectToAction("Index", "Default");
+        }
+    }
 }

@@ -16,12 +16,11 @@ namespace WebProject.Comment.Controllers
         {
             _commentContext = commentContext;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetCommentCount()
         {
-            int values = await _commentContext.UserComments.CountAsync();
-            return Ok(values);
+            int value = await _commentContext.UserComments.CountAsync();
+            return Ok(value);
         }
     }
 }

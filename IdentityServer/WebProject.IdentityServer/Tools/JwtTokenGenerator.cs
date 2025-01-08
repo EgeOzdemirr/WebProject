@@ -20,9 +20,9 @@ namespace WebProject.IdentityServer.Tools
 			{
 				claims.Add(new Claim(ClaimTypes.NameIdentifier, model.Id));
 			}
-			if (!string.IsNullOrWhiteSpace(model.Username))
+			if (!string.IsNullOrWhiteSpace(model.UserName))
 			{
-				claims.Add(new Claim("Username", model.Username));
+				claims.Add(new Claim("UserName", model.UserName));
 			}
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenDefaults.Key));
 			var signingCredentials = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);

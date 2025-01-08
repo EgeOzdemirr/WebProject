@@ -10,8 +10,7 @@ namespace WebProject.Catalog.Services.StatisticServices
         private readonly IMongoCollection<Product> _productCollection;
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMongoCollection<Brand> _brandCollection;
-
-        public StatisticService (IDatabaseSettings _databaseSettings)
+        public StatisticService(IDatabaseSettings _databaseSettings)
         {
             var client = new MongoClient(_databaseSettings.ConnectionString);
             var database = client.GetDatabase(_databaseSettings.DatabaseName);
@@ -19,53 +18,47 @@ namespace WebProject.Catalog.Services.StatisticServices
             _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
             _brandCollection = database.GetCollection<Brand>(_databaseSettings.BrandCollectionName);
         }
-
         public async Task<long> GetBrandCount()
         {
             return await _brandCollection.CountDocumentsAsync(FilterDefinition<Brand>.Empty);
         }
-
-        public Task<long> GetCategoryCount()
+        public async Task<long> GetCategoryCount()
         {
-            return _categoryCollection.CountDocumentsAsync(FilterDefinition<Category>.Empty);
+            return await _categoryCollection.CountDocumentsAsync(FilterDefinition<Category>.Empty);
         }
-
-        public async Task<string> GetMaxPriceProductName()
+        public async Task<string> GetMaxProductPrice()
         {
             var filter = Builders<Product>.Filter.Empty;
             var sort = Builders<Product>.Sort.Descending(x => x.ProductPrice);
-            var projection = Builders<Product>.Projection.Include(y => y.ProductName).Exclude("ProductId");
+            var projection = Builders<Product>.Projection.Include(y => y.ProductName).Exclude("ProductID");
             var product = await _productCollection.Find(filter).Sort(sort).Project(projection).FirstOrDefaultAsync();
             return product.GetValue("ProductName").AsString;
         }
-
-        public async Task<string> GetMinPriceProductName()
+        public async Task<string> GetMinProductPrice()
         {
             var filter = Builders<Product>.Filter.Empty;
             var sort = Builders<Product>.Sort.Ascending(x => x.ProductPrice);
-            var projection = Builders<Product>.Projection.Include(y => y.ProductName).Exclude("ProductId");
+            var projection = Builders<Product>.Projection.Include(y => y.ProductName).Exclude("ProductID");
             var product = await _productCollection.Find(filter).Sort(sort).Project(projection).FirstOrDefaultAsync();
             return product.GetValue("ProductName").AsString;
         }
-
         public async Task<decimal> GetProductAvgPrice()
         {
             var pipeline = new BsonDocument[]
             {
                 new BsonDocument("$group",new BsonDocument
                 {
-                    {"_id", null },
-                    {"averagePrice", new BsonDocument("$avg","$ProductPrice") }
+                    {"_id",null },
+                    {"averagePrice",new BsonDocument("$avg","$ProductPrice") }
                 })
             };
             var result = await _productCollection.AggregateAsync<BsonDocument>(pipeline);
             var value = result.FirstOrDefault().GetValue("averagePrice", decimal.Zero).AsDecimal;
             return value;
         }
-
-        public Task<long> GetProductCount()
+        public async Task<long> GetProductCount()
         {
-            return _productCollection.CountDocumentsAsync(FilterDefinition<Product>.Empty);
+            return await _productCollection.CountDocumentsAsync(FilterDefinition<Product>.Empty);
         }
     }
 }

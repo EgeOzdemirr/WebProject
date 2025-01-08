@@ -9,22 +9,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
-                <h4>Kategori Ekleme Sayfası</h4>
+                <h4>Yeni Kategori Ekleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <label>Kategori Adı</label>
-                        <input type="text" class="form-control" asp-for="CategoryName"/>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kategori Adı</label>
+                        <input type="text" asp-for="CategoryName" class="form-control" id="exampleInputEmail1" placeholder="Kategori Adı">
                         <br />
-                        <label>Kategori Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
-                        <br />
-                        <button class="btn btn-success">Kategoriyi ekle</button>
-                    </form>
-                </div>
+                        <label for="exampleInputEmail1">Görsel Seçin</label>
+                        <input type="file" asp-for="ImageUrl" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-

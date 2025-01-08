@@ -5,13 +5,10 @@
 
 <div class="container-fluid">
     <div class="row px-xl-5">
-        @await Component.InvokeAsync("_ShoppingCartProductListComponentPartial")
+        <div class="col-lg-8 table-responsive mb-5">
+            @await Component.InvokeAsync("_ShoppingCartProductListComponentPartial")
+        </div>
 
-        @*         @await Component.InvokeAsync("_ShoppingCartDiscountCouponComponentPartial") *@
-
-        @await Html.PartialAsync("~/Views/Discount/ConfirmDiscountCoupon.cshtml");
-
+        @await Component.InvokeAsync("_ShoppingCartDiscountCouponComponentPartial")
     </div>
 </div>
-
-

@@ -5,30 +5,42 @@
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
 }
 
+<h3 class="text-center text-danger">@TempData["detailError"]</h3>
 <section class="content container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
                 <h4>Ürün Açıklama ve Bilgi Güncelleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <input type="hidden" asp-for="ProductDetailId" />
-                        <input type="hidden" asp-for="ProductId" />
+                <form method="post" action="/Admin/ProductDetail/UpdateProductDetail/">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="ProductDetailId">
+                        <input type="hidden" asp-for="ProductId">
                         <label>Ürün Açıklaması</label>
-                        <textarea rows="5" class="form-control" asp-for="ProductDescription"></textarea>
+                        @if (Model != null)
+                        {
+                            <textarea asp-for="ProductDescription" rows="5" class="form-control" placeholder="Ürün Açıklaması"></textarea>
+                        }
+                        else
+                        {
+                            <textarea asp-for="ProductDescription" rows="5" class="form-control" placeholder="Ürün Açıklaması" disabled></textarea>
+                        }
                         <br />
                         <label>Ürün Bilgisi</label>
-                        <textarea rows="5" class="form-control" asp-for="ProductInfo"></textarea>
+                        @if (Model != null)
+                        {
+                            <textarea asp-for="ProductInfo" rows="5" class="form-control" placeholder="Ürün Bilgisi"></textarea>
+                        }
+                        else
+                        {
+                            <textarea asp-for="ProductInfo" rows="5" class="form-control" placeholder="Ürün Bilgisi" disabled></textarea>
+                        }
                         <br />
-                        <button class="btn btn-success">Ürün Açıklama ve Bilgisini Güncelle</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" name="pid" value="@ViewBag.pErrorId" class="btn btn-success">Güncelle</button>
+                    <a href="/Admin/ProductDetail/CreateProductDetail/@ViewBag.pUId" class="btn btn-primary @(Model != null ? "disabled" : "")">Yeni Detay Bilgi Ekleme Sayfası</a>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-
-
-

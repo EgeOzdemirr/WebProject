@@ -29,22 +29,22 @@
 					Bir hesabınız yoksa aşağıdan kayıt olabilirsiniz
 				</p>
 				<div class="form-left-last">
-					<a href="/Register/Index/" class="account">Kayıt Ol</a>
+					<a href="/Register/Index/" class="account" style="padding:15px">Kayıt Ol</a>
 				</div>
 			</div>
 			<form class="form-detail" method="post">
-				<h2>WebProject Giriş Formu</h2>
+				<h2>MultiShop Giriş Formu</h2>
 				<div class="form-row">
-					<label for="your_username">Kullanıcı Adınız</label>
-					<input type="text" id="your_username" asp-for="Username" class="input-text" required>
+					<label for="user_name">Kullanıcı Adınız</label>
+					<input type="text" asp-for="UserName" id="user_name" class="input-text" required>
 				</div>
-				<div class="form-row">
-					<label for="your_password">Şifreniz</label>
-					<input type="password" id="your_password" asp-for="Password" class="input-text" required>
+				<div class="form-group">
+					<div class="form-row form-row-1 ">
+						<label for="password">Şifreniz</label>
+						<input type="password" asp-for="Password" id="password" class="input-text" required>
+					</div>
 				</div>
-				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Giriş Yap">
-				</div>
+				<button type="submit" class="register" style="padding:15px">Giriş Yap</button>
 			</form>
 		</div>
 	</div>

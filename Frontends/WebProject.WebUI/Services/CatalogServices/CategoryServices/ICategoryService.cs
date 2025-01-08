@@ -1,4 +1,5 @@
 ﻿using WebProject.DtoLayer.CatalogDtos.CategoryDtos;
+using WebProject.DtoLayer.CatalogDtos.ProductDtos;
 
 namespace WebProject.WebUI.Services.CatalogServices.CategoryServices
 {
@@ -9,5 +10,6 @@ namespace WebProject.WebUI.Services.CatalogServices.CategoryServices
         Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
         Task DeleteCategoryAsync(string id);
         Task<UpdateCategoryDto> GetByIdCategoryAsync(string id);
+        Task<List<ResultProductWithCategoryDto>> GetProductsByCategoryIdAsync(string CategoryId);
     }
 }

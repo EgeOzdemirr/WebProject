@@ -5,13 +5,13 @@ namespace WebProject.WebUI.Services.Concretes
 {
     public class LoginService : ILoginService
     {
-        private readonly IHttpContextAccessor _contextAccessor;
+        IHttpContextAccessor _httpContextAccessor;
 
-        public LoginService(IHttpContextAccessor contextAccessor)
+        public LoginService(IHttpContextAccessor httpContextAccessor)
         {
-            _contextAccessor = contextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public string GetUserId => _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        public string GetUserId => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 }

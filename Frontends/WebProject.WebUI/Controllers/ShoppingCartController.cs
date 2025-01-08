@@ -1,57 +1,79 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebProject.DtoLayer.BasketDtos;
+using WebProject.WebUI.Models;
 using WebProject.WebUI.Services.BasketServices;
 using WebProject.WebUI.Services.CatalogServices.ProductServices;
 using WebProject.WebUI.Services.DiscountServices;
 
 namespace WebProject.WebUI.Controllers
 {
+    [Route("ShoppingCart")]
     public class ShoppingCartController : Controller
     {
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
-        public ShoppingCartController(IProductService productService, IBasketService basketService)
+        private readonly IDiscountService _discountService;
+
+        public ShoppingCartController(IProductService productService, IBasketService basketService, IDiscountService discountService)
         {
             _productService = productService;
             _basketService = basketService;
+            _discountService = discountService;
         }
-
-        public async Task<IActionResult> Index(string code, int discountRate, decimal totalNewPriceWithDiscount)
+        [Route("Index")]
+        [Route("Index/{code}")]
+        public async Task<IActionResult> Index(string? code)
         {
-            ViewBag.code = code;
-            ViewBag.discountRate = discountRate;
-            ViewBag.totalNewPriceWithDiscount = totalNewPriceWithDiscount;
-            ViewBag.directory1 = "Ana Sayfa";
-            ViewBag.directory2 = "Ürünler";
-            ViewBag.directory3 = "Sepetim";
-            var values = await _basketService.GetBasket();
-            ViewBag.total = values.TotalPrice;
-            var totalPriceWithTax = values.TotalPrice + values.TotalPrice / 100 * 10;
-            var tax = values.TotalPrice / 100 * 10;
-            ViewBag.totalPriceWithTax = totalPriceWithTax;
-            ViewBag.tax = tax;
+            ViewBag.Dr1 = "Anasayfa";
+            ViewBag.Dr2 = "/Default/Index/";
+            ViewBag.Dr3 = "Ürünler";
+            ViewBag.Dr4 = "/ProductList/Index/";
+            ViewBag.Dr5 = "Sepetim";
+            if (code != null)
+            {
+                var values = await _discountService.GetByCodeDiscountCouponAsync(code);
+                ViewData["codeRate"] = values.Rate;
+                ViewData["codeName"] = values.Code;
+                ViewBag.codeName = values.Code;
+            }
             return View();
-            
         }
 
-        public async Task<IActionResult> AddBasketItem(string id)
+        [Route("AddBasketItem/{productId}")]
+        [Route("AddBasketItem/")]
+        public async Task<IActionResult> AddBasketItem(string productId)
         {
-            var values = await _productService.GetByIdProductAsync(id);
-            var items = new BasketItemDto
+            var values = await _productService.GetByIdProductAsync(productId);
+            var item = new BasketItemDto
             {
                 ProductId = values.ProductId,
                 ProductName = values.ProductName,
                 Price = values.ProductPrice,
-                Quantity = 1,
-                ProductImageUrl = values.ProductImageUrl
+                ImageUrl = values.ProductImageUrl,
+                Quantity = 1
             };
-            await _basketService.AddBasketItem(items);
+            await _basketService.AddBasketItem(item);
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> RemoveBasketItem(string id)
+        [Route("UpdateQuantity/{productId}/{quantity}")]
+        public async Task<IActionResult> UpdateQuantity(string productId, int quantity)
         {
-            await _basketService.RemoveBasketItem(id);
+
+                var result = await _basketService.UpdateQuantity(productId, quantity);
+                if (result)
+                {
+                    var basket = await _basketService.GetBasket(null); // Yeniden sepete bak.
+                    return PartialView("_BasketTotalAmountComponentPartial", basket);
+                }
+
+                return BadRequest(); // Gerekirse hata döndür.
+        }
+
+        [Route("RemoveBasketItem/{productId}")]
+        public async Task<IActionResult> RemoveBasketItem(string productId)
+        {
+            await _basketService.RemoveBasketItem(productId);
             return RedirectToAction("Index");
         }
     }

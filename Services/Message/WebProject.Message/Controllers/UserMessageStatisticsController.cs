@@ -15,7 +15,6 @@ namespace WebProject.Message.Controllers
         {
             _userMessageService = userMessageService;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetTotalMessageCount()
         {

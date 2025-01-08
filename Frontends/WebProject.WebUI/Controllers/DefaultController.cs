@@ -6,9 +6,8 @@ namespace WebProject.WebUI.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.directory1 = "Web Project";
-            ViewBag.directory2 = "Ana Sayfa";
-            ViewBag.directory3 = "Ürün Listesi";
+            ViewBag.Dr1 = "Anasayfa";
+            ViewBag.Dr2 = "/Default/Index/";
             return View();
         }
     }

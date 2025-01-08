@@ -31,12 +31,11 @@ builder.Services.AddSingleton<RedisService>(sp =>
     return redis;
 });
 
-// Add services to the container.
-
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -51,9 +50,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapControllers();

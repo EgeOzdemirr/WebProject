@@ -6,7 +6,6 @@ using WebProject.Catalog.Services.ProductServices;
 
 namespace WebProject.Catalog.Controllers
 {
-	[Authorize]
 	[Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -60,10 +59,10 @@ namespace WebProject.Catalog.Controllers
             return Ok(values);
         }
 
-        [HttpGet("ProductListWithCategoryByCategoryId/{id}")]
+        [HttpGet("GetProductsByCategoryIdAsync/{id}")]
         public async Task<IActionResult> ProductListWithCategoryByCategoryId(string id)
         {
-            var values = await _productService.GetProductsWithCategoryByCategoryIdAsync(id);
+            var values = await _productService.GetProductsByCategoryIdAsync(id);
             return Ok(values);
         }
     }

@@ -10,26 +10,24 @@
             <div class="chart-box">
                 <h4>İndirim Teklifi Ekleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <label>İndirim Teklifi Başlığı</label>
-                        <input type="text" class="form-control" asp-for="Title" />
+                <form method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">İndirim Teklifi Başlığı</label>
+                        <input type="text" asp-for="Title" class="form-control" id="exampleInputEmail1" placeholder="Teklif Başlığı">
                         <br />
-                        <label>İndirim Teklifi Başlığı</label>
-                        <input type="text" class="form-control" asp-for="Subtitle" />
+                        <label for="exampleInputEmail1">İndirim Teklifi Alt Başlığı</label>
+                        <input type="text" asp-for="SubTitle" class="form-control" id="exampleInputEmail1" placeholder="Teklif Alt Başlığı">
                         <br />
-                        <label>İndirim Teklifi Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <label for="exampleInputEmail1">İndirim Teklifi Görseli</label>
+                        <input type="file" asp-for="ImageUrl" class="form-control" id="exampleInputEmail1">
                         <br />
-                        <label>İndirim Teklifi Buton Başlığı</label>
-                        <input type="text" class="form-control" asp-for="ButtonTitle" />
+                        <label for="exampleInputEmail1">Buton Metni</label>
+                        <input type="text" asp-for="ButtonTitle" class="form-control" id="exampleInputEmail1" placeholder="Buton Metni">
                         <br />
-                        <button class="btn btn-success">İndirim Teklifini ekle</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-

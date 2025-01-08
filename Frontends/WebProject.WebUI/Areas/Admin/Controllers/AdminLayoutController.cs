@@ -9,5 +9,13 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult RefreshMessage()
+        {
+            return ViewComponent("_HeaderAdminLayoutMessageComponentPartial");
+        }
+        public IActionResult Refreshcomment()
+        {
+            return ViewComponent("_HeaderAdminLayoutCommentComponentPartial");
+        }
     }
 }

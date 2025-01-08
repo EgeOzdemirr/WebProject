@@ -1,10 +1,12 @@
-﻿using WebProject.DtoLayer.CatalogDtos.ProductImageDtos;
+﻿using Newtonsoft.Json;
+using WebProject.DtoLayer.CatalogDtos.ProductImageDtos;
 
 namespace WebProject.WebUI.Services.CatalogServices.ProductImageServices
 {
     public class ProductImageService:IProductImageService
     {
         private readonly HttpClient _httpClient;
+
         public ProductImageService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -12,40 +14,55 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductImageServices
 
         public async Task CreateProductImageAsync(CreateProductImageDto createProductImageDto)
         {
-            await _httpClient.PostAsJsonAsync<CreateProductImageDto>("productimages", createProductImageDto);
+            await _httpClient.PostAsJsonAsync<CreateProductImageDto>("ProductImages", createProductImageDto);
         }
 
         public async Task DeleteProductImageAsync(string id)
         {
-            await _httpClient.DeleteAsync("productimages?id=" + id);
+            await _httpClient.DeleteAsync("ProductImages?id=" + id);
         }
 
         public async Task<List<ResultProductImageDto>> GetAllProductImageAsync()
         {
-            var responseMessage = await _httpClient.GetAsync("productimages");
-            var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultProductImageDto>>();
+            //var client = _httpClientFactory.CreateClient();
+            //var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
+            //if (responseMessage.IsSuccessStatusCode)
+            //{
+            //    var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            //    var values = JsonConvert.DeserializeObject<List<ResultProductImageDto>>(jsondata);
+            //    return View(values);
+            //}
+            var responseMessage = await _httpClient.GetAsync("ProductImages");
+            var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<ResultProductImageDto>>(jsondata);
+            //var responseMessage = await _httpClient.GetAsync("ProductImages");
+            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultProductImageDto>>();
             return values;
         }
+
+        public async Task<UpdateProductImageDto> GetByIdProductImageAsync(string id)
+        {
+            var responseMessage = await _httpClient.GetAsync("ProductImages/" + id);
+            var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            var value = JsonConvert.DeserializeObject<UpdateProductImageDto>(jsondata);
+            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdProductImageDto>();
+            return value;
+        }
+
         public async Task UpdateProductImageAsync(UpdateProductImageDto updateProductImageDto)
         {
-            await _httpClient.PutAsJsonAsync<UpdateProductImageDto>("productimages", updateProductImageDto);
+            await _httpClient.PutAsJsonAsync<UpdateProductImageDto>("ProductImages", updateProductImageDto);
         }
 
-        public async Task<GetByIdProductImageDto> GetByIdProductImageAsync(string id)
+        public async Task<List<UpdateProductImageDto>> GetByProductIdProductImageAsync(string id)
         {
-            var responseMessage = await _httpClient.GetAsync("productimages/" + id);
-            var values = await responseMessage.Content.ReadFromJsonAsync<GetByIdProductImageDto>();
+
+            var responseMessage = await _httpClient.GetAsync("ProductImages/ProductImageListByProductId/" + id);
+            var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<UpdateProductImageDto>>(jsondata);
+            //var responseMessage = await _httpClient.GetAsync("ProductImages");
+            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultProductImageDto>>();
             return values;
         }
-
-        public async Task<GetByIdProductImageDto> GetByProductIdProductImageAsync(string id)
-        {
-            var responseMessage = await _httpClient.GetAsync("productimages/ProductImagesByProductId/" + id);
-            var values = await responseMessage.Content.ReadFromJsonAsync<GetByIdProductImageDto>();
-            return values;
-        }
-
-
-
     }
 }

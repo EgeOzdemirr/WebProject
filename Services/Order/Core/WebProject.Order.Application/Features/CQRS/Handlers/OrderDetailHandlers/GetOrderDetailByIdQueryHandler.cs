@@ -15,7 +15,6 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandler
     public class GetOrderDetailByIdQueryHandler
     {
         private readonly IRepository<OrderDetail> _repository;
-
         public GetOrderDetailByIdQueryHandler(IRepository<OrderDetail> repository)
         {
             _repository = repository;
@@ -26,12 +25,12 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandler
             return new GetOrderDetailByIdQueryResult
             {
                 OrderDetailId = values.OrderDetailId,
-                ProductId = values.ProductId,
-                OrderingId = values.OrderingId,
-                ProductName = values.ProductName,
-                ProductPrice = values.ProductPrice,
                 ProductAmount = values.ProductAmount,
-                ProductTotalPrice = values.ProductTotalPrice
+                ProductId = values.ProductId,
+                ProductName = values.ProductName,
+                OrderingId = values.OrderingId,
+                ProductPrice = values.ProductPrice,
+                ProductTotalPrice = values.ProductTotalPrice,
             };
         }
     }

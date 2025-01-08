@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 using WebProject.DtoLayer.CatalogDtos.ProductDetailDtos;
+using WebProject.WebUI.Services.CatalogServices.ProductDetailServices;
 
 namespace WebProject.WebUI.Areas.Admin.Controllers
 {
@@ -11,44 +12,67 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
     [Route("Admin/ProductDetail")]
     public class ProductDetailController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public ProductDetailController(IHttpClientFactory httpClientFactory)
+        private readonly IProductDetailService _productDetailService;
+
+        public ProductDetailController(IProductDetailService productDetailService)
         {
-            _httpClientFactory = httpClientFactory;
+            _productDetailService = productDetailService;
         }
+
         [Route("UpdateProductDetail/{id}")]
         [HttpGet]
         public async Task<IActionResult> UpdateProductDetail(string id)
         {
-            ViewBag.v1 = "Ana Sayfa";
+            ViewBag.v1 = "Anasayfa";
             ViewBag.v2 = "Ürünler";
             ViewBag.v3 = "Ürün Açıklama ve Bilgi Güncelleme Sayfası";
-            ViewBag.v0 = "Ürün İşlemleri";
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/ProductDetails/GetProductDetailByProductId?id=" + id);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<UpdateProductDetailDto>(jsonData);
-                return View(values);
-            }
-            return View();
+            ViewBag.t = "Ürün İşlemleri";
+            ViewBag.pErrorId = id;
+
+            var values = await _productDetailService.GetByProductIdProductDetailAsync(id);
+
+            ViewBag.pUId = id;
+            return View(values);
         }
-
-        [Route("UpdateProductDetail/{id}")]
+        [Route("UpdateProductDetail")]
         [HttpPost]
-        public async Task<IActionResult> UpdateProductDetail(UpdateProductDetailDto updateProductDetailDto)
+        public async Task<IActionResult> UpdateProductDetail(UpdateProductDetailDto updateProductDetailDto, string pid)
         {
-
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(updateProductDetailDto);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7070/api/ProductDetails/", stringContent);
-            if (responseMessage.IsSuccessStatusCode)
+            if (ModelState.IsValid)
             {
+                await _productDetailService.UpdateProductDetailAsync(updateProductDetailDto);
                 return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
             }
+            TempData["detailUpdateError"] = "Detay Mevcut Değil, Lütfen Ürün Yeni Detay Ekleme Sayfasından Detay Kaydediniz (Bu Sayfa)";
+            return RedirectToAction("CreateProductDetail", "ProductDetail", new { area = "Admin", id = pid });
+        }
+        [HttpGet]
+        [Route("CreateProductDetail/{id}")]
+        public IActionResult CreateProductDetail(string id)
+        {
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "Ürünler";
+            ViewBag.v3 = "Ürün Detayı Ekleme Sayfası";
+            ViewBag.t = "Ürün İşlemleri";
+            ViewBag.pId = id;
             return View();
+        }
+        [HttpPost]
+        [Route("CreateProductDetail")]
+        public async Task<IActionResult> CreateProductDetail(CreateProductDetailDto createProductDto)
+        {
+            var values2 = await _productDetailService.GetByProductIdProductDetailAsync(createProductDto.ProductId);
+
+            if (values2 != null)
+            {
+                TempData["detailError"] = "Detay Mevcut, Yönlendirildiğiniz Güncelleme sayfasından değişiklik yapabilirsiniz ! (Bu Sayfa)";
+                return RedirectToAction("UpdateProductDetail", "ProductDetail", new { area = "Admin", id = createProductDto.ProductId });
+            }
+            else
+            {
+                await _productDetailService.CreateProductDetailAsync(createProductDto);
+                return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
+            }
         }
     }
 }

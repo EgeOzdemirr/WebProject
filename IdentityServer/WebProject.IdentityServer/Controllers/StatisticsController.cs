@@ -16,8 +16,7 @@ namespace WebProject.IdentityServer.Controllers
         {
             _userManager = userManager;
         }
-
-        [HttpGet]
+        [HttpGet("GetUserCount")]
         public IActionResult GetUserCount()
         {
             int userCount = _userManager.Users.Count();

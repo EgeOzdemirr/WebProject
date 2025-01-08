@@ -11,7 +11,6 @@ namespace WebProject.Catalog.Services.BrandServices
     {
         private readonly IMongoCollection<Brand> _brandCollection;
         private readonly IMapper _mapper;
-
         public BrandService(IMapper mapper, IDatabaseSettings _databaseSettings)
         {
             var client = new MongoClient(_databaseSettings.ConnectionString);
@@ -19,31 +18,25 @@ namespace WebProject.Catalog.Services.BrandServices
             _brandCollection = database.GetCollection<Brand>(_databaseSettings.BrandCollectionName);
             _mapper = mapper;
         }
-
         public async Task CreateBrandAsync(CreateBrandDto createBrandDto)
         {
             var value = _mapper.Map<Brand>(createBrandDto);
             await _brandCollection.InsertOneAsync(value);
         }
-
         public async Task DeleteBrandAsync(string id)
         {
             await _brandCollection.DeleteOneAsync(x => x.BrandId == id);
-
         }
-
         public async Task<List<ResultBrandDto>> GetAllBrandAsync()
         {
             var values = await _brandCollection.Find(x => true).ToListAsync();
             return _mapper.Map<List<ResultBrandDto>>(values);
         }
-
         public async Task<GetByIdBrandDto> GetByIdBrandAsync(string id)
         {
             var values = await _brandCollection.Find<Brand>(x => x.BrandId == id).FirstOrDefaultAsync();
             return _mapper.Map<GetByIdBrandDto>(values);
         }
-
         public async Task UpdateBrandAsync(UpdateBrandDto updateBrandDto)
         {
             var values = _mapper.Map<Brand>(updateBrandDto);

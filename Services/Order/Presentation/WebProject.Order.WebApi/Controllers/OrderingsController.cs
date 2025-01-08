@@ -14,45 +14,39 @@ namespace WebProject.Order.WebApi.Controllers
     public class OrderingsController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         public OrderingsController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
         [HttpGet]
-        public async Task<IActionResult> OrderingList()
+        public async Task<IActionResult> GetOrderingList()
         {
             var values = await _mediator.Send(new GetOrderingQuery());
             return Ok(values);
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderingById(int id)
         {
             var values = await _mediator.Send(new GetOrderingByIdQuery(id));
             return Ok(values);
         }
-
         [HttpPost]
         public async Task<IActionResult> CreateOrdering(CreateOrderingCommand command)
         {
             await _mediator.Send(command);
-            return Ok("Sipariş başarıyla eklendi");
+            return Ok("Sipariş Başarıyla Eklendi");
         }
-
-        [HttpDelete]
+        [HttpDelete("RemoveOrdering/{id}")]
         public async Task<IActionResult> RemoveOrdering(int id)
         {
             await _mediator.Send(new RemoveOrderingCommand(id));
-            return Ok("Sipariş başarıyla silindi");
+            return Ok("Sipariş Başarıyla Silindi");
         }
-
         [HttpPut]
         public async Task<IActionResult> UpdateOrdering(UpdateOrderingCommand command)
         {
             await _mediator.Send(command);
-            return Ok("Sipariş başarıyla güncellendi");
+            return Ok("Sipariş Başarıyla Güncellendi");
         }
 
         [HttpGet("GetOrderingByUserId/{id}")]
@@ -61,6 +55,5 @@ namespace WebProject.Order.WebApi.Controllers
             var values = await _mediator.Send(new GetOrderingByUserIdQuery(id));
             return Ok(values);
         }
-
     }
 }

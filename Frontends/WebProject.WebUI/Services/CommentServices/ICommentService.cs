@@ -7,11 +7,9 @@ namespace WebProject.WebUI.Services.CommentServices
         Task<List<ResultCommentDto>> GetAllCommentAsync();
         Task CreateCommentAsync(CreateCommentDto createCommentDto);
         Task UpdateCommentAsync(UpdateCommentDto updateCommentDto);
-        Task DeleteCommentAsync(string id);
-        Task<List<ResultCommentDto>> CommentListByProductId(string id);
-        Task<UpdateCommentDto> GetByIdCommentAsync(string id);
-        Task<int> GetTotalCommentCount();
-        Task<int> GetActiveCommentCount();
-        Task<int> GetPassiveCommentCount();
+        Task DeleteCommentAsync(int id);
+        Task ChangeStatusCommentAsync(int id);
+        Task<UpdateCommentDto> GetByIdCommentAsync(int id);
+        Task<List<ResultCommentDto>> GetByProductIdCommentAsync(string id);
     }
 }

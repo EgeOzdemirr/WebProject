@@ -10,20 +10,18 @@
             <div class="chart-box">
                 <h4>Marka Ekleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <label>Marka Adı</label>
-                        <input type="text" class="form-control" asp-for="BrandName" />
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="brandName">Marka Adı</label>
+                        <input type="text" asp-for="BrandName" class="form-control" id="brandName" placeholder="Marka Adı">
                         <br />
-                        <label>Marka Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <label for="brandImage">Marka Görseli</label>
+                        <input type="file" asp-for="Image" class="form-control" id="brandImage">
                         <br />
-                        <button class="btn btn-success">Markayı Ekle</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-

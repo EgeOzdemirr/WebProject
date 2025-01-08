@@ -1,4 +1,6 @@
 ﻿
+using Newtonsoft.Json;
+
 namespace WebProject.WebUI.Services.StatisticServices.MessageStatisticServices
 {
     public class MessageStatisticService : IMessageStatisticService
@@ -8,10 +10,25 @@ namespace WebProject.WebUI.Services.StatisticServices.MessageStatisticServices
         {
             _httpClient = httpClient;
         }
+        public async Task<int> GetNonReadedMessageCount()
+        {
+            var responseMessage = await _httpClient.GetAsync("UserMessages/GetNonReadedMessageCount");
+            var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<int>(jsondata);
+            return values;
+        }
+        public async Task<int> GetReadedMessageCount()
+        {
+            var responseMessage = await _httpClient.GetAsync("UserMessages/GetReadedMessageCount");
+            var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<int>(jsondata);
+            return values;
+        }
         public async Task<int> GetTotalMessageCount()
         {
-            var responseMessage = await _httpClient.GetAsync("UserMessages/GetTotalMessageCount/");
-            var values = await responseMessage.Content.ReadFromJsonAsync<int>();
+            var responseMessage = await _httpClient.GetAsync("UserMessages/GetTotalMessageCount");
+            var jsondata = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<int>(jsondata);
             return values;
         }
     }

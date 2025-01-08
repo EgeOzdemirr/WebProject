@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebProject.IdentityServer.Dtos;
 using WebProject.IdentityServer.Models;
-using static IdentityServer4.IdentityServerConstants;
 
 namespace WebProject.IdentityServer.Controllers
 {
@@ -15,7 +14,6 @@ namespace WebProject.IdentityServer.Controllers
     public class RegistersController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-
         public RegistersController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
@@ -31,13 +29,13 @@ namespace WebProject.IdentityServer.Controllers
                 Surname = userRegisterDto.Surname,
             };
             var result = await _userManager.CreateAsync(values, userRegisterDto.Password);
-            if (result.Succeeded) 
+            if (result.Succeeded)
             {
-                return Ok("Kullanıcı başarıyla eklendi");
+                return Ok("Kullanıcı Başarıyla Eklendi");
             }
             else
             {
-                return Ok("Bir hata oluştu tekrar deneyiniz");
+                return NotFound("Bir Hata Oluştu");
             }
         }
     }

@@ -1,39 +1,41 @@
-﻿@model UpdateProductImageDto
+﻿@model List<UpdateProductImageDto>
 @{
     ViewData["Title"] = "ProductImageDetail";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int count = 0;
 }
 
 <section class="content container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="chart-box">
-                <h4>Ürün Görselleri Güncelleme Sayfası</h4>
-                <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <input type="hidden" asp-for="ProductImageId" />
-                        <input type="hidden" asp-for="ProductId" />
-                        <label>Görsel 1</label>
-                        <input type="text" class="form-control" asp-for="Image1" />
-                        <br />
-                        <label>Görsel 2</label>
-                        <input type="text" class="form-control" asp-for="Image2" />
-                        <br />
-                        <label>Görsel 3</label>
-                        <input type="text" class="form-control" asp-for="Image3" />
-                        <br />
-                        <label>Görsel 4</label>
-                        <input type="text" class="form-control" asp-for="Image4" />
-                        <br />
-                        <button class="btn btn-success">Ürün Görsellerini Güncelle</button>
-                    </form>
-                </div>
+    <div class="col-md-12">
+        <div class="chart-box">
+            <h4>İşlem yapılan Ürün : @ViewBag.pName</h4>
+            @* <p>Ürün ile ilgili işlemlerinizi aşağıdaki tablo üzerinden gerçekleştirebilirsiniz</p> *@
+            <br />
+            <div class="bs-example" data-example-id="bordered-table">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="text-center">Görsel</th>
+                            <th class="text-center">Sil</th>
+                            <th class="text-center">Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            count++;
+                            <tr>
+                                <th scope="row">@count</th>
+                                <td class="text-center"><img src="@item.ProductImage1" class="rounded-2" style="height:100px" /></td>
+                                <td class="text-center"><a href="/Admin/ProductImage/DeleteProductImage/@item.ProductImageId" class="btn btn-danger btn-sm">Sil</a></td>
+                                <td class="text-center"><a href="/Admin/ProductImage/UpdateProductImage/@item.ProductImageId" class="btn btn-warning btn-sm">Güncelle</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
+            <a href="/Admin/ProductImage/CreateProductImage/@ViewBag.pId" class="btn btn-primary btn-sm">Yeni Görsel Ekle</a>
         </div>
     </div>
 </section>
-
-
-
-

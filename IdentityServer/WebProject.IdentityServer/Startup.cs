@@ -62,7 +62,7 @@ namespace WebProject.IdentityServer
                 .AddGoogle(options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    
+
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to https://localhost:5001/signin-google
@@ -76,7 +76,7 @@ namespace WebProject.IdentityServer
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-				//app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
 
             app.UseStaticFiles();

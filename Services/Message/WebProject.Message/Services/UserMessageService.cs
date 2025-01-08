@@ -15,11 +15,11 @@ namespace WebProject.Message.Services
             _messageContext = messageContext;
             _mapper = mapper;
         }
-        public async Task CreateMessageAsync(CreateMessageDto createMessageDto)
+        public void CreateMessageAsync(CreateMessageDto createMessageDto)
         {
             var value = _mapper.Map<UserMessage>(createMessageDto);
-            await _messageContext.UserMessages.AddAsync(value);
-            await _messageContext.SaveChangesAsync();
+            _messageContext.UserMessages.Add(value);
+            _messageContext.SaveChanges();
         }
         public async Task DeleteMessageAsync(int id)
         {
@@ -27,44 +27,56 @@ namespace WebProject.Message.Services
             _messageContext.UserMessages.Remove(values);
             await _messageContext.SaveChangesAsync();
         }
-        public async Task<List<ResultMessageDto>> GetAllMessageAsync()
+        public async Task<List<ResultMessageDto>> GetAllsAsync()
         {
             var values = await _messageContext.UserMessages.ToListAsync();
             return _mapper.Map<List<ResultMessageDto>>(values);
         }
-        public async Task<GetByIdMessageDto> GetByIdMessageAsync(int id)
+        public async Task<GetByIdMessageDto> GetByIdMessagesAsync(int id)
         {
             var values = await _messageContext.UserMessages.FindAsync(id);
             return _mapper.Map<GetByIdMessageDto>(values);
         }
-        public async Task<List<ResultInboxMessageDto>> GetInboxMessageAsync(string id)
+        public async Task<List<ResultInboxMessageDto>> GetInboxMessagesAsync(string id)
         {
-            var values = await _messageContext.UserMessages.Where(x=>x.ReceiverId == id).ToListAsync();
+            var values = await _messageContext.UserMessages.Where(x => x.ReceiverId == id).ToListAsync();
             return _mapper.Map<List<ResultInboxMessageDto>>(values);
         }
-        public async Task<List<ResultSendboxMessageDto>> GetSendboxMessageAsync(string id)
+        public async Task<int> GetNonReadedMessageCount()
+        {
+            var value = await _messageContext.UserMessages.Where(x => x.IsRead == false).CountAsync();
+            return value;
+        }
+        public async Task<int> GetReadedMessageCount()
+        {
+            var value = await _messageContext.UserMessages.Where(x => x.IsRead == true).CountAsync();
+            return value;
+        }
+        public async Task<List<ResultSendboxMessageDto>> GetSendboxMessagesAsync(string id)
         {
             var values = await _messageContext.UserMessages.Where(x => x.SenderId == id).ToListAsync();
             return _mapper.Map<List<ResultSendboxMessageDto>>(values);
         }
-
         public async Task<int> GetTotalMessageCount()
         {
-            int values = await _messageContext.UserMessages.CountAsync();
-            return values;
+            var value = await _messageContext.UserMessages.CountAsync();
+            return value;
         }
-
         public async Task<int> GetTotalMessageCountByReceiverId(string id)
         {
-            var values = await _messageContext.UserMessages.Where(x => x.ReceiverId == id).CountAsync();
-            return values;
+            int value = await _messageContext.UserMessages.Where(x => x.ReceiverId == id).CountAsync();
+            return value;
         }
-
-        public async Task UpdateMessageAsync(UpdateMessageDto updateMessageDto)
+        public async Task<List<ResultInboxUnreadedMessageDto>> GetUnreadedInboxMessages(string id)
         {
-            var values = _mapper.Map<UserMessage>(updateMessageDto);
-            _messageContext.UserMessages.Update(values);
-            await _messageContext.SaveChangesAsync();
+            var values = await _messageContext.UserMessages.Where(x => x.ReceiverId == id & x.IsRead == false).ToListAsync();
+            return _mapper.Map<List<ResultInboxUnreadedMessageDto>>(values);
+        }
+        public void UpdateMessageAsync(UpdateMessageDto updateMessageDto)
+        {
+            var value = _mapper.Map<UserMessage>(updateMessageDto);
+            _messageContext.UserMessages.Update(value);
+            _messageContext.SaveChanges();
         }
     }
 }

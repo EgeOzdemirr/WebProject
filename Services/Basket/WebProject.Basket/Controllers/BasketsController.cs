@@ -32,7 +32,7 @@ namespace WebProject.Basket.Controllers
         {
             basketTotalDto.UserId = _loginService.GetUserId;
             await _basketService.SaveBasket(basketTotalDto);
-            return Ok("Sepetteki değişiklikler kaydedildi");
+            return Ok("Sepetteki değişiklikler kaydedili");
         }
 
         [HttpDelete]

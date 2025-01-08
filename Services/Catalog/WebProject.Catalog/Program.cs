@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using System.Reflection;
+using WebProject.Catalog.Services;
 using WebProject.Catalog.Services.AboutServices;
 using WebProject.Catalog.Services.BrandServices;
 using WebProject.Catalog.Services.CategoryServices;
@@ -10,6 +12,7 @@ using WebProject.Catalog.Services.FeatureSliderServices;
 using WebProject.Catalog.Services.OfferDiscountServices;
 using WebProject.Catalog.Services.ProductDetailServices;
 using WebProject.Catalog.Services.ProductImageServices;
+using WebProject.Catalog.Services.ProductRecommendationServices;
 using WebProject.Catalog.Services.ProductServices;
 using WebProject.Catalog.Services.SpecialOfferServices;
 using WebProject.Catalog.Services.StatisticServices;
@@ -25,6 +28,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Add services to the container.
+
+// MongoDB yapýlandýrmasý
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("MongoDB");
+    var client = new MongoClient(connectionString);
+    return client.GetDatabase("WebProjectCatalogDb");
+});
+
+// Recommendation servisi kaydý
+builder.Services.AddScoped<IProductRecommendationService, ProductRecommendationService>();
+
 builder.Services.AddScoped<IAboutService, AboutService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();

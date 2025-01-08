@@ -10,21 +10,19 @@
             <div class="chart-box">
                 <h4>Marka Güncelleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
+                <form method="post">
+                    <div class="form-group">
                         <input type="hidden" asp-for="BrandId" />
-                        <label>Marka Adı</label>
-                        <input type="text" class="form-control" asp-for="BrandName" />
+                        <label for="exampleInputEmail1">Marka Adı</label>
+                        <input type="text" asp-for="BrandName" class="form-control" id="exampleInputEmail1" placeholder="Marka Adı">
                         <br />
-                        <label>Marka Görseli</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" />
+                        <label for="exampleInputEmail1">Marka Görseli</label>
+                        <input type="file" asp-for="Image" class="form-control" id="exampleInputEmail1">
                         <br />
-                        <button class="btn btn-success">Markayı Güncelle</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Güncelle</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-

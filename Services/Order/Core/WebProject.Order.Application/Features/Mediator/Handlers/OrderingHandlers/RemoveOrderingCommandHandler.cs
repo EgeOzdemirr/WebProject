@@ -17,7 +17,6 @@ namespace WebProject.Order.Application.Features.Mediator.Handlers.OrderingHandle
         {
             _repository = repository;
         }
-
         public async Task Handle(RemoveOrderingCommand request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetByIdAsync(request.Id);

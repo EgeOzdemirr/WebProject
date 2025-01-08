@@ -12,66 +12,63 @@ namespace WebProject.Discount.Controllers
     public class DiscountsController : ControllerBase
     {
         private readonly IDiscountService _discountService;
-
         public DiscountsController(IDiscountService discountService)
         {
             _discountService = discountService;
         }
-
         [HttpGet]
-        public async Task<IActionResult> DiscountCouponList()
+        public async Task<IActionResult> DiscountCouponsList()
         {
-            var values= await _discountService.GetAllDiscountCouponAsync();
+            var values = await _discountService.GetAllDiscountCouponsAsync();
             return Ok(values);
         }
-
-        [HttpGet("{id}")]
+        [HttpGet("GetDiscountCouponById/{id}")]
         public async Task<IActionResult> GetDiscountCouponById(int id)
         {
-            var values = await _discountService.GetByIdDiscountCouponAsync(id);
-            return Ok(values);
+            var value = await _discountService.GetByIdDiscountCouponAsync(id);
+            return Ok(value);
         }
-
-        [HttpGet("GetCodeDetailByCodeAsync")]
-        public async Task<IActionResult> GetCodeDetailByCodeAsync(string code)
-        {
-            var values = await _discountService.GetCodeDetailByCodeAsync(code);
-            return Ok(values);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> CreateDiscountCoupon(CreateDiscountCouponDto createDiscountCouponDto)
+        public async Task<IActionResult> CreateDiscountCoupon(CreateDiscountCouponDto createCouponDto)
         {
-            await _discountService.CreateDiscountCouponAsync(createDiscountCouponDto);
-            return Ok("İndirim kuponu başarıyla oluşturuldu");
+            await _discountService.CreateDiscountCouponAsync(createCouponDto);
+            return Ok("Kupon Başarıyla Oluşturuldu");
         }
-
-        [HttpDelete]
+        [HttpDelete("DeleteDiscountCoupon/{id}")]
         public async Task<IActionResult> DeleteDiscountCoupon(int id)
         {
             await _discountService.DeleteDiscountCouponAsync(id);
-            return Ok("İndirim kuponu başarıyla silindi");
+            return Ok("Kupon Silindi");
         }
-
         [HttpPut]
         public async Task<IActionResult> UpdateDiscountCoupon(UpdateDiscountCouponDto updateCouponDto)
         {
             await _discountService.UpdateDiscountCouponAsync(updateCouponDto);
-            return Ok("İndirim kuponu başarıyla güncellendi");
+            return Ok("Kupon Başarı ile Güncellendi");
         }
-
-        [HttpGet("GetDiscountCouponRate")]
-        public IActionResult GetDiscountCouponRate(string code)
+        [HttpGet("GetDiscountCouponByCode/{code}")]
+        public async Task<IActionResult> GetDiscountCouponByCode(string code)
         {
-            var values = _discountService.GetDiscountCouponCountRate(code);
-            return Ok(values);
+            var value = await _discountService.GetByCouponCodeAndIsValidDiscountCouponAsync(code);
+            return Ok(value);
         }
-
-        [HttpGet("GetDiscountCouponCount")]
-        public async Task<IActionResult> GetDiscountCouponCount()
+        [HttpGet("GetDiscountCouponsCount")]
+        public async Task<IActionResult> GetDiscountCouponsCount()
         {
-            var values = await _discountService.GetDiscountCouponCount();
-            return Ok(values);
+            var value = await _discountService.GetDiscountCouponsCount();
+            return Ok(value);
+        }
+        [HttpGet("GetActiveDiscountCouponsCount")]
+        public async Task<IActionResult> GetActiveDiscountCouponsCount()
+        {
+            var value = await _discountService.GetActiveDiscountCouponsCount();
+            return Ok(value);
+        }
+        [HttpGet("GetPassiveDiscountCouponsCount")]
+        public async Task<IActionResult> GetPassiveDiscountCouponsCount()
+        {
+            var value = await _discountService.GetPassiveDiscountCouponsCount();
+            return Ok(value);
         }
     }
 }

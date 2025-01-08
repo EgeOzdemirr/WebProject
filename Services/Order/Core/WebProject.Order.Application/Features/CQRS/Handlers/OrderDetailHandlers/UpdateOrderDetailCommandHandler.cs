@@ -12,7 +12,6 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandler
     public class UpdateOrderDetailCommandHandler
     {
         private readonly IRepository<OrderDetail> _repository;
-
         public UpdateOrderDetailCommandHandler(IRepository<OrderDetail> repository)
         {
             _repository = repository;
@@ -20,12 +19,12 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandler
         public async Task Handle(UpdateOrderDetailCommand command)
         {
             var values = await _repository.GetByIdAsync(command.OrderDetailId);
-            values.ProductId = command.ProductId;
             values.OrderingId = command.OrderingId;
-            values.ProductName = command.ProductName;
+            values.ProductId = command.ProductId;
             values.ProductPrice = command.ProductPrice;
-            values.ProductAmount = command.ProductAmount;
+            values.ProductName = command.ProductName;
             values.ProductTotalPrice = command.ProductTotalPrice;
+            values.ProductAmount = command.ProductAmount;
             await _repository.UpdateAsync(values);
         }
     }

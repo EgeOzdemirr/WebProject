@@ -9,7 +9,7 @@ namespace WebProject.WebUI.Services.CatalogServices.FeatureSliderServices
         Task UpdateFeatureSliderAsync(UpdateFeatureSliderDto updateFeatureSliderDto);
         Task DeleteFeatureSliderAsync(string id);
         Task<UpdateFeatureSliderDto> GetByIdFeatureSliderAsync(string id);
-        Task FeatureSliderChangeStatusToTrue(string id);
-        Task FeatureSliderChangeStatusToFalse(string id);
+        Task FeatureSliderChangeToTrue(string id);
+        Task FeatureSliderChangeToFalse(string id);
     }
 }

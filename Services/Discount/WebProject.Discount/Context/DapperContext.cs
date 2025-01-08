@@ -14,13 +14,12 @@ namespace WebProject.Discount.Context
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Server=DESKTOP-H53IQV2;initial Catalog=WebProjectDiscountDb;integrated " +
-        //        "Security=true");
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer("Server=DESKTOP-H53IQV2;initial Catalog=WebProjectDiscountDb;integrated Security=True");
+        }
         public DbSet<Coupon> Coupons  { get; set; }
         public IDbConnection CreateConnection()=>new SqlConnection(_connectionString);
-
     }
 }

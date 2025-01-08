@@ -10,5 +10,6 @@ namespace WebProject.Cargo.EntityLayer.Concrete
     {
         public int CargoCompanyId { get; set; }
         public string CargoCompanyName { get; set; }
+        public List<CargoDetail> CargoDetails { get; set; }
     }
 }

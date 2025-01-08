@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>WebProject Kayıt Paneli</title>
+	<title>WebProject Kayıt Sayfası</title>
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<!-- Font-->
@@ -26,28 +26,28 @@
 				<p class="text-1">WebProject projemiz üzerinden e-ticaret işlemlerini gerçekleştirebilmek için hızlıca kayıt olabilirsiniz.</p>
 				<p class="text-2">Eğer bir hesabınız var ise aşağıdaki link üzerinden hemen giriş sayfasına gidebilirsiniz.</p>
 				<div class="form-left-last">
-					<a href="/Login/Index/" class="account">Giriş Yap</a>
+					<a href="/Login/Index/" class="account text-black" style="padding:15px">Giriş Yap</a>
 				</div>
 			</div>
 			<form class="form-detail" method="post">
-				<h2>WebProject Kayıt Formu</h2>
+				<h2>MultiShop Kayıt Formu</h2>
 				<div class="form-group">
 					<div class="form-row form-row-1">
 						<label for="first_name">Adınız</label>
-						<input type="text" asp-for="Name" id="first_name" class="input-text">
+						<input type="text" asp-for="Name" id="first_name" class="input-text" required>
 					</div>
 					<div class="form-row form-row-1">
 						<label for="last_name">Soyadınız</label>
-						<input type="text" asp-for="Surname" id="last_name" class="input-text">
+						<input type="text" asp-for="Surname" id="last_name" class="input-text" required>
 					</div>
 				</div>
 				<div class="form-row">
-					<label for="your_email">Email Adresi</label>
-					<input type="text" asp-for="Email" id="your_email" class="input-text" required pattern="[^@@]+@@[^@@]+.[a-zA-Z]{2,6}">
+					<label for="your_email">Email Adresiniz</label>
+					<input type="email" asp-for="Email" id="your_email" class="input-text" required pattern="[^@@]+@@[^@@]+.[a-zA-Z]{2,6}">
 				</div>
 				<div class="form-row">
-					<label for="your_username">Kullanıcı Adınız</label>
-					<input type="text" asp-for="UserName" id="your_username" class="input-text">
+					<label for="user_name">Kullanıcı Adınız</label>
+					<input type="text" asp-for="UserName" id="user_name" class="input-text" required>
 				</div>
 				<div class="form-group">
 					<div class="form-row form-row-1 ">
@@ -60,14 +60,12 @@
 					</div>
 				</div>
 				<div class="form-checkbox">
-					<label class="container"><p>Şartları okudum<a href="#" class="text">Kabul Ediyorum</a></p>
-					  	<input type="checkbox" name="checkbox">
-					  	<span class="checkmark"></span>
+					<label class="form-check-inline">
+						<p>Şartları Okudum <a href="#" class="text">Kabul Ediyorum</a></p>
+						<input type="checkbox" asp-for="TermsIsAccepted" id="terms_accepted" required><span class="checkmark"></span>
 					</label>
 				</div>
-				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Kayıt Ol">
-				</div>
+				<button type="submit" class="register" style="padding:15px" id="send">Kayıt Ol</button>
 			</form>
 		</div>
 	</div>

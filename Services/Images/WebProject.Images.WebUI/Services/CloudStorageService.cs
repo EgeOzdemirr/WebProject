@@ -9,7 +9,6 @@ namespace WebProject.Images.WebUI.Services
         private readonly GCSConfigOptions _options;
         private readonly ILogger<CloudStorageService> _logger;
         private readonly GoogleCredential _googleCredential;
-
         public CloudStorageService(IOptions<GCSConfigOptions> options, ILogger<CloudStorageService> logger)
         {
             _options = options.Value;
@@ -50,7 +49,6 @@ namespace WebProject.Images.WebUI.Services
                 throw;
             }
         }
-
         public async Task<string> GetSignedUrlAsync(string fileNameToRead, int timeOutInMinutes = 30)
         {
             try
@@ -68,7 +66,6 @@ namespace WebProject.Images.WebUI.Services
                 throw;
             }
         }
-
         public async Task<string> UploadFileAsync(IFormFile fileToUpload, string fileNameToSave)
         {
             try

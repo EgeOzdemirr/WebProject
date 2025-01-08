@@ -43,17 +43,17 @@ namespace WebProject.Catalog.Controllers
             return Ok(value);
         }
 
-        [HttpGet("GetMaxPriceProductName")]
+        [HttpGet("GetMaxProductPrice")]
         public async Task<IActionResult> GetMaxPriceProductName()
         {
-            var value = await _statisticService.GetMaxPriceProductName();
+            var value = await _statisticService.GetMaxProductPrice();
             return Ok(value);
         }
         
-        [HttpGet("GetMinPriceProductName")]
+        [HttpGet("GetMinProductPrice")]
         public async Task<IActionResult> GetMinPriceProductName()
         {
-            var value = await _statisticService.GetMinPriceProductName();
+            var value = await _statisticService.GetMinProductPrice();
             return Ok(value);
         }
         

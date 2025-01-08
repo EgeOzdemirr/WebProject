@@ -13,26 +13,16 @@ namespace WebProject.Cargo.WebApi.Controllers
     public class CargoOperationsController : ControllerBase
     {
         private readonly ICargoOperationService _cargoOperationService;
-
         public CargoOperationsController(ICargoOperationService cargoOperationService)
         {
             _cargoOperationService = cargoOperationService;
         }
-
         [HttpGet]
-        public IActionResult CargoOperationList()
+        public IActionResult GetCargoOperationList()
         {
             var values = _cargoOperationService.TGetAll();
             return Ok(values);
         }
-
-        [HttpGet("{id}")]
-        public IActionResult GetCargoOperationById(int id)
-        {
-            var value = _cargoOperationService.TGetById(id);
-            return Ok(value);
-        }
-
         [HttpPost]
         public IActionResult CreateCargoOperation(CreateCargoOperationDto createCargoOperationDto)
         {
@@ -43,16 +33,20 @@ namespace WebProject.Cargo.WebApi.Controllers
                 OperationDate = createCargoOperationDto.OperationDate,
             };
             _cargoOperationService.TInsert(cargoOperation);
-            return Ok("Kargo Operasyonu Başarıyla Oluşturuldu");
+            return Ok("Kargo Hareketi Başarıyla Oluşturuldu");
         }
-
         [HttpDelete]
         public IActionResult RemoveCargoOperation(int id)
         {
             _cargoOperationService.TDelete(id);
-            return Ok("Kargo Operasyonu Başarıyla Silindi");
+            return Ok("Kargo Hareketi Başarıyla Silindi");
         }
-
+        [HttpGet("{id}")]
+        public IActionResult GetCargoOperationById(int id)
+        {
+            var value = _cargoOperationService.TGetById(id);
+            return Ok(value);
+        }
         [HttpPut]
         public IActionResult UpdateCargoOperation(UpdateCargoOperationDto updateCargoOperationDto)
         {
@@ -60,11 +54,11 @@ namespace WebProject.Cargo.WebApi.Controllers
             {
                 CargoOperationId = updateCargoOperationDto.CargoOperationId,
                 Barcode = updateCargoOperationDto.Barcode,
-                Description= updateCargoOperationDto.Description,
+                Description = updateCargoOperationDto.Description,
                 OperationDate = updateCargoOperationDto.OperationDate
             };
             _cargoOperationService.TUpdate(cargoOperation);
-            return Ok("Kargo Operasyonu Başarıyla Güncellendi");
+            return Ok("Kargo Hareketi Başarıyla Güncellendi");
         }
     }
 }

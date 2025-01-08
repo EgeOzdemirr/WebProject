@@ -1,4 +1,5 @@
 ﻿@model UpdateProductDto
+
 <div class="col-lg-7 h-auto mb-30">
     <div class="h-100 bg-light p-30">
         <h3>@Model.ProductName</h3>
@@ -12,7 +13,7 @@
             </div>
             <small class="pt-1">(0 Değerlendirme)</small>
         </div>
-        <h3 class="font-weight-semi-bold mb-4">@Model.ProductPrice ₺</h3>
+        <h3 class="font-weight-semi-bold mb-4">₺ @Model.ProductPrice.ToString("#,###.#0")</h3>
         <p class="mb-4">
             @Model.ProductDescription
         </p>
@@ -21,37 +22,36 @@
             <form>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-1" name="size">
-                    <label class="custom-control-label" for="size-1">39</label>
+                    <label class="custom-control-label" for="size-1">37</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-2" name="size">
-                    <label class="custom-control-label" for="size-2">40</label>
+                    <label class="custom-control-label" for="size-2">38</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-3" name="size">
-                    <label class="custom-control-label" for="size-3">41</label>
+                    <label class="custom-control-label" for="size-3">39</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-4" name="size">
-                    <label class="custom-control-label" for="size-4">42</label>
+                    <label class="custom-control-label" for="size-4">40</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-5" name="size">
-                    <label class="custom-control-label" for="size-5">43</label>
+                    <label class="custom-control-label" for="size-5">41</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-6" name="size">
-                    <label class="custom-control-label" for="size-6">44</label>
+                    <label class="custom-control-label" for="size-6">42</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="size-7" name="size">
-                    <label class="custom-control-label" for="size-7">45</label>
+                    <label class="custom-control-label" for="size-7">43</label>
                 </div>
             </form>
         </div>
-
         <div class="d-flex mb-4">
-            <strong class="text-dark mr-3">Renkler:</strong>
+            <strong class="text-dark mr-3">Colors:</strong>
             <form>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="color-1" name="color">
@@ -79,26 +79,28 @@
                 </div>
             </form>
         </div>
+        <form method="post" action="/ShoppingCard/AddBasketItem/">
+            <input type="hidden" name="productId" value="@ViewBag.pDId">
+            <div class="d-flex align-items-center mb-4 pt-2">
+                <div class="input-group quantity mr-3" style="width: 130px;">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-minus">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                    <input type="number" class="form-control bg-secondary border-0 text-center" name="quantity" value="1">
 
-        <div class="d-flex align-items-center mb-4 pt-2">
-            <div class="input-group quantity mr-3" style="width: 130px;">
-                <div class="input-group-btn">
-                    <button class="btn btn-primary btn-minus">
-                        <i class="fa fa-minus"></i>
-                    </button>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-plus">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
-                <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                <div class="input-group-btn">
-                    <button class="btn btn-primary btn-plus">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary px-3">
+                    <i class="fa fa-shopping-cart mr-1"></i> Sepete Ekle
+                </button>
             </div>
-            <button class="btn btn-primary px-3">
-                <i class="fa fa-shopping-cart mr-1"></i> Sepete ekle
-            </button>
-        </div>
-
+        </form>
         <div class="d-flex pt-2">
             <strong class="text-dark mr-2">Paylaş:</strong>
             <div class="d-inline-flex">
@@ -116,6 +118,5 @@
                 </a>
             </div>
         </div>
-
     </div>
 </div>

@@ -30,14 +30,18 @@ namespace WebProject.Catalog.Services.FeatureSliderServices
             await _featureSliderCollection.DeleteOneAsync(x => x.FeatureSliderId == id);
         }
 
-        public Task FeatureSliderChangeStatusToFalse(string id)
+        public async Task FeatureSliderChangeToFalse(string id)
         {
-            throw new NotImplementedException();
+            var values = await _featureSliderCollection.Find<FeatureSlider>(x => x.FeatureSliderId == id).FirstOrDefaultAsync();
+            values.Status = false;
+            await _featureSliderCollection.FindOneAndReplaceAsync(x => x.FeatureSliderId == values.FeatureSliderId, values);
         }
 
-        public Task FeatureSliderChangeStatusToTrue(string id)
+        public async Task FeatureSliderChangeToTrue(string id)
         {
-            throw new NotImplementedException();
+            var values = await _featureSliderCollection.Find<FeatureSlider>(x => x.FeatureSliderId == id).FirstOrDefaultAsync();
+            values.Status = true;
+            await _featureSliderCollection.FindOneAndReplaceAsync(x => x.FeatureSliderId == values.FeatureSliderId, values);
         }
 
         public async Task<List<ResultFeatureSliderDto>> GetAllFeatureSliderAsync()

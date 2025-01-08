@@ -17,7 +17,6 @@ namespace WebProject.Order.WebApi.Controllers
         private readonly CreateOrderDetailCommandHandler _createOrderDetailCommandHandler;
         private readonly UpdateOrderDetailCommandHandler _updateOrderDetailCommandHandler;
         private readonly RemoveOrderDetailCommandHandler _removeOrderDetailCommandHandler;
-
         public OrderDetailsController(GetOrderDetailQueryHandler getOrderDetailQueryHandler, GetOrderDetailByIdQueryHandler getOrderDetailByIdQueryHandler, CreateOrderDetailCommandHandler createOrderDetailCommandHandler, UpdateOrderDetailCommandHandler updateOrderDetailCommandHandler, RemoveOrderDetailCommandHandler removeOrderDetailCommandHandler)
         {
             _getOrderDetailQueryHandler = getOrderDetailQueryHandler;
@@ -26,42 +25,35 @@ namespace WebProject.Order.WebApi.Controllers
             _updateOrderDetailCommandHandler = updateOrderDetailCommandHandler;
             _removeOrderDetailCommandHandler = removeOrderDetailCommandHandler;
         }
-
         [HttpGet]
-        public async Task<IActionResult> OrderDetailList()
+        public async Task<IActionResult> GetOrderDetailList()
         {
             var values = await _getOrderDetailQueryHandler.Handle();
             return Ok(values);
         }
-
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderDetailById(int id)
+        public async Task<IActionResult> GetOrderDetailListById(int id)
         {
-            var value = await _getOrderDetailByIdQueryHandler.Handle(new GetOrderDetailByIdQuery(id));
-            return Ok(value);
+            var values = await _getOrderDetailByIdQueryHandler.Handle(new GetOrderDetailByIdQuery(id));
+            return Ok(values);
         }
-
         [HttpPost]
         public async Task<IActionResult> CreateOrderDetail(CreateOrderDetailCommand command)
         {
             await _createOrderDetailCommandHandler.Handle(command);
-            return Ok("Siperiş detayı başarıyla eklendi");
+            return Ok("Sipariş Detayı Başarıyla Eklendi");
         }
-
-        [HttpDelete]
-        public async Task<IActionResult> RemoveOrderDetail(int id)
-        {
-            await _removeOrderDetailCommandHandler.Handle(new RemoveOrderDetailCommand(id));
-            return Ok("Sipariş detayı başarıyla silindi");
-        }
-
         [HttpPut]
         public async Task<IActionResult> UpdateOrderDetail(UpdateOrderDetailCommand command)
         {
             await _updateOrderDetailCommandHandler.Handle(command);
-            return Ok("Sipariş detayı başarıyla güncellendi");
+            return Ok("Sipariş Detayı Başarıyla Güncellendi");
         }
-
-
+        [HttpDelete]
+        public async Task<IActionResult> RemoveOrderDetail(int id)
+        {
+            await _removeOrderDetailCommandHandler.Handle(new RemoveOrderDetailCommand(id));
+            return Ok("Sipariş Detayı Silindi");
+        }
     }
 }

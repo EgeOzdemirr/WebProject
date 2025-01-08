@@ -23,24 +23,20 @@ namespace WebProject.Catalog.Services.ContactServices
             var value = _mapper.Map<Contact>(createContactDto);
             await _contactCollection.InsertOneAsync(value);
         }
-
         public async Task DeleteContactAsync(string id)
         {
             await _contactCollection.DeleteOneAsync(x => x.ContactId == id);
         }
-
         public async Task<List<ResultContactDto>> GetAllContactAsync()
         {
             var values = await _contactCollection.Find(x => true).ToListAsync();
             return _mapper.Map<List<ResultContactDto>>(values);
         }
-
         public async Task<GetByIdContactDto> GetByIdContactAsync(string id)
         {
             var values = await _contactCollection.Find<Contact>(x => x.ContactId == id).FirstOrDefaultAsync();
-            return _mapper.Map<GetByIdContactDto>(values); ;
+            return _mapper.Map<GetByIdContactDto>(values);
         }
-
         public async Task UpdateContactAsync(UpdateContactDto updateContactDto)
         {
             var values = _mapper.Map<Contact>(updateContactDto);

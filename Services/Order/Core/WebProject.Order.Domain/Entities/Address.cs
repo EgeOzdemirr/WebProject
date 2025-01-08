@@ -14,11 +14,14 @@ namespace WebProject.Order.Domain.Entities
         public string Surname { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
         public string Country { get; set; }
-        public string City { get; set; }
         public string District { get; set; }
+        public string City { get; set; }
+        public string Detail1 { get; set; }
+        public string Detail2 { get; set; }
+        public string Description { get; set; }
         public string ZipCode { get; set; }
+        public bool Isdefault { get; set; }
+        public bool IsInvoice { get; set; }
     }
 }

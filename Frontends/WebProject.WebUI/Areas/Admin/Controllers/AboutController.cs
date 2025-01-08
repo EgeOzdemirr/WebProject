@@ -21,19 +21,24 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
-            AboutViewBagList();
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "Hakkımızda";
+            ViewBag.v3 = "Hakkımızda Listesi";
+            ViewBag.t = "Hakkımızda İşlemleri";
+
             var values = await _aboutService.GetAllAboutAsync();
             return View(values);
         }
-
         [HttpGet]
         [Route("CreateAbout")]
         public IActionResult CreateAbout()
         {
-            AboutViewBagList();
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "Hakkımızda";
+            ViewBag.v3 = "Hakkımızda Listesi";
+            ViewBag.t = "Hakkımızda İşlemleri";
             return View();
         }
-
         [HttpPost]
         [Route("CreateAbout")]
         public async Task<IActionResult> CreateAbout(CreateAboutDto createAboutDto)
@@ -42,38 +47,29 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
             return RedirectToAction("Index", "About", new { area = "Admin" });
         }
 
-        [HttpDelete("{id}")]
         [Route("DeleteAbout/{id}")]
         public async Task<IActionResult> DeleteAbout(string id)
         {
             await _aboutService.DeleteAboutAsync(id);
             return RedirectToAction("Index", "About", new { area = "Admin" });
         }
-
-
         [Route("UpdateAbout/{id}")]
         [HttpGet]
         public async Task<IActionResult> UpdateAbout(string id)
         {
-            AboutViewBagList();
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "Hakkımızda";
+            ViewBag.v3 = "Hakkımızda Listesi";
+            ViewBag.t = "Hakkımızda İşlemleri";
             var values = await _aboutService.GetByIdAboutAsync(id);
             return View(values);
         }
-
         [Route("UpdateAbout/{id}")]
         [HttpPost]
         public async Task<IActionResult> UpdateAbout(UpdateAboutDto updateAboutDto)
         {
             await _aboutService.UpdateAboutAsync(updateAboutDto);
             return RedirectToAction("Index", "About", new { area = "Admin" });
-        }
-
-        void AboutViewBagList()
-        {
-            ViewBag.v1 = "Ana Sayfa";
-            ViewBag.v2 = "Hakkımda";
-            ViewBag.v3 = "Hakkımda Listesi";
-            ViewBag.v0 = "Hakkımda İşlemleri";
         }
     }
 }

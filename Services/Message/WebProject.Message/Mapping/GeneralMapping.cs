@@ -8,12 +8,13 @@ namespace WebProject.Message.Mapping
     {
         public GeneralMapping()
         {
-            CreateMap<UserMessage,ResultMessageDto>().ReverseMap();
-            CreateMap<UserMessage,CreateMessageDto>().ReverseMap();
-            CreateMap<UserMessage,UpdateMessageDto>().ReverseMap();
-            CreateMap<UserMessage,GetByIdMessageDto>().ReverseMap();
-            CreateMap<UserMessage,ResultInboxMessageDto>().ReverseMap();
-            CreateMap<UserMessage,ResultSendboxMessageDto>().ReverseMap();
+            CreateMap<UserMessage, ResultMessageDto>().ReverseMap();
+            CreateMap<UserMessage, CreateMessageDto>().ReverseMap();
+            CreateMap<UserMessage, UpdateMessageDto>().ReverseMap();
+            CreateMap<UserMessage, ResultInboxMessageDto>().ReverseMap();
+            CreateMap<UserMessage, ResultSendboxMessageDto>().ReverseMap();
+            CreateMap<UserMessage, GetByIdMessageDto>().ReverseMap();
+            CreateMap<UserMessage, ResultInboxUnreadedMessageDto>().ReverseMap();
         }
     }
 }

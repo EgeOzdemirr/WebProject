@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+
 using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace WebProject.IdentityServer
             new ApiResource("ResourcePayment") { Scopes = {"PaymentFullPermission"}},
             new ApiResource("ResourceImage") { Scopes = {"ImageFullPermission"}},
             new ApiResource("ResourceMessage") { Scopes = {"MessageFullPermission"}},
+            new ApiResource("ResourceRecommendation") { Scopes = {"RecommendationFullPermission"}},
             new ApiResource("ResourceOcelot") { Scopes = {"OcelotFullPermission"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
@@ -42,6 +44,7 @@ namespace WebProject.IdentityServer
             new ApiScope("PaymentFullPermission", " Full authority for payment operations "),
             new ApiScope("ImageFullPermission", " Full authority for image operations "),
             new ApiScope("MessageFullPermission", " Full authority for message operations "),
+            new ApiScope("RecommendationFullPermission", " Full authority for recommendation operations "),
             new ApiScope("OcelotFullPermission", " Full authority for ocelot operations "),
             new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
         };
@@ -73,7 +76,7 @@ namespace WebProject.IdentityServer
                 ClientSecrets = {new Secret("webprojectsecret".Sha256())},
                 AllowedScopes =
                 {
-                    "CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission",
+                    "CatalogFullPermission", "CatalogReadPermission", "CargoFullPermission", "BasketFullPermission", "OcelotFullPermission",
                     "CommentFullPermission", "PaymentFullPermission", "ImageFullPermission", "DiscountFullPermission",
                     "OrderFullPermission", "MessageFullPermission", "CargoFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName,

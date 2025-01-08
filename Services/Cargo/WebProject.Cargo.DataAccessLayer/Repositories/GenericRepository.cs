@@ -10,42 +10,40 @@ namespace WebProject.Cargo.DataAccessLayer.Repositories
 {
     public class GenericRepository<T> : IGenericDal<T> where T : class
     {
-        private readonly CargoContext _cargoContext;
-
-        public GenericRepository(CargoContext cargoContext)
+        private readonly CargoContext _context;
+        public GenericRepository(CargoContext context)
         {
-            _cargoContext = cargoContext;
+            _context = context;
         }
-
         public void Delete(int id)
         {
-            var values = _cargoContext.Set<T>().Find(id);
-            _cargoContext.Set<T>().Remove(values);
-            _cargoContext.SaveChanges();
+            var values = _context.Set<T>().Find(id);
+            _context.Set<T>().Remove(values);
+            _context.SaveChanges();
         }
 
         public List<T> GetAll()
         {
-            var values = _cargoContext.Set<T>().ToList();
+            var values = _context.Set<T>().ToList();
             return values;
         }
 
         public T GetById(int id)
         {
-            var value = _cargoContext.Set<T>().Find(id);
+            var value = _context.Set<T>().Find(id);
             return value;
         }
 
         public void Insert(T entity)
         {
-            _cargoContext.Set<T>().Add(entity);
-            _cargoContext.SaveChanges();
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
         }
 
         public void Update(T entity)
         {
-            _cargoContext.Set<T>().Update(entity);
-            _cargoContext.SaveChanges();
+            _context.Set<T>().Update(entity);
+            _context.SaveChanges();
         }
     }
 }

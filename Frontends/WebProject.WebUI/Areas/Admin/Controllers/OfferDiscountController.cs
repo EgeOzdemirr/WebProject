@@ -12,69 +12,66 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
     public class OfferDiscountController : Controller
     {
         private readonly IOfferDiscountService _offerDiscountService;
-
         public OfferDiscountController(IOfferDiscountService offerDiscountService)
         {
             _offerDiscountService = offerDiscountService;
         }
-
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
-            OfferDiscountViewBagList();
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "İndirim Teklifleri";
+            ViewBag.v3 = "İndirim Teklifi Listesi";
+            ViewBag.t = "İndirim Teklifi İşlemleri";
+
             var values = await _offerDiscountService.GetAllOfferDiscountAsync();
             return View(values);
         }
-
         [HttpGet]
         [Route("CreateOfferDiscount")]
         public IActionResult CreateOfferDiscount()
         {
-            OfferDiscountViewBagList();
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "İndirim Teklifleri";
+            ViewBag.v3 = "İndirim Teklifi Ekle";
+            ViewBag.t = "İndirim Teklifi İşlemleri";
             return View();
         }
-
         [HttpPost]
         [Route("CreateOfferDiscount")]
         public async Task<IActionResult> CreateOfferDiscount(CreateOfferDiscountDto createOfferDiscountDto)
         {
             await _offerDiscountService.CreateOfferDiscountAsync(createOfferDiscountDto);
             return RedirectToAction("Index", "OfferDiscount", new { area = "Admin" });
+
         }
 
-        [HttpDelete("{id}")]
         [Route("DeleteOfferDiscount/{id}")]
         public async Task<IActionResult> DeleteOfferDiscount(string id)
         {
             await _offerDiscountService.DeleteOfferDiscountAsync(id);
             return RedirectToAction("Index", "OfferDiscount", new { area = "Admin" });
+
         }
-
-
         [Route("UpdateOfferDiscount/{id}")]
         [HttpGet]
         public async Task<IActionResult> UpdateOfferDiscount(string id)
         {
-            OfferDiscountViewBagList();
+            ViewBag.v1 = "Anasayfa";
+            ViewBag.v2 = "İndirim Teklifleri";
+            ViewBag.v3 = "İndirim Teklifi Güncelleme";
+            ViewBag.t = "İndirim Teklifi İşlemleri";
             var values = await _offerDiscountService.GetByIdOfferDiscountAsync(id);
             return View(values);
-        }
 
+        }
         [Route("UpdateOfferDiscount/{id}")]
         [HttpPost]
         public async Task<IActionResult> UpdateOfferDiscount(UpdateOfferDiscountDto updateOfferDiscountDto)
         {
-
             await _offerDiscountService.UpdateOfferDiscountAsync(updateOfferDiscountDto);
             return RedirectToAction("Index", "OfferDiscount", new { area = "Admin" });
-        }
 
-        void OfferDiscountViewBagList()
-        {
-            ViewBag.v1 = "Ana Sayfa";
-            ViewBag.v2 = "İndirim Teklifleri";
-            ViewBag.v3 = "İndirim Teklif Listesi";
-            ViewBag.v0 = "İndirim Teklif İşlemleri";
         }
     }
 }

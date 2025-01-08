@@ -9,28 +9,35 @@ namespace WebProject.WebUI.Controllers
     public class ContactController : Controller
     {
         private readonly IContactService _contactService;
-
         public ContactController(IContactService contactService)
         {
             _contactService = contactService;
         }
-
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.directory1 = "Web Project";
-            ViewBag.directory2 = "İletişim";
-            ViewBag.directory3 = "Mesaj Gönder";
+            ViewBag.Dr1 = "Anasayfa";
+            ViewBag.Dr2 = "/Default/Index/";
+            ViewBag.Dr3 = "İletişim";
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Index(CreateContactDto createContactDto)
         {
-            createContactDto.IsRead = false;
             createContactDto.SendDate = DateTime.Now;
-            await _contactService.CreateContactAsync(createContactDto);
-            return RedirectToAction("Index", "Default");
+            createContactDto.IsRead = false;
+            if (ModelState.IsValid)
+            {
+                await _contactService.CreateContactAsync(createContactDto);
+                TempData["contactInfo"] = "Mesajınız Gönderildi. En kısa sürede dönüş yapacağız. Mesajınız için Teşekkürler";
+                TempData["contact1"] = createContactDto.NameSurname;
+                TempData["contact2"] = createContactDto.Email;
+                TempData["contact3"] = createContactDto.Subject;
+                TempData["contact4"] = createContactDto.Message;
+                TempData["contact5"] = createContactDto.SendDate.ToString("dd-MMM-yyyy HH:mm");
+                return RedirectToAction("Index", "Contact");
+            }
+            return NoContent();
         }
     }
 }

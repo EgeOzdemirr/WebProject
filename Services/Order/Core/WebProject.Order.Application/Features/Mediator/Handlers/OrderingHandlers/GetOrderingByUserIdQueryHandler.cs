@@ -14,21 +14,19 @@ namespace WebProject.Order.Application.Features.Mediator.Handlers.OrderingHandle
     public class GetOrderingByUserIdQueryHandler : IRequestHandler<GetOrderingByUserIdQuery, List<GetOrderingByUserIdQueryResult>>
     {
         private readonly IOrderingRepository _orderingRepository;
-
         public GetOrderingByUserIdQueryHandler(IOrderingRepository orderingRepository)
         {
             _orderingRepository = orderingRepository;
         }
-
         public async Task<List<GetOrderingByUserIdQueryResult>> Handle(GetOrderingByUserIdQuery request, CancellationToken cancellationToken)
         {
             var values = _orderingRepository.GetOrderingsByUserId(request.Id);
             return values.Select(x => new GetOrderingByUserIdQueryResult
             {
                 OrderingId = x.OrderingId,
-                UserId = x.UserId,
+                OrderDate = x.OrderDate,
                 TotalPrice = x.TotalPrice,
-                OrderDate = x.OrderDate
+                UserId = x.UserId,
             }).ToList();
         }
     }

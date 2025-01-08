@@ -30,19 +30,23 @@ namespace WebProject.Order.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"), 1L, 1);
 
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressLine2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Detail1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Detail2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -53,6 +57,12 @@ namespace WebProject.Order.Persistence.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsInvoice")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Isdefault")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

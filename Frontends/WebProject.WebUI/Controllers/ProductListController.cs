@@ -2,58 +2,67 @@
 using Newtonsoft.Json;
 using System.Text;
 using WebProject.DtoLayer.CommentDtos;
+using WebProject.WebUI.Services.CatalogServices.ProductServices;
+using WebProject.WebUI.Services.CommentServices;
 
 namespace WebProject.WebUI.Controllers
 {
     public class ProductListController : Controller
     {
+        private readonly IProductService _productService;
+        private readonly ICommentService _commentService;
         private readonly IHttpClientFactory _httpClientFactory;
-        public ProductListController(IHttpClientFactory httpClientFactory)
+        public ProductListController(IHttpClientFactory httpClientFactory, IProductService productService, ICommentService commentService)
         {
             _httpClientFactory = httpClientFactory;
+            _productService = productService;
+            _commentService = commentService;
         }
         public IActionResult Index(string id)
         {
-            ViewBag.directory1 = "Ana Sayfa";
-            ViewBag.directory2 = "Ürünler";
-            ViewBag.directory3 = "Ürün Listesi";
-            ViewBag.i = id;
+            ViewBag.Dr1 = "Anasayfa";
+            ViewBag.Dr2 = "/Default/Index/";
+            ViewBag.Dr3 = "Ürünler";
+            ViewBag.Dr4 = "/ProductList/Index/";
+            ViewBag.Dr5 = "Ürün Listesi";
+            if (id != null)
+            {
+                ViewData["cId"] = id;
+            }
             return View();
         }
-
-        public IActionResult ProductDetail(string id)
+        public async Task<IActionResult> ProductDetail(string id)
         {
+            ViewBag.Dr1 = "Anasayfa";
+            ViewBag.Dr2 = "/Default/Index/";
+            ViewBag.Dr3 = "Ürünler";
+            ViewBag.Dr4 = "/ProductList/Index/";
 
-            ViewBag.directory1 = "Ana Sayfa";
-            ViewBag.directory2 = "Ürün Listesi";
-            ViewBag.directory3 = "Ürün Detayları";
-            ViewBag.x = id;
+            if (id != null)
+            {
+                ViewData["pId"] = id;
+                var product = await _productService.GetByIdProductAsync(id);
+                ViewBag.Dr5 = product.ProductName;
+                ViewBag.pDId = product.ProductId;
+            }
             return View();
         }
-
-        [HttpGet]
-        public PartialViewResult AddComment()
-        {
-            return PartialView();
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddComment(CreateCommentDto createCommentDto)
         {
-            createCommentDto.ImageUrl = "test";
-            createCommentDto.Rating = 1;
-            createCommentDto.CreatedDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+            createCommentDto.CreatedDate = DateTime.Now;
+            createCommentDto.ImageUrl = "yok";
             createCommentDto.Status = false;
-            createCommentDto.ProductId = "6712dcd075345c643165a137";
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createCommentDto);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7186/api/Comments", stringContent);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Default");
-            }
-            return View();
+            await _commentService.CreateCommentAsync(createCommentDto);
+            //var client = _httpClientFactory.CreateClient();
+            //var jsondata = JsonConvert.SerializeObject(createCommentDto);
+            //StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
+            //var responseMessage = await client.PostAsync("http://localhost:7123/api/Comments", stringContent);
+            //if (responseMessage.IsSuccessStatusCode)
+            //{
+            //    return RedirectToAction("Index", "Default");
+            //}
+            return RedirectToAction("ProductDetail", "ProductList", new { id = createCommentDto.ProductId });
         }
     }
 }

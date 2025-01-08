@@ -12,7 +12,6 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
     public class GetAddressQueryHandler
     {
         private readonly IRepository<Address> _repository;
-
         public GetAddressQueryHandler(IRepository<Address> repository)
         {
             _repository = repository;
@@ -23,10 +22,20 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
             return values.Select(x => new GetAddressQueryResult
             {
                 AddressId = x.AddressId,
-                UserId = x.UserId,
-                District = x.District,
                 City = x.City,
-                Detail = x.AddressLine1
+                Detail1 = x.Detail1,
+                District = x.District,
+                UserId = x.UserId,
+                Detail2 = x.Detail2,
+                Country = x.Country,
+                Description = x.Description,
+                Email = x.Email,
+                Name = x.Name,
+                Phone = x.Phone,
+                Surname = x.Surname,
+                ZipCode = x.ZipCode,
+                Isdefault = x.Isdefault,
+                IsInvoice = x.IsInvoice
             }).ToList();
         }
     }

@@ -6,7 +6,7 @@ using WebProject.Catalog.Services.ProductImageServices;
 
 namespace WebProject.Catalog.Controllers
 {
-	[Authorize]
+    //[Authorize]
 	[Route("api/[controller]")]
     [ApiController]
     public class ProductImagesController : ControllerBase

@@ -12,7 +12,6 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
     public class CreateAddressCommandHandler
     {
         private readonly IRepository<Address> _repository;
-
         public CreateAddressCommandHandler(IRepository<Address> repository)
         {
             _repository = repository;
@@ -21,17 +20,20 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
         {
             await _repository.CreateAsync(new Address
             {
-                UserId = createAddressCommand.UserId,
-                Name = createAddressCommand.Name,
-                Surname = createAddressCommand.Surname,
-                Email = createAddressCommand.Email,
-                Phone = createAddressCommand.Phone,
-                AddressLine1 = createAddressCommand.AddressLine1,
-                AddressLine2 = createAddressCommand.AddressLine2,
-                Country = createAddressCommand.Country,
                 City = createAddressCommand.City,
+                Detail1 = createAddressCommand.Detail1,
                 District = createAddressCommand.District,
-                ZipCode = createAddressCommand.ZipCode
+                UserId = createAddressCommand.UserId,
+                Detail2 = createAddressCommand.Detail2,
+                Country = createAddressCommand.Country,
+                Description = createAddressCommand.Description,
+                Email = createAddressCommand.Email,
+                Name = createAddressCommand.Name,
+                Phone = createAddressCommand.Phone,
+                Surname = createAddressCommand.Surname,
+                ZipCode = createAddressCommand.ZipCode,
+                Isdefault = createAddressCommand.Isdefault,
+                IsInvoice = createAddressCommand.IsInvoice
             });
         }
     }

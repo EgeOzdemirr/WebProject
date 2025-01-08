@@ -5,16 +5,17 @@ namespace WebProject.SignalRRealTimeApi.Services.SignalRMessageServices
 {
     public class SignalRMessageService : ISignalRMessageService
     {
-        private readonly HttpClient _httpClient;
-        public SignalRMessageService(HttpClient httpClient)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public SignalRMessageService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
-        public async Task<int> GetTotalMessageCountByReceiverId(string id)
+        public async Task<int> GetTotalMessageCount()
         {
-            var responseMessage = await _httpClient.GetAsync("UserMessages/GetTotalMessageCountByReceiverId?id=" + id);
-            var values = await responseMessage.Content.ReadFromJsonAsync<int>();
-            return values;
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("http://localhost:7078/api/UserMessageStatistics");
+            var value = await responseMessage.Content.ReadFromJsonAsync<int>();
+            return value;
         }
     }
 }

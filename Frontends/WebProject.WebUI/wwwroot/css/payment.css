@@ -1,0 +1,8 @@
+﻿#order-message {
+    opacity: 1;
+    transition: opacity 2s ease-out;
+}
+
+#order-message.hidden {
+    opacity: 0;
+}

@@ -6,7 +6,7 @@ using WebProject.Catalog.Services.ProductDetailServices;
 
 namespace WebProject.Catalog.Controllers
 {
-	[Authorize]
+    //[Authorize]
 	[Route("api/[controller]")]
     [ApiController]
     public class ProductDetailsController : ControllerBase

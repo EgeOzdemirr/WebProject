@@ -71,7 +71,7 @@ namespace WebProject.Cargo.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Surname")
+                    b.Property<string>("SurName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -139,12 +139,17 @@ namespace WebProject.Cargo.DataAccessLayer.Migrations
             modelBuilder.Entity("WebProject.Cargo.EntityLayer.Concrete.CargoDetail", b =>
                 {
                     b.HasOne("WebProject.Cargo.EntityLayer.Concrete.CargoCompany", "CargoCompany")
-                        .WithMany()
+                        .WithMany("CargoDetails")
                         .HasForeignKey("CargoCompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CargoCompany");
+                });
+
+            modelBuilder.Entity("WebProject.Cargo.EntityLayer.Concrete.CargoCompany", b =>
+                {
+                    b.Navigation("CargoDetails");
                 });
 #pragma warning restore 612, 618
         }

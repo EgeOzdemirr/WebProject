@@ -13,19 +13,17 @@ namespace WebProject.Order.Application.Features.Mediator.Handlers.OrderingHandle
     public class CreateOrderingCommandHandler : IRequestHandler<CreateOrderingCommand>
     {
         private readonly IRepository<Ordering> _repository;
-
         public CreateOrderingCommandHandler(IRepository<Ordering> repository)
         {
             _repository = repository;
         }
-
         public async Task Handle(CreateOrderingCommand request, CancellationToken cancellationToken)
         {
             await _repository.CreateAsync(new Ordering
             {
-                UserId = request.UserId,
-                TotalPrice = request.TotalPrice,
                 OrderDate = request.OrderDate,
+                TotalPrice = request.TotalPrice,
+                UserId = request.UserId,
             });
         }
     }

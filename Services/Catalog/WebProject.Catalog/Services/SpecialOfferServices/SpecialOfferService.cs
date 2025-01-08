@@ -11,7 +11,6 @@ namespace WebProject.Catalog.Services.SpecialOfferServices
     {
         private readonly IMongoCollection<SpecialOffer> _specialOfferCollection;
         private readonly IMapper _mapper;
-
         public SpecialOfferService(IMapper mapper, IDatabaseSettings _databaseSettings)
         {
             var client = new MongoClient(_databaseSettings.ConnectionString);
@@ -24,24 +23,20 @@ namespace WebProject.Catalog.Services.SpecialOfferServices
             var value = _mapper.Map<SpecialOffer>(createSpecialOfferDto);
             await _specialOfferCollection.InsertOneAsync(value);
         }
-
         public async Task DeleteSpecialOfferAsync(string id)
         {
             await _specialOfferCollection.DeleteOneAsync(x => x.SpecialOfferId == id);
         }
-
         public async Task<List<ResultSpecialOfferDto>> GetAllSpecialOfferAsync()
         {
             var values = await _specialOfferCollection.Find(x => true).ToListAsync();
             return _mapper.Map<List<ResultSpecialOfferDto>>(values);
         }
-
         public async Task<GetByIdSpecialOfferDto> GetByIdSpecialOfferAsync(string id)
         {
             var values = await _specialOfferCollection.Find<SpecialOffer>(x => x.SpecialOfferId == id).FirstOrDefaultAsync();
             return _mapper.Map<GetByIdSpecialOfferDto>(values);
         }
-
         public async Task UpdateSpecialOfferAsync(UpdateSpecialOfferDto updateSpecialOfferDto)
         {
             var values = _mapper.Map<SpecialOffer>(updateSpecialOfferDto);

@@ -19,59 +19,79 @@ namespace WebProject.Message.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllMessage()
         {
-            var values = await _userMessageService.GetAllMessageAsync();
-            return Ok(values);
-        }
-
-        [HttpGet("GetMessageSendbox")]
-        public async Task<IActionResult> GetMessageSendbox(string id)
-        {
-            var values = await _userMessageService.GetSendboxMessageAsync(id);
-            return Ok(values);
-        }
-
-        [HttpGet("GetMessageInbox")]
-        public async Task<IActionResult> GetMessageInbox(string id)
-        {
-            var values = await _userMessageService.GetInboxMessageAsync(id);
+            var values = await _userMessageService.GetAllsAsync();
             return Ok(values);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMessageAsync(CreateMessageDto createMessageDto)
+        public IActionResult CreateMessageAsync(CreateMessageDto createMessageDto)
         {
-            await _userMessageService.CreateMessageAsync(createMessageDto);
-            return Ok("Mesaj başarıyla eklendi");
+            _userMessageService.CreateMessageAsync(createMessageDto);
+            return Ok("Mesaj Başarıyla Eklendi");
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteMessageAsync(int id)
+        [HttpDelete("DeleteMessage/{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
         {
             await _userMessageService.DeleteMessageAsync(id);
-            return Ok("Mesaj başarıyla silindi");
+            return Ok("Mesaj Silindi");
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateMessageAsync(UpdateMessageDto updateMessageDto)
+        public IActionResult UpdateMessage(UpdateMessageDto updateMessageDto)
         {
-            await _userMessageService.UpdateMessageAsync(updateMessageDto);
-            return Ok("Mesaj başarıyla güncellendi");
+            _userMessageService.UpdateMessageAsync(updateMessageDto);
+            return Ok("Mesaj Başarıyla Güncellendi");
         }
 
+        [HttpGet("GetInboxMessages/{id}")]
+        public async Task<IActionResult> GetInboxMessages(string id)
+        {
+            var values = await _userMessageService.GetInboxMessagesAsync(id);
+            return Ok(values);
+        }
+
+        [HttpGet("GetSendboxMessages/{id}")]
+        public async Task<IActionResult> GetSendboxMessages(string id)
+        {
+            var values = await _userMessageService.GetSendboxMessagesAsync(id);
+            return Ok(values);
+        }
+        [HttpGet("GetMessageById/{id}")]
+        public async Task<IActionResult> GetMessageById(int id)
+        {
+            var values = await _userMessageService.GetByIdMessagesAsync(id);
+            return Ok(values);
+        }
         [HttpGet("GetTotalMessageCount")]
         public async Task<IActionResult> GetTotalMessageCount()
         {
-            int values = await _userMessageService.GetTotalMessageCount();
-            return Ok(values);
+            var value = await _userMessageService.GetTotalMessageCount();
+            return Ok(value);
         }
-        
-        [HttpGet("GetTotalMessageCountByReceiverId")]
+        [HttpGet("GetReadedMessageCount")]
+        public async Task<IActionResult> GetReadedMessageCount()
+        {
+            var value = await _userMessageService.GetReadedMessageCount();
+            return Ok(value);
+        }
+        [HttpGet("GetNonReadedMessageCount")]
+        public async Task<IActionResult> GetNonReadedMessageCount()
+        {
+            var value = await _userMessageService.GetNonReadedMessageCount();
+            return Ok(value);
+        }
+        [HttpGet("GetTotalMessageCountByReceiverId/{id}")]
         public async Task<IActionResult> GetTotalMessageCountByReceiverId(string id)
         {
-            int values = await _userMessageService.GetTotalMessageCountByReceiverId(id);
-            return Ok(values);
+            var value = await _userMessageService.GetTotalMessageCountByReceiverId(id);
+            return Ok(value);
         }
-
-
+        [HttpGet("GeUnReadedInboxMessages/{id}")]
+        public async Task<IActionResult> GeUnReadedInboxMessages(string id)
+        {
+            var value = await _userMessageService.GetUnreadedInboxMessages(id);
+            return Ok(value);
+        }
     }
 }

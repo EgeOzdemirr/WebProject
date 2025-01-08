@@ -8,6 +8,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ContactServices
         Task CreateContactAsync(CreateContactDto createContactDto);
         Task UpdateContactAsync(UpdateContactDto updateContactDto);
         Task DeleteContactAsync(string id);
-        Task<GetByIdContactDto> GetByIdContactAsync(string id);
+        Task<UpdateContactDto> GetByIdContactAsync(string id);
     }
 }

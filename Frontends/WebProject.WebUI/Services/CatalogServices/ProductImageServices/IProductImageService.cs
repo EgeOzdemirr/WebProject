@@ -8,7 +8,7 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductImageServices
         Task CreateProductImageAsync(CreateProductImageDto createProductImageDto);
         Task UpdateProductImageAsync(UpdateProductImageDto updateProductImageDto);
         Task DeleteProductImageAsync(string id);
-        Task<GetByIdProductImageDto> GetByIdProductImageAsync(string id);
-        Task<GetByIdProductImageDto> GetByProductIdProductImageAsync(string id);
+        Task<UpdateProductImageDto> GetByIdProductImageAsync(string id);
+        Task<List<UpdateProductImageDto>> GetByProductIdProductImageAsync(string id);
     }
 }

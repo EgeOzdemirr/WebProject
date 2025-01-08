@@ -13,7 +13,6 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
     public class GetAddressByIdQueryHandler
     {
         private readonly IRepository<Address> _repository;
-
         public GetAddressByIdQueryHandler(IRepository<Address> repository)
         {
             _repository = repository;
@@ -24,10 +23,20 @@ namespace WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers
             return new GetAddressByIdQueryResult
             {
                 AddressId = values.AddressId,
-                UserId = values.UserId,
-                District = values.District,
                 City = values.City,
-                Detail = values.AddressLine1
+                Detail1 = values.Detail1,
+                District = values.District,
+                UserId = values.UserId,
+                Detail2 = values.Detail2,
+                Country = values.Country,
+                Description = values.Description,
+                Email = values.Email,
+                Name = values.Name,
+                Phone = values.Phone,
+                Surname = values.Surname,
+                ZipCode = values.ZipCode,
+                Isdefault = values.Isdefault,
+                IsInvoice = values.IsInvoice
             };
         }
     }

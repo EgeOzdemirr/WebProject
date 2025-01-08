@@ -18,45 +18,41 @@ namespace WebProject.Cargo.WebApi.Controllers
         {
             _cargoCustomerService = customerService;
         }
-
         [HttpGet]
-        public IActionResult CargoCustomerList()
+        public IActionResult GetCargoCustomerList()
         {
             var values = _cargoCustomerService.TGetAll();
             return Ok(values);
         }
-        [HttpGet("{id}")]
-        public IActionResult GetCargoCustomerById(int id)
-        {
-            var value = _cargoCustomerService.TGetById(id);
-            return Ok(value);
-        }
-
         [HttpPost]
         public IActionResult CreateCargoCustomer(CreateCargoCustomerDto createCargoCustomerDto)
         {
             CargoCustomer cargoCustomer = new CargoCustomer()
             {
                 Name = createCargoCustomerDto.Name,
-                Surname = createCargoCustomerDto.Surname,
+                SurName = createCargoCustomerDto.Surname,
                 Email = createCargoCustomerDto.Email,
                 Phone = createCargoCustomerDto.Phone,
-                District = createCargoCustomerDto.District,
                 City = createCargoCustomerDto.City,
+                District = createCargoCustomerDto.District,
                 Address = createCargoCustomerDto.Address,
                 UserCustomerId = createCargoCustomerDto.UserCustomerId
             };
             _cargoCustomerService.TInsert(cargoCustomer);
-            return Ok("Kargo Müşteri Ekleme İşlemi Başarıyla Yapıldı");
+            return Ok("Kargo Müşterisi Başarıyla Oluşturuldu");
         }
-
-        [HttpDelete]
+        [HttpDelete("RemoveCargoCustomer/{id}")]
         public IActionResult RemoveCargoCustomer(int id)
         {
             _cargoCustomerService.TDelete(id);
-            return Ok("Kargo müşteri silme işlemi başarıyla yapıldı");
+            return Ok("Kargo Müşterisi Başarıyla Silindi");
         }
-
+        [HttpGet("GetCargoCustomerById/{id}")]
+        public IActionResult GetCargoCustomerById(int id)
+        {
+            var value = _cargoCustomerService.TGetById(id);
+            return Ok(value);
+        }
         [HttpPut]
         public IActionResult UpdateCargoCustomer(UpdateCargoCustomerDto updateCargoCustomerDto)
         {
@@ -64,23 +60,22 @@ namespace WebProject.Cargo.WebApi.Controllers
             {
                 CargoCustomerId = updateCargoCustomerDto.CargoCustomerId,
                 Name = updateCargoCustomerDto.Name,
-                Surname = updateCargoCustomerDto.Surname,
+                SurName = updateCargoCustomerDto.Surname,
                 Email = updateCargoCustomerDto.Email,
                 Phone = updateCargoCustomerDto.Phone,
-                District = updateCargoCustomerDto.District,
                 City = updateCargoCustomerDto.City,
+                District = updateCargoCustomerDto.District,
                 Address = updateCargoCustomerDto.Address,
                 UserCustomerId = updateCargoCustomerDto.UserCustomerId
             };
             _cargoCustomerService.TUpdate(cargoCustomer);
-            return Ok("Kargo Müşteri Güncelleme İşlemi Başarıyla Yapıldı");
+            return Ok("Kargo Müşterisi Başarıyla Güncellendi");
         }
-
-        [HttpGet("GetCargoCustomerById")]
-        public IActionResult TGetCargoCustomerById(string id)
+        [HttpGet("GetCargoCustomerByUserId/{id}")]
+        public IActionResult GetCargoCustomerByUserId(string id)
         {
-            return Ok(_cargoCustomerService.TGetCargoCustomerById(id));
+            var values = _cargoCustomerService.TGetCargoCustomerById(id);
+            return Ok(values);
         }
-
     }
 }

@@ -10,3 +10,4 @@ Payment  -->  7076
 Image    -->  7077
 Message  -->  7078
 SignalR  -->  7079
+Recommendation --> 7080

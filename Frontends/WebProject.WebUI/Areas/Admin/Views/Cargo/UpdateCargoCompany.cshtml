@@ -8,20 +8,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
-                <h4>Kargo Şirketi Güncelleme Sayfası</h4>
+                <h4>Yeni Kargo Şirketi Güncelleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <input type="hidden" asp-for="cargoCompanyId"/>
-                        <label>Kargo Şirketi Adı</label>
-                        <input type="text" class="form-control" asp-for="cargoCompanyName" />
-                        <br />
-                        <button class="btn btn-success">Kargo Şirketini Güncelle</button>
-                    </form>
-                </div>
+                <form method="post">
+                    <input type="hidden" asp-for="cargoCompanyId">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Şirket Adı</label>
+                        <input type="text" asp-for="cargoCompanyName" class="form-control" placeholder="Şirket Adı" required />
+                    </div>
+                    <button type="submit" class="btn btn-success">Güncelle</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-

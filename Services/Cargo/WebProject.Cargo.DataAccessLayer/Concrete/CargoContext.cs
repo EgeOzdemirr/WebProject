@@ -16,8 +16,8 @@ namespace WebProject.Cargo.DataAccessLayer.Concrete
                 "Catalog=WebProjectCargoDb;User=sa;Password=123456aA*");
         }
         public DbSet<CargoCompany> CargoCompanies { get; set; }
-        public DbSet<CargoCustomer> CargoCustomers { get; set; }
         public DbSet<CargoDetail> CargoDetails { get; set; }
+        public DbSet<CargoCustomer> CargoCustomers { get; set; }
         public DbSet<CargoOperation> CargoOperations { get; set; }
     }
 }

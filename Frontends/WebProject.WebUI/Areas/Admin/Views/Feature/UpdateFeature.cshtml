@@ -8,27 +8,21 @@
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
-                <h4>Öne Çıkan Alan Güncelleme Sayfası</h4>
+                <h4>Öne Çıkan Güncelleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
+                <form method="post">
+                    <div class="form-group">
                         <input type="hidden" asp-for="FeatureId" />
-                        <label>Öne Çıkan Alan Adı</label>
-                        <input type="text" class="form-control" asp-for="Title" />
+                        <label for="exampleInputEmail1">Öne Çıkan Başlığı</label>
+                        <input type="text" asp-for="Title" class="form-control" id="exampleInputEmail1" placeholder="Öne Çıkan Başlığı">
                         <br />
-                        <label>Öne Çıkan Alan İkonu</label>
-                        <input type="text" class="form-control" asp-for="Icon" />
-                        <br />
-                        <button class="btn btn-success">Öne Çıkan Alanı Güncelle</button>
-                    </form>
-                </div>
+                        <label for="exampleInputEmail1">İkon</label>
+                        <input type="text" asp-for="Icon" class="form-control" id="exampleInputEmail1" placeholder="İkon">
+
+                    </div>
+                    <button type="submit" class="btn btn-success">Güncelle</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-
-
-
-
-

@@ -4,6 +4,10 @@ namespace WebProject.WebUI.Services.CargoServices.CargoCustomerServices
 {
     public interface ICargoCustomerService
     {
-        Task<GetCargoCustomerByIdDto> GetByIdCargoCustomerInfoAsync(string id);
+        Task<GetCargoCustomerAddressByIdDto> GetCargoCustomerAddressByUserIdAsync(string id);
+        Task CreateCargoCustomerAddressAsync(CreateCargoCustomerAddressDto createCargoCustomerAddressDto);
+        Task UpdateCargoCustomerAddressAsync(UpdateCargoCustomerAddressDto updateCargoCustomerAddressDto);
+        Task DeleteCargoCustomerAddressAsync(int id);
+        Task<UpdateCargoCustomerAddressDto> GetByIdCargoCustomerAddressAsync(int id);
     }
 }

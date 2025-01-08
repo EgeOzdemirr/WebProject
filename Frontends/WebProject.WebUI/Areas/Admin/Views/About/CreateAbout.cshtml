@@ -8,28 +8,26 @@
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
-                <h4>Hakkımda Alanı Ekleme Sayfası</h4>
+                <h4>Yeni Hakkımızda Ekleme Sayfası</h4>
                 <br />
-                <div class="bs-example" data-example-id="bordered-table">
-                    <form method="post">
-                        <label>Açıklama</label>
-                        <input type="text" class="form-control" asp-for="Description" />
+                <form method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Açıklama</label>
+                        <input type="text" asp-for="Description" class="form-control" id="exampleInputEmail1" placeholder="Açıklama">
                         <br />
-                        <label>Adres</label>
-                        <input type="text" class="form-control" asp-for="Address" />
+                        <label for="exampleInputEmail1">Adres</label>
+                        <input type="text" asp-for="Address" class="form-control" id="exampleInputEmail1" placeholder="Adres">
                         <br />
-                        <label>Email</label>
-                        <input type="text" class="form-control" asp-for="Email" />
+                        <label for="exampleInputEmail1">E-Mail</label>
+                        <input type="text" asp-for="Email" class="form-control" id="exampleInputEmail1" placeholder="E-Mail">
                         <br />
-                        <label>Telefon</label>
-                        <input type="text" class="form-control" asp-for="Phone" />
-                        <br />                 
-                        <button class="btn btn-success">Hakkımda Alanını Ekle</button>
-                    </form>
-                </div>
+                        <label for="exampleInputEmail1">Telefon</label>
+                        <input type="text" asp-for="Phone" class="form-control" id="exampleInputEmail1" placeholder="Telefon">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
 

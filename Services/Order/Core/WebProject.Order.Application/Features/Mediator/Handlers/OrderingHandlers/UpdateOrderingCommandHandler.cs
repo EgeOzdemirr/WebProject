@@ -17,12 +17,11 @@ namespace WebProject.Order.Application.Features.Mediator.Handlers.OrderingHandle
         {
             _repository = repository;
         }
-
         public async Task Handle(UpdateOrderingCommand request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetByIdAsync(request.OrderingId);
-            values.UserId = request.UserId;
             values.OrderDate = request.OrderDate;
+            values.UserId = request.UserId;
             values.TotalPrice = request.TotalPrice;
             await _repository.UpdateAsync(values);
         }

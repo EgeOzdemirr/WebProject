@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebProject.DtoLayer.CatalogDtos.ProductDtos;
+using WebProject.WebUI.Services.CatalogServices.CategoryServices;
 using WebProject.WebUI.Services.CatalogServices.ProductServices;
 
 namespace WebProject.WebUI.ViewComponents.ProductListViewComponents
@@ -8,16 +9,27 @@ namespace WebProject.WebUI.ViewComponents.ProductListViewComponents
     public class _ProductListComponentPartial:ViewComponent
     {
         private readonly IProductService _productService;
-
-        public _ProductListComponentPartial(IProductService productService)
+        private readonly ICategoryService _categoryService;
+        public _ProductListComponentPartial(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
-
         public async Task<IViewComponentResult> InvokeAsync(string id)
         {
-            var values = await _productService.GetProductsWithCategoryByCategoryIdAsync(id);
-            return View(values);
+            if (id == null)
+            {
+                var values = await _productService.GetProductsWithCategoryAsync();
+                return View(values);
+            }
+            else
+            {
+                var values2 = await _categoryService.GetByIdCategoryAsync(id);
+
+                var values = await _categoryService.GetProductsByCategoryIdAsync(id);
+                ViewBag.ct = values.Count > 0 ? values2.CategoryName + " " + "Kategorisindeki Ürünler" : values2.CategoryName + " " + "Kategorisinde Henüz Ürün Yok";
+                return View(values);
+            }
         }
     }
 }

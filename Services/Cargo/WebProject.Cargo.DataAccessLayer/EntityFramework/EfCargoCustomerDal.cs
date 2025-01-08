@@ -19,7 +19,7 @@ namespace WebProject.Cargo.DataAccessLayer.EntityFramework
         }
         public CargoCustomer GetCargoCustomerById(string id)
         {
-            var values = _cargoContext.CargoCustomers.Where(x=> x.UserCustomerId == id).FirstOrDefault();
+            var values = _cargoContext.CargoCustomers.Where(x => x.UserCustomerId == id).FirstOrDefault();
             return values;
         }
     }

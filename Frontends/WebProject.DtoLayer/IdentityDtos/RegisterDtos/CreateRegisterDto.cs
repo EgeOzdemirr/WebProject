@@ -14,5 +14,6 @@ namespace WebProject.DtoLayer.IdentityDtos.RegisterDtos
 		public string Surname { get; set; }
 		public string Password { get; set; }
 		public string ConfirmPassword { get; set; }
-	}
+        public bool TermsIsAccepted { get; set; }
+    }
 }

@@ -4,10 +4,11 @@ namespace WebProject.WebUI.Services.OrderServices.OrderAddressServices
 {
     public interface IOrderAddressService
     {
-        //Task<List<ResultAboutDto>> GetAllAboutAsync();
-        Task CreateOrderAddressAsync(CreateOrderAddressDto createOrderAdressDto);
-        //Task UpdateAboutAsync(UpdateAboutDto updateAboutDto);
-        //Task DeleteAboutAsync(string id);
-        //Task<UpdateAboutDto> GetByIdAboutAsync(string id);
+        Task<List<ResultAddressesByUserDto>> GetAllAddressAsync();
+        Task<List<UpdateOrderAddressDto>> GetAddressesByUserIdAsync(string id);
+        Task CreateAddressAsync(CreateOrderAddressDto createOrderAddressDto);
+        Task UpdateAddressAsync(UpdateOrderAddressDto updateOrderAddressDto);
+        Task DeleteAddressAsync(int id);
+        Task<UpdateOrderAddressDto> GetByIdAddressAsync(int id);
     }
 }

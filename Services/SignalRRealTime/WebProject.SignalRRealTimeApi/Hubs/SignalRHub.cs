@@ -7,21 +7,20 @@ namespace WebProject.SignalRRealTimeApi.Hubs
 {
     public class SignalRHub : Hub
     {
+        private readonly ISignalRMessageService _signalRMessageService;
         private readonly ISignalRCommentService _signalRCommentService;
-        // private readonly ISignalRMessageService _signalRMessageService;
-        public SignalRHub(ISignalRCommentService signalRCommentService /*ISignalRMessageService signalRMessageService*/)
+        public SignalRHub(ISignalRCommentService signalRCommentService, ISignalRMessageService signalRMessageService)
         {
             _signalRCommentService = signalRCommentService;
-            //_signalRMessageService = signalRMessageService;
+            _signalRMessageService = signalRMessageService;
         }
-
         public async Task SendStatisticCount()
         {
-            var getTotalCommentCount = await _signalRCommentService.GetTotalCommentCount();
-            await Clients.All.SendAsync("ReceiveCommentCount",getTotalCommentCount);
+            var getTotalCommentCount = await _signalRCommentService.GetCommentsCount();
+            await Clients.All.SendAsync("ReceiveCommentCount", getTotalCommentCount);
 
-            //var getTotalMessageCount = await _signalRMessageService.GetTotalMessageCountByReceiverId(id);
-            //await Clients.All.SendAsync("ReceiveMessageCount", getTotalMessageCount);
+            var getTotalMessageCount = await _signalRMessageService.GetTotalMessageCount();
+            await Clients.All.SendAsync("ReceiveMessageCount", getTotalMessageCount);
         }
     }
 }

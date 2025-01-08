@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Security.Claims;
 using WebProject.DtoLayer.IdentityDtos.LoginDtos;
 using WebProject.WebUI.Services.Interfaces;
 using WebProject.WebUI.Settings;
+using System.Security.Claims;
 
 namespace WebProject.WebUI.Services.Concretes
 {
@@ -17,8 +17,7 @@ namespace WebProject.WebUI.Services.Concretes
         private readonly ClientSettings _clientSettings;
         private readonly ServiceApiSettings _serviceApiSettings;
 
-        public IdentityService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings,
-            IOptions<ServiceApiSettings> serviceApiSettings)
+        public IdentityService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings, IOptions<ServiceApiSettings> serviceApiSettings)
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
@@ -73,49 +72,48 @@ namespace WebProject.WebUI.Services.Concretes
             var properties = result.Properties;
             properties.StoreTokens(authenticationToken);
 
-            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,result.Principal, properties);
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal, properties);
 
             return true;
         }
 
-    public async Task<bool> SignIn(SignInDto signInDto)
-    {
-        var discoveryEndPoint = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+        public async Task<bool> SignIn(SignInDto signInDto)
         {
-            Address = _serviceApiSettings.IdentityServerUrl,
-            Policy = new DiscoveryPolicy
+            var discoveryEndPoint = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                RequireHttps = false
-            }
-        });
+                Address = _serviceApiSettings.IdentityServerUrl,
+                Policy = new DiscoveryPolicy
+                {
+                    RequireHttps = false
+                }
+            });
 
-        var passwordTokenRequest = new PasswordTokenRequest
-        {
-            ClientId = _clientSettings.WebProjectManagerClient.ClientId,
-            ClientSecret = _clientSettings.WebProjectManagerClient.ClientSecret,
-            UserName = signInDto.UserName,
-            Password = signInDto.Password,
-            Address = discoveryEndPoint.TokenEndpoint
-        };
+            var passwordTokenRequest = new PasswordTokenRequest
+            {
+                ClientId = _clientSettings.WebProjectManagerClient.ClientId,
+                ClientSecret = _clientSettings.WebProjectManagerClient.ClientSecret,
+                UserName = signInDto.UserName,
+                Password = signInDto.Password,
+                Address = discoveryEndPoint.TokenEndpoint,
+            };
 
-        var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
+            var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
 
-        var userInfoRequest = new UserInfoRequest
-        {
-            Token = token.AccessToken,
-            Address = discoveryEndPoint.UserInfoEndpoint
-        };
+            var userInfoRequest = new UserInfoRequest
+            {
+                Token = token.AccessToken,
+                Address = discoveryEndPoint.UserInfoEndpoint
+            };
 
-        var userValues = await _httpClient.GetUserInfoAsync(userInfoRequest);
+            var userValues = await _httpClient.GetUserInfoAsync(userInfoRequest);
 
-        ClaimsIdentity claimsIdentity = new ClaimsIdentity(userValues.Claims,
-            CookieAuthenticationDefaults.AuthenticationScheme, "name", "role");
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(userValues.Claims, CookieAuthenticationDefaults.AuthenticationScheme, "name", "role");
 
-        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-        var authenticationProperties = new AuthenticationProperties();
+            var authenticationProperties = new AuthenticationProperties();
 
-        authenticationProperties.StoreTokens(new List<AuthenticationToken>()
+            authenticationProperties.StoreTokens(new List<AuthenticationToken>()
             {
                 new AuthenticationToken
                 {
@@ -134,11 +132,11 @@ namespace WebProject.WebUI.Services.Concretes
                 }
             });
 
-        authenticationProperties.IsPersistent = false;
+            authenticationProperties.IsPersistent = false;
 
-        await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
 
-        return true;
+            return true;
+        }
     }
-}
 }

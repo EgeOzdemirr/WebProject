@@ -13,44 +13,38 @@ namespace WebProject.Cargo.WebApi.Controllers
     public class CargoCompaniesController : ControllerBase
     {
         private readonly ICargoCompanyService _cargoCompanyService;
-
         public CargoCompaniesController(ICargoCompanyService cargoCompanyService)
         {
             _cargoCompanyService = cargoCompanyService;
         }
-
         [HttpGet]
-        public IActionResult CargoCompanyList()
+        public IActionResult GetCargoCompanyList()
         {
             var values = _cargoCompanyService.TGetAll();
             return Ok(values);
         }
-
-        [HttpGet("{id}")]
-        public IActionResult GetCargoCompanyById(int id)
-        {
-            var value = _cargoCompanyService.TGetById(id);
-            return Ok(value);
-        }
-
         [HttpPost]
         public IActionResult CreateCargoCompany(CreateCargoCompanyDto createCargoCompanyDto)
         {
             CargoCompany cargoCompany = new CargoCompany()
             {
-                CargoCompanyName = createCargoCompanyDto.CargoCompanyName
+                CargoCompanyName = createCargoCompanyDto.CargoCompanyName,
             };
             _cargoCompanyService.TInsert(cargoCompany);
-            return Ok("Kargo şirketi başarıyla oluşturuldu");
+            return Ok("Kargo Şirketi Başarıyla Oluşturuldu");
         }
-
-        [HttpDelete]
+        [HttpDelete("RemoveCargoCompany/{id}")]
         public IActionResult RemoveCargoCompany(int id)
         {
             _cargoCompanyService.TDelete(id);
-            return Ok("Kargo şirketi başarıyla silindi");
+            return Ok("Kargo Şirketi Başarıyla Silindi");
         }
-
+        [HttpGet("GetCargoCompanyById/{id}")]
+        public IActionResult GetCargoCompanyById(int id)
+        {
+            var value = _cargoCompanyService.TGetById(id);
+            return Ok(value);
+        }
         [HttpPut]
         public IActionResult UpdateCargoCompany(UpdateCargoCompanyDto updateCargoCompanyDto)
         {
@@ -60,7 +54,7 @@ namespace WebProject.Cargo.WebApi.Controllers
                 CargoCompanyName = updateCargoCompanyDto.CargoCompanyName
             };
             _cargoCompanyService.TUpdate(cargoCompany);
-            return Ok("Kargo şirketi başarıyla güncellendi");
+            return Ok("Kargo Şirketi Başarıyla Güncellendi");
         }
     }
 }

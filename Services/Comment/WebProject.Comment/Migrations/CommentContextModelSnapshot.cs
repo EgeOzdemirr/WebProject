@@ -30,6 +30,10 @@ namespace WebProject.Comment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserCommentId"), 1L, 1);
 
+                    b.Property<string>("CommentDetail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -50,10 +54,6 @@ namespace WebProject.Comment.Migrations
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
-
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
