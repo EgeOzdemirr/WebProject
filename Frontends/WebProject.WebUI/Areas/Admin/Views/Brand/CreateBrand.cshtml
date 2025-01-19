@@ -16,7 +16,9 @@
                         <input type="text" asp-for="BrandName" class="form-control" id="brandName" placeholder="Marka Adı">
                         <br />
                         <label for="brandImage">Marka Görseli</label>
-                        <input type="file" asp-for="Image" class="form-control" id="brandImage">
+                        <input type="text" asp-for="ImageUrl" class="form-control" id="brandImage"
+                               value="/images/brandsImages/"
+                               onfocus="moveCursorToEnd(this)">
                         <br />
                     </div>
                     <button type="submit" class="btn btn-primary">Kaydet</button>
@@ -25,3 +27,16 @@
         </div>
     </div>
 </section>
+
+<script>
+    function moveCursorToEnd(input) {
+        // Input alanının değer uzunluğunu al
+        const length = input.value.length;
+
+        // İmleci metnin sonuna taşı
+        input.setSelectionRange(length, length);
+
+        // Input alanına odaklan
+        input.focus();
+    }
+</script>

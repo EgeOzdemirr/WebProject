@@ -19,7 +19,9 @@
                         <input type="text" asp-for="SubTitle" class="form-control" id="exampleInputEmail1" placeholder="Teklif Alt Başlığı">
                         <br />
                         <label for="exampleInputEmail1">İndirim Teklifi Görseli</label>
-                        <input type="text" asp-for="ImageUrl" class="form-control" id="exampleInputEmail1" placeholder="Görsel">
+                        <input type="text" asp-for="ImageUrl" class="form-control" id="exampleInputEmail1"
+                               value="/images/salesImages/"
+                               onfocus="moveCursorToEnd(this)">
                         <br />
                         <label for="exampleInputEmail1">Buton Metni</label>
                         <input type="text" asp-for="ButtonTitle" class="form-control" id="exampleInputEmail1" placeholder="Buton Metni">
@@ -31,3 +33,16 @@
         </div>
     </div>
 </section>
+
+<script>
+    function moveCursorToEnd(input) {
+        // Input alanının değer uzunluğunu al
+        const length = input.value.length;
+
+        // İmleci metnin sonuna taşı
+        input.setSelectionRange(length, length);
+
+        // Input alanına odaklan
+        input.focus();
+    }
+</script>

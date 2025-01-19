@@ -16,82 +16,26 @@
             <li class="nav-item dropdown mr-1">
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                     <i class="mdi mdi-calendar mx-0"></i>
-                    <span class="count bg-info">2</span>
+                    <span class="count bg-info">0</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                    <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <img src="~/spica/images/faces/face4.jpg" alt="image" class="profile-pic">
-                        </div>
-                        <div class="preview-item-content flex-grow">
-                            <h6 class="preview-subject ellipsis font-weight-normal">
-                                David Grey
-                            </h6>
-                            <p class="font-weight-light small-text text-muted mb-0">
-                                The meeting is cancelled
-                            </p>
-                        </div>
-                    </a>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <img src="~/spica/images/faces/face2.jpg" alt="image" class="profile-pic">
-                        </div>
-                        <div class="preview-item-content flex-grow">
-                            <h6 class="preview-subject ellipsis font-weight-normal">
-                                Tim Cook
-                            </h6>
-                            <p class="font-weight-light small-text text-muted mb-0">
-                                New product launch
-                            </p>
-                        </div>
-                    </a>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <img src="~/spica/images/faces/face3.jpg" alt="image" class="profile-pic">
-                        </div>
-                        <div class="preview-item-content flex-grow">
-                            <h6 class="preview-subject ellipsis font-weight-normal">
-                                Johnson
-                            </h6>
-                            <p class="font-weight-light small-text text-muted mb-0">
-                                Upcoming board meeting
-                            </p>
-                        </div>
-                    </a>
+                    <p class="mb-0 font-weight-normal float-left dropdown-header">Mesajlar</p>
+                    <a class="dropdown-item preview-item">Mesajınız bulunmamaktadır.</a>
                 </div>
             </li>
             <li class="nav-item dropdown mr-2">
                 <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
                     <i class="mdi mdi-email-open mx-0"></i>
-                    <span class="count bg-danger">1</span>
+                    <span class="count bg-danger">0</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                    <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                                <i class="mdi mdi-information mx-0"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                Just now
-                            </p>
-                        </div>
-                    </a>
+                    <p class="mb-0 font-weight-normal float-left dropdown-header">Bildirimler</p>
+                    <a class="dropdown-item preview-item">Bekleyen Bildirim Bulunmamaktadır.</a>
                     <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-warning">
                                 <i class="mdi mdi-settings mx-0"></i>
                             </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Settings</h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                Private message
-                            </p>
                         </div>
                     </a>
                     <a class="dropdown-item preview-item">
@@ -99,12 +43,6 @@
                             <div class="preview-icon bg-info">
                                 <i class="mdi mdi-account-box mx-0"></i>
                             </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                2 days ago
-                            </p>
                         </div>
                     </a>
                 </div>
@@ -115,43 +53,11 @@
         </button>
     </div>
     <div class="navbar-menu-wrapper navbar-search-wrapper d-none d-lg-flex align-items-center">
-        <ul class="navbar-nav mr-lg-2">
-            <li class="nav-item nav-search d-none d-lg-block">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search Here..." aria-label="search" aria-describedby="search">
-                </div>
-            </li>
-        </ul>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                     <img src="~/spica/images/faces/face5.jpg" alt="profile" />
                     <span class="nav-profile-name"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
-                        <i class="mdi mdi-settings text-primary"></i>
-                        Settings
-                    </a>
-                    <a class="dropdown-item">
-                        <i class="mdi mdi-logout text-primary"></i>
-                        Logout
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link icon-link">
-                    <i class="mdi mdi-plus-circle-outline"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link icon-link">
-                    <i class="mdi mdi-web"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link icon-link">
-                    <i class="mdi mdi-clock-outline"></i>
                 </a>
             </li>
         </ul>

@@ -20,7 +20,6 @@
                             <th>Ürün Adı</th>
                             <th>Ürün Fiyatı</th>
                             <th>Kategori</th>
-                            <th class="text-center">Ürün Görselleri</th>
                             <th class="text-center">Açıklama ve Bilgi</th>
                         </tr>
                     </thead>
@@ -33,7 +32,6 @@
                                 <td>@item.ProductName</td>
                                 <td>@item.ProductPrice.ToString("#,###.#0")</td>
                                 <td>@item.Category.CategoryName</td>
-                                <td class="text-center"><a href="/Admin/ProductImage/ProductImageDetail/@item.ProductId" class="btn btn-warning btn-sm">Ürün Görselleri</a></td>
                                 <td class="text-center"><a href="/Admin/ProductDetail/UpdateProductDetail/@item.ProductId" class="btn btn-info btn-sm">Açıklama ve Bilgi</a></td>
                             </tr>
                         }

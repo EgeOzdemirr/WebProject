@@ -20,7 +20,9 @@
                         <input type="text" asp-for="Description" class="form-control" id="exampleInputEmail1" placeholder="Görsel Açıklaması">
                         <br />
                         <label for="exampleInputEmail1">Görsel Linki</label>
-                        <input type="text" asp-for="ImageUrl" class="form-control" id="exampleInputEmail1" placeholder="Görsel">
+                        <input type="text" asp-for="ImageUrl" class="form-control" id="exampleInputEmail1"
+                               value="/images/carouselsImages/"
+                               onfocus="moveCursorToEnd(this)">
                         <br />
                     </div>
                     <button type="submit" class="btn btn-primary">Kaydet</button>
@@ -29,3 +31,16 @@
         </div>
     </div>
 </section>
+
+<script>
+    function moveCursorToEnd(input) {
+        // Input alanının değer uzunluğunu al
+        const length = input.value.length;
+
+        // İmleci metnin sonuna taşı
+        input.setSelectionRange(length, length);
+
+        // Input alanına odaklan
+        input.focus();
+    }
+</script>

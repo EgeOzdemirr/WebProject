@@ -13,24 +13,33 @@
                 <form method="post">
                     <div class="form-group">
                         <label>Kategori</label>
-                        @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryValues, new { @class = "form-control" })
-                        <label for="basicInput">Kategori KDVsi</label>
+                        @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryValues,
+                                 new { @class = "form-control", id = "categorySelect" })
+
+                        <label for="kdvInput">Kategori KDVsi</label>
                         <input type="text" id="kdvInput" class="form-control" readonly>
                         <br />
-                        <label for="basicInput">Ürün Adı</label>
-                        <input type="text" asp-for="ProductName" class="form-control" id="basicInput" placeholder="Ürün Adı">
+
+                        <label for="productName">Ürün Adı</label>
+                        <input type="text" asp-for="ProductName" class="form-control" id="productName" placeholder="Ürün Adı">
                         <br />
-                        <label for="basicInput">Ürün Fiyatı</label>
-                        <input type="text" asp-for="ProductPrice" class="form-control" id="basicInput" placeholder="Ürün Fiyatı">
+
+                        <label for="productPrice">Ürün Fiyatı</label>
+                        <input type="text" asp-for="ProductPrice" class="form-control" id="productPrice" placeholder="Ürün Fiyatı">
                         <br />
+
                         <label for="kdvIncludedPrice">KDV Eklenmiş Satış Fiyatı</label>
                         <input type="text" class="form-control" id="kdvIncludedPrice" readonly>
                         <br />
-                        <label for="basicInput">Ürün Açıklaması</label>
-                        <textarea asp-for="ProductDescription" rows="5" cols="1" class="form-control" id="basicInput" placeholder="Ürün Açıklaması"></textarea>
+
+                        <label for="productDescription">Ürün Açıklaması</label>
+                        <textarea asp-for="ProductDescription" rows="5" cols="1" class="form-control" id="productDescription" placeholder="Ürün Açıklaması"></textarea>
                         <br />
-                        <label for="basicInput">Ürün Görseli</label>
-                        <input type="text" asp-for="ProductImageUrl" class="form-control" id="basicInput" placeholder="Ürün Görseli">
+
+                        <label for="productImageUrl">Ürün Görseli</label>
+                        <input type="text" asp-for="ProductImageUrl" class="form-control" id="productImageUrl"
+                               value="/images/featuresProductImages/"
+                               onfocus="moveCursorToEnd(this)">
                         <br />
                     </div>
                     <button type="submit" class="btn btn-primary">Ürünü Kaydet</button>
@@ -55,31 +64,52 @@
         "Sebze": 1
     };
 
-    let currentKdvRate = 0; // Geçerli KDV oranı
+    let currentKdvRate = 0; // Geçerli KDV oranını tutacak değişken
 
     // KDV eklenmiş fiyatı hesaplayan fonksiyon
     function calculateKdvIncludedPrice() {
-        const productPriceInput = document.getElementById('productPrice'); // Ürün fiyatı alanı
-        const kdvIncludedPriceInput = document.getElementById('kdvIncludedPrice'); // KDV eklenmiş satış fiyatı alanı
+        const productPriceInput = document.getElementById('productPrice'); // Ürün fiyatı input
+        const kdvIncludedPriceInput = document.getElementById('kdvIncludedPrice'); // KDV eklenmiş fiyat input
 
-        // Ürün fiyatını al ve geçerli KDV oranını uygula
-        const productPrice = parseFloat(productPriceInput.value) || 0;
-        const kdvIncludedPrice = productPrice + (productPrice * currentKdvRate / 100);
+        const productPrice = parseFloat(productPriceInput.value) || 0; // Ürün fiyatını al
+        const kdvIncludedPrice = productPrice + (productPrice * currentKdvRate / 100); // KDV eklenmiş fiyatı hesapla
 
-        // Hesaplanan fiyatı input alanına yaz
-        kdvIncludedPriceInput.value = kdvIncludedPrice.toFixed(2) + " ₺";
+        kdvIncludedPriceInput.value = kdvIncludedPrice.toFixed(2) + " ₺"; // Sonucu yazdır
     }
 
-    // Kategori seçimi değiştiğinde çalışacak fonksiyon
-    document.getElementById('categorySelect').addEventListener('change', function () {
-        const selectedCategory = this.options[this.selectedIndex].text.trim();
-        currentKdvRate = kdvRates[selectedCategory] || 0; // Seçilen kategoriye ait KDV oranını al
-        document.getElementById('kdvInput').value = currentKdvRate + " %"; // KDV oranını input'a yaz
-        calculateKdvIncludedPrice(); // Yeni oranla KDV eklenmiş fiyatı hesapla
+    // Kategori seçimi değiştiğinde çalışacak
+    document.addEventListener('DOMContentLoaded', function () {
+        const categorySelect = document.getElementById('categorySelect');
+        const kdvInput = document.getElementById('kdvInput');
+
+        if (categorySelect) {
+            categorySelect.addEventListener('change', function () {
+                const selectedCategory = this.options[this.selectedIndex].text.trim(); // Seçilen kategori adı
+                currentKdvRate = kdvRates[selectedCategory] || 0; // KDV oranını belirle
+                kdvInput.value = currentKdvRate + " %"; // KDV oranını göster
+                calculateKdvIncludedPrice(); // Fiyatı güncelle
+            });
+        }
+
+        // Ürün fiyatı değiştiğinde KDV dahil fiyatı hesapla
+        const productPriceInput = document.getElementById('productPrice');
+        if (productPriceInput) {
+            productPriceInput.addEventListener('input', calculateKdvIncludedPrice);
+        }
     });
 
-    // Ürün fiyatı değiştiğinde çalışacak fonksiyon
-    document.getElementById('productPrice').addEventListener('input', function () {
-        calculateKdvIncludedPrice(); // Fiyat değiştiğinde KDV eklenmiş fiyatı hesapla
-    });
 </script>
+
+<script>
+        function moveCursorToEnd(input) {
+        // Input alanının değer uzunluğunu al
+        const length = input.value.length;
+
+        // İmleci metnin sonuna taşı
+        input.setSelectionRange(length, length);
+
+        // Input alanına odaklan
+        input.focus();
+    }
+</script>
+
