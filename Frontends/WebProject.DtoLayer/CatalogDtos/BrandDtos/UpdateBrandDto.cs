@@ -11,6 +11,6 @@ namespace WebProject.DtoLayer.CatalogDtos.BrandDtos
     {
         public string BrandId { get; set; }
         public string BrandName { get; set; }
-        public IFormFile Image { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

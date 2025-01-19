@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Ödeme Başarılı";
+}
+
+<h2>Ödeme Başarılı</h2>
+
+@if (TempData["PaymentSuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["PaymentSuccessMessage"]
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Siparişiniz alınmamış olabilir. Lütfen tekrar deneyin.
+    </div>
+}
+
+<a href="@Url.Action("Index", "Default")" class="btn btn-primary">
+    Ana Sayfaya Dön
+</a>

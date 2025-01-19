@@ -12,82 +12,67 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
     public class BrandController : Controller
     {
         private readonly IBrandService _brandService;
+
         public BrandController(IBrandService brandService)
         {
             _brandService = brandService;
         }
+
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
-            ViewBag.v1 = "Anasayfa";
-            ViewBag.v2 = "Markalar";
-            ViewBag.v3 = "Marka Listesi";
-            ViewBag.t = "Marka İşlemleri";
-
+            BrandViewBagList();
             var values = await _brandService.GetAllBrandAsync();
             return View(values);
         }
+
         [HttpGet]
         [Route("CreateBrand")]
         public IActionResult CreateBrand()
         {
-            ViewBag.v1 = "Anasayfa";
-            ViewBag.v2 = "Markalar";
-            ViewBag.v3 = "Marka Listesi";
-            ViewBag.t = "Marka İşlemleri";
+            BrandViewBagList();
             return View();
         }
+
         [HttpPost]
         [Route("CreateBrand")]
         public async Task<IActionResult> CreateBrand(CreateBrandDto createBrandDto)
         {
-            try 
-            {
-                if (createBrandDto.Image != null)
-                {
-                    using var memoryStream = new MemoryStream();
-                    await createBrandDto.Image.CopyToAsync(memoryStream);
-
-                    var brandForService = new CreateBrandDto
-                    {
-                        BrandName = createBrandDto.BrandName,
-                        Image = memoryStream.ToArray()
-                    };
-
-                    await _brandService.CreateBrandAsync(brandForService);
-                }
-                return RedirectToAction("Index", "Brand", new { area = "Admin" });
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Marka eklenirken bir hata oluştu: " + ex.Message);
-                return View(createBrandDto);
-            }
+            await _brandService.CreateBrandAsync(createBrandDto);
+            return RedirectToAction("Index", "Brand", new { area = "Admin" });
         }
 
+        [HttpDelete("{id}")]
         [Route("DeleteBrand/{id}")]
         public async Task<IActionResult> DeleteBrand(string id)
         {
             await _brandService.DeleteBrandAsync(id);
             return RedirectToAction("Index", "Brand", new { area = "Admin" });
         }
-        [Route("UpdateBrand/{id}")]
+
         [HttpGet]
+        [Route("UpdateBrand/{id}")]
         public async Task<IActionResult> UpdateBrand(string id)
         {
-            ViewBag.v1 = "Anasayfa";
-            ViewBag.v2 = "Markalar";
-            ViewBag.v3 = "Marka Listesi";
-            ViewBag.t = "Marka İşlemleri";
+            BrandViewBagList();
             var values = await _brandService.GetByIdBrandAsync(id);
             return View(values);
         }
-        [Route("UpdateBrand/{id}")]
+
         [HttpPost]
+        [Route("UpdateBrand/{id}")]
         public async Task<IActionResult> UpdateBrand(UpdateBrandDto updateBrandDto)
         {
             await _brandService.UpdateBrandAsync(updateBrandDto);
             return RedirectToAction("Index", "Brand", new { area = "Admin" });
+        }
+
+        void BrandViewBagList()
+        {
+            ViewBag.v1 = "Ana Sayfa";
+            ViewBag.v2 = "Markalar";
+            ViewBag.v3 = "Marka Listesi";
+            ViewBag.v0 = "Marka İşlemleri";
         }
     }
 }

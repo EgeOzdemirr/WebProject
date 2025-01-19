@@ -4,6 +4,7 @@ using WebProject.WebUI.Models;
 using WebProject.WebUI.Services.BasketServices;
 using WebProject.WebUI.Services.CatalogServices.ProductServices;
 using WebProject.WebUI.Services.DiscountServices;
+using WebProject.WebUI.Services.Interfaces;
 
 namespace WebProject.WebUI.Controllers
 {
@@ -14,7 +15,7 @@ namespace WebProject.WebUI.Controllers
         private readonly IBasketService _basketService;
         private readonly IDiscountService _discountService;
 
-        public ShoppingCartController(IProductService productService, IBasketService basketService, IDiscountService discountService)
+        public ShoppingCartController(IProductService productService, IBasketService basketService, IDiscountService discountService, IUserService userService)
         {
             _productService = productService;
             _basketService = basketService;
@@ -44,15 +45,28 @@ namespace WebProject.WebUI.Controllers
         public async Task<IActionResult> AddBasketItem(string productId)
         {
             var values = await _productService.GetByIdProductAsync(productId);
-            var item = new BasketItemDto
+            var basket = await _basketService.GetBasket(null);
+            var existingItem = basket.BasketItems.FirstOrDefault(item => item.ProductId == productId);
+            if (existingItem != null)
             {
-                ProductId = values.ProductId,
-                ProductName = values.ProductName,
-                Price = values.ProductPrice,
-                ImageUrl = values.ProductImageUrl,
-                Quantity = 1
-            };
-            await _basketService.AddBasketItem(item);
+                // Ürün zaten sepette, miktarı artır
+                existingItem.Quantity += 1;
+
+                // Sepeti güncelle
+                await _basketService.SaveBasket(basket);
+            }
+            else
+            {
+                var item = new BasketItemDto
+                {
+                    ProductId = values.ProductId,
+                    ProductName = values.ProductName,
+                    Price = values.ProductPrice,
+                    ImageUrl = values.ProductImageUrl,
+                    Quantity = 1
+                };
+                await _basketService.AddBasketItem(item);
+            }
             return RedirectToAction("Index");
         }
 
@@ -60,14 +74,30 @@ namespace WebProject.WebUI.Controllers
         public async Task<IActionResult> UpdateQuantity(string productId, int quantity)
         {
 
-                var result = await _basketService.UpdateQuantity(productId, quantity);
-                if (result)
-                {
-                    var basket = await _basketService.GetBasket(null); // Yeniden sepete bak.
-                    return PartialView("_BasketTotalAmountComponentPartial", basket);
-                }
+            var result = await _basketService.UpdateQuantity(productId, quantity);
+            if (result)
+            {
+                var basket = await _basketService.GetBasket(null); // Yeniden sepete bak.
+                return PartialView("_BasketTotalAmountComponentPartial", basket);
+            }
 
-                return BadRequest(); // Gerekirse hata döndür.
+            return BadRequest(); // Gerekirse hata döndür.
+        }
+
+        [Route("ShoppingCartUpdate/{productId}/{quantity}")]
+        public async Task<IActionResult> ShoppingCardUpdate(string productId, int quantity)
+        {
+            var values = await _productService.GetByIdProductAsync(productId);
+            var items = new BasketItemDto
+            {
+                ProductId = values.ProductId,
+                ProductName = values.ProductName,
+                Price = values.ProductPrice,
+                ImageUrl = values.ProductImageUrl,
+                Quantity = quantity
+            };
+            await _basketService.AddBasketItem(items);
+            return RedirectToAction("Index"); ;
         }
 
         [Route("RemoveBasketItem/{productId}")]

@@ -12,16 +12,16 @@
                 <br />
                 <form method="post">
                     <div class="form-group">
-                        <label for="categorySelect">Kategori</label>
-                        @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryValues, new { @class = "form-control", @id = "categorySelect" })
+                        <label>Kategori</label>
+                        @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryValues, new { @class = "form-control" })
                         <label for="basicInput">Kategori KDVsi</label>
                         <input type="text" id="kdvInput" class="form-control" readonly>
                         <br />
                         <label for="basicInput">Ürün Adı</label>
                         <input type="text" asp-for="ProductName" class="form-control" id="basicInput" placeholder="Ürün Adı">
                         <br />
-                        <label for="productPrice">Ürün Fiyatı</label>
-                        <input type="text" asp-for="ProductPrice" class="form-control" id="productPrice" placeholder="Ürün Fiyatı">
+                        <label for="basicInput">Ürün Fiyatı</label>
+                        <input type="text" asp-for="ProductPrice" class="form-control" id="basicInput" placeholder="Ürün Fiyatı">
                         <br />
                         <label for="kdvIncludedPrice">KDV Eklenmiş Satış Fiyatı</label>
                         <input type="text" class="form-control" id="kdvIncludedPrice" readonly>
@@ -30,10 +30,8 @@
                         <textarea asp-for="ProductDescription" rows="5" cols="1" class="form-control" id="basicInput" placeholder="Ürün Açıklaması"></textarea>
                         <br />
                         <label for="basicInput">Ürün Görseli</label>
-                        <input type="file" asp-for="ProductImageUrl" class="form-control" id="basicInput">
+                        <input type="text" asp-for="ProductImageUrl" class="form-control" id="basicInput" placeholder="Ürün Görseli">
                         <br />
-
-                        @* <select class="form-control" asp-for="CategoryID" asp-items="ViewBag.CategoryValues"></select> *@
                     </div>
                     <button type="submit" class="btn btn-primary">Ürünü Kaydet</button>
                 </form>

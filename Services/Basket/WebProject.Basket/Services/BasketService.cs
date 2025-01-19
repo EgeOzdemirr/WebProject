@@ -18,6 +18,10 @@ namespace WebProject.Basket.Services
         public async Task<BasketTotalDto> GetBasket(string userId)
         {
             var existBasket = await _redisService.GetDb().StringGetAsync(userId);
+            if (string.IsNullOrEmpty(existBasket))
+            {
+                return null; // Sepet bulunamadığında null dönebilirsiniz.
+            }
             return JsonSerializer.Deserialize<BasketTotalDto>(existBasket);
         }
         public async Task SaveBasket(BasketTotalDto basketTotalDto)

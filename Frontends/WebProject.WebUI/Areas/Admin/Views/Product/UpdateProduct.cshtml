@@ -23,11 +23,10 @@
                         <textarea asp-for="ProductDescription" rows="5" cols="1" class="form-control" id="basicInput" placeholder="Ürün Açıklaması"></textarea>
                         <br />
                         <label for="basicInput">Ürün Görseli</label>
-                        <input type="file" asp-for="ProductImageUrl" class="form-control" id="basicInput">
+                        <input type="text" asp-for="ProductImageUrl" class="form-control" id="basicInput" placeholder="Ürün Görseli">
                         <br />
                         <label>Kategori</label>
                         @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryValues, new { @class = "form-control" })
-                        @* <select class="form-control" asp-for="CategoryID" asp-items="ViewBag.CategoryValues"></select> *@
                     </div>
                     <button type="submit" class="btn btn-success">Ürünü Güncelle</button>
                 </form>

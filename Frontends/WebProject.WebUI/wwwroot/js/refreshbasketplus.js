@@ -1,22 +1,12 @@
-function plusQuantity(productId) {
-    let quantityInput = $('#quantity-' + productId); // ürün miktarýný bul
-    let currentQuantity = parseInt(quantityInput.val());
+function plusquantity(c) {
+    var quantity = +$("#quantity" + c).val() + 1;
+    var productId = $("#productId" + c).val();
+    $.post("/ShoppingCart/ShoppingCartUpdate/" + productId + "/" + quantity);
 
-    if (currentQuantity < 20) {
-        currentQuantity++;
-        quantityInput.val(currentQuantity);
+    pr = setInterval(function () {
+        location.reload();
+    }, 300)
+    setTimeout(() => { clearInterval(pr); }, 400);
+};
 
-        // AJAX çaðrýsý
-        $.ajax({
-            url: '/ShoppingCart/UpdateQuantity/' + productId + '/' + currentQuantity,
-            type: 'POST',
-            success: function (response) {
-                if (response.success) {
-                    $('#basket-total-amount').html(response.basketHtml); // sepet toplamýný güncelle
-                }
-            }
-        });
-    } else {
-        alert('Maksimum 20 ürün eklenebilir.');
-    }
-}
+// script viewcomponent'teki "<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>" satýrý head viewcomponent in en altýna aldýðýmýzda ajax sorunsuz çalýþýyor.
