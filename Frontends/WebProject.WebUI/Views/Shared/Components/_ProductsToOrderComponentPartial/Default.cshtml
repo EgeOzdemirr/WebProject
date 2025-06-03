@@ -11,10 +11,10 @@
     decimal itemPrice = 0;
     if (Model.DiscountRate != 0)
     {
-        total1 = (Model.TotalPrice / (decimal.Parse("1,10")));
-        productDiscount = total1 * (decimal.Parse(Model.DiscountRate.ToString()) / 100);
+        total1 = (Model.TotalPrice);
+        productDiscount = (total1 * Model.DiscountRate.Value) /100;
         totalPriceWithoutShipping = (total1 - productDiscount);
-        totalPrice = (totalPriceWithoutShipping + shipping) * (decimal.Parse("1,10"));
+        finalPrice = (totalPriceWithoutShipping + shipping);
     }
     else
     {
