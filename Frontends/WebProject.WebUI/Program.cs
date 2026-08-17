@@ -35,6 +35,7 @@ using WebProject.WebUI.Settings;
 using WebProject.WebUI.SignalRHubs;
 using WebProject.WebUI.Services.StatisticServices.CommentStatisticServices;
 using WebProject.WebUI.Services.CatalogServices.ProductRecommendationServices;
+using WebProject.WebUI.Conventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,11 +46,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     opt.LoginPath = "/Login/Index/";
     opt.ExpireTimeSpan = TimeSpan.FromDays(5);
     opt.Cookie.Name = "MultiShopCookie";
+    opt.Cookie.HttpOnly = true;
+    opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    opt.Cookie.SameSite = SameSiteMode.Lax;
     opt.SlidingExpiration = true;
-    //opt.AccessDeniedPath = "/Pages/AccessDenied/";
+    opt.AccessDeniedPath = "/Default/Index";
 });
 
 builder.Services.AddAccessTokenManagement();
+
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()
+    ?? new[] { "http://localhost:5083", "https://localhost:7177" };
 
 builder.Services.AddCors(opt =>
 {
@@ -57,7 +64,7 @@ builder.Services.AddCors(opt =>
     {
         builder.AllowAnyHeader()
         .AllowAnyMethod()
-        .SetIsOriginAllowed((host) => true)
+        .WithOrigins(allowedOrigins)
         .AllowCredentials();
     });
 });
@@ -69,7 +76,10 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Conventions.Add(new AreaAuthorizationConvention());
+});
 
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
@@ -239,6 +249,14 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    await next();
+});
 
 app.UseStatusCodePagesWithReExecute("/Pages/Error404/");
 app.UseCors("CorsPolicy");

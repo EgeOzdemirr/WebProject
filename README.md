@@ -60,7 +60,12 @@ cd IdentityServer/WebProject.IdentityServer
 dotnet run -- /seed
 ```
 
-Bu `alice` / `Pass123$` ve `bob` / `Pass123$` adında iki test kullanıcısı oluşturur.
+Bu iki test kullanıcısı ve bir "Admin" rolü oluşturur:
+
+| Kullanıcı | Şifre | Rol |
+|---|---|---|
+| `alice` | `Pass123$` | normal kullanıcı |
+| `bob` | `Pass123$` | **Admin** (`/Admin/*` alanına erişebilir) |
 
 ### 4) Tüm servisleri başlat
 
@@ -106,8 +111,13 @@ IdentityServer ve Gateway'in diğerlerinden biraz önce ayakta olması yeterli; 
 ## Bilinen sınırlamalar
 
 - **Images.WebUI** servisi gerçek bir Google Cloud Storage bucket + servis hesabı JSON dosyası gerektiriyor (`appsettings.json` içinde placeholder bir Windows yolu var). Bu servis olmadan da ana WebUI çalışır; ürün görselleri için `Image` servisi kullanılıyor.
-- **RapidApiWebUI** ve `Admin/ProductController` içinde hardcoded RapidAPI anahtarları var (kaynak kodda açık halde). Bunlar zaten bu repoda public olarak yer alıyor — **RapidAPI hesabınızdan bu anahtarları iptal edip/yenileyip appsettings/user-secrets üzerinden okunacak şekilde taşımanızı öneririz.**
 - SQL Server image'ı yalnızca `linux/amd64` için yayınlanıyor; Apple Silicon Mac'lerde Rosetta emülasyonuyla çalışır, ilk açılış birkaç saniye daha uzun sürebilir.
+- **RapidApiWebUI** kendi API anahtarınızı ister:
+  ```bash
+  cd RapidApi/WebProject.RapidApiWebUI
+  dotnet user-secrets init
+  dotnet user-secrets set "RapidApi:Key" "kendi-anahtarınız"
+  ```
 
 ## Docker container'larını durdurma
 

@@ -30,7 +30,8 @@ namespace WebProject.IdentityServer
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Email(),
-            new IdentityResources.Profile()
+            new IdentityResources.Profile(),
+            new IdentityResource("roles", "Your role(s)", new [] { "role" })
         };
         public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
         {
@@ -83,6 +84,7 @@ namespace WebProject.IdentityServer
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
+                    "roles",
                 }
             },
 
@@ -103,6 +105,7 @@ namespace WebProject.IdentityServer
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
+                    "roles",
                 },
                 AccessTokenLifetime = 600
             }

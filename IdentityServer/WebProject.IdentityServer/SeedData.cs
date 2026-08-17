@@ -36,6 +36,14 @@ namespace WebProject.IdentityServer
                     context.Database.Migrate();
 
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                    if (!roleMgr.RoleExistsAsync("Admin").Result)
+                    {
+                        roleMgr.CreateAsync(new IdentityRole("Admin")).Wait();
+                        Log.Debug("Admin role created");
+                    }
+
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
@@ -99,6 +107,12 @@ namespace WebProject.IdentityServer
                     else
                     {
                         Log.Debug("bob already exists");
+                    }
+
+                    if (!userMgr.IsInRoleAsync(bob, "Admin").Result)
+                    {
+                        userMgr.AddToRoleAsync(bob, "Admin").Wait();
+                        Log.Debug("bob added to Admin role");
                     }
                 }
             }

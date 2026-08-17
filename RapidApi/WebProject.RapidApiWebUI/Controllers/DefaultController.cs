@@ -6,8 +6,22 @@ namespace WebProject.RapidApiWebUI.Controllers
 {
     public class DefaultController : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public DefaultController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task<IActionResult> WeatherDetail()
         {
+            var apiKey = _configuration["RapidApi:Key"];
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                ViewBag.temperature = null;
+                return View();
+            }
+
             var client = new HttpClient();
             var request = new HttpRequestMessage
             {
@@ -15,7 +29,7 @@ namespace WebProject.RapidApiWebUI.Controllers
                 RequestUri = new Uri("https://yahoo-weather5.p.rapidapi.com/weather?location=kocaeli&format=json&u=c"),
                 Headers =
     {
-        { "x-rapidapi-key", "b2bcbe13e8mshcb1461f51bf44bfp1e465djsnac765ff8a769" },
+        { "x-rapidapi-key", apiKey },
         { "x-rapidapi-host", "yahoo-weather5.p.rapidapi.com" },
     },
             };

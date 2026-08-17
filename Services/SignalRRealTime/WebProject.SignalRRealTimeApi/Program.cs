@@ -8,13 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient();
 
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()
+    ?? new[] { "http://localhost:5083", "https://localhost:7177" };
+
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", builder =>
     {
         builder.AllowAnyHeader()
                .AllowAnyMethod()
-               .SetIsOriginAllowed((host) => true)
+               .WithOrigins(allowedOrigins)
                .AllowCredentials();
     });
 });

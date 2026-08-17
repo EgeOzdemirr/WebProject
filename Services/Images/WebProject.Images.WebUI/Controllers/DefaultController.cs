@@ -6,6 +6,9 @@ namespace WebProject.Images.WebUI.Controllers
 {
     public class DefaultController : Controller
     {
+        private static readonly string[] AllowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+        private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+
         private readonly ICloudStorageService _cloudStorageService;
         public DefaultController(ICloudStorageService cloudStorageService)
         {
@@ -21,6 +24,18 @@ namespace WebProject.Images.WebUI.Controllers
         {
             if (imageDrive.Photo != null)
             {
+                var extension = Path.GetExtension(imageDrive.Photo.FileName).ToLowerInvariant();
+                if (!AllowedExtensions.Contains(extension) || !imageDrive.Photo.ContentType.StartsWith("image/"))
+                {
+                    ModelState.AddModelError(string.Empty, "Only image files (jpg, jpeg, png, gif, webp) are allowed.");
+                    return View(imageDrive);
+                }
+                if (imageDrive.Photo.Length > MaxFileSizeBytes)
+                {
+                    ModelState.AddModelError(string.Empty, "File size must not exceed 5 MB.");
+                    return View(imageDrive);
+                }
+
                 imageDrive.SavedFileName = GenerateFileNameToSave(imageDrive.Photo.FileName);
                 imageDrive.SavedUrl = await _cloudStorageService.UploadFileAsync(imageDrive.Photo, imageDrive.SavedFileName);
             }
