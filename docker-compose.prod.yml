@@ -1,0 +1,202 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SQL_SA_PASSWORD:-123456aA*}"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:6
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-1234}"
+      POSTGRES_DB: WebProjectMessageDb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
+  identityserver:
+    build:
+      context: .
+      dockerfile: IdentityServer/WebProject.IdentityServer/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=WebProjectIdentityDb;User Id=sa;Password=${SQL_SA_PASSWORD:-123456aA*};TrustServerCertificate=True"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+
+  gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/WebProject.OcelotGateway/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+    depends_on:
+      - identityserver
+    restart: unless-stopped
+
+  discount:
+    build:
+      context: .
+      dockerfile: Services/Discount/WebProject.Discount/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=WebProjectDiscountDb;User Id=sa;Password=${SQL_SA_PASSWORD:-123456aA*};TrustServerCertificate=True"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+
+  order:
+    build:
+      context: .
+      dockerfile: Services/Order/Presentation/WebProject.Order.WebApi/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=WebProjectOrderDb;User Id=sa;Password=${SQL_SA_PASSWORD:-123456aA*};TrustServerCertificate=True"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+
+  cargo:
+    build:
+      context: .
+      dockerfile: Services/Cargo/WebProject.Cargo.WebApi/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=WebProjectCargoDb;User Id=sa;Password=${SQL_SA_PASSWORD:-123456aA*};TrustServerCertificate=True"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+
+  comment:
+    build:
+      context: .
+      dockerfile: Services/Comment/WebProject.Comment/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=WebProjectCommentDb;User Id=sa;Password=${SQL_SA_PASSWORD:-123456aA*};TrustServerCertificate=True"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+
+  catalog:
+    build:
+      context: .
+      dockerfile: Services/Catalog/WebProject.Catalog/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      ConnectionStrings__OrderingDb: "Server=sqlserver,1433;Database=WebProjectOrderDb;User Id=sa;Password=${SQL_SA_PASSWORD:-123456aA*};TrustServerCertificate=True"
+      ConnectionStrings__MongoDB: "mongodb://mongodb:27017"
+      DatabaseSettings__ConnectionString: "mongodb://mongodb:27017"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  basket:
+    build:
+      context: .
+      dockerfile: Services/Basket/WebProject.Basket/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      RedisSettings__Host: "redis"
+      RedisSettings__Port: "6379"
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  message:
+    build:
+      context: .
+      dockerfile: Services/Message/WebProject.Message/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      ConnectionStrings__DefaultConnection: "Server=postgres;Port=5432;Database=WebProjectMessageDb;User Id=postgres;Password=${POSTGRES_PASSWORD:-1234}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  recommendation:
+    build:
+      context: .
+      dockerfile: Services/Recommendation/WebProject.Recommendation/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      IdentityServerUrl: "http://identityserver"
+      MongoDb__ConnectionString: "mongodb://mongodb:27017"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  webui:
+    build:
+      context: .
+      dockerfile: Frontends/WebProject.WebUI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ServiceApiSettings__OcelotUrl: "http://gateway"
+      ServiceApiSettings__IdentityServerUrl: "http://identityserver"
+      AllowedOrigins__0: "${PUBLIC_URL:-http://localhost}"
+    ports:
+      - "80:80"
+    depends_on:
+      - gateway
+      - identityserver
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+  mongo_data:
+  postgres_data:

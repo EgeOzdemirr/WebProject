@@ -11,7 +11,8 @@ builder.Services.AddAuthentication().AddJwtBearer("OcelotAuthenticationScheme", 
     opt.RequireHttpsMetadata = false;
 });
 
-IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("ocelot.json").Build();
+var ocelotFile = builder.Environment.EnvironmentName == "Docker" ? "ocelot.Docker.json" : "ocelot.json";
+IConfiguration configuration = new ConfigurationBuilder().AddJsonFile(ocelotFile).Build();
 
 builder.Services.AddOcelot(configuration);
 

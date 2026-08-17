@@ -10,10 +10,8 @@ namespace WebProject.Order.Persistence.Context
 {
     public class OrderContext:DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public OrderContext(DbContextOptions<OrderContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=localhost,1433;Database=WebProjectOrderDb;User Id=sa;Password=123456aA*;TrustServerCertificate=True");
-
         }
         public DbSet<Address> Adresses { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }

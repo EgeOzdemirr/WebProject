@@ -47,7 +47,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     opt.ExpireTimeSpan = TimeSpan.FromDays(5);
     opt.Cookie.Name = "MultiShopCookie";
     opt.Cookie.HttpOnly = true;
-    opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
     opt.Cookie.SameSite = SameSiteMode.Lax;
     opt.SlidingExpiration = true;
     opt.AccessDeniedPath = "/Default/Index";
@@ -260,7 +260,11 @@ app.Use(async (context, next) =>
 
 app.UseStatusCodePagesWithReExecute("/Pages/Error404/");
 app.UseCors("CorsPolicy");
-app.UseHttpsRedirection();
+if (app.Environment.EnvironmentName != "Docker")
+{
+    // In Docker, TLS is terminated by a reverse proxy in front of the app.
+    app.UseHttpsRedirection();
+}
 app.UseStaticFiles();
 
 app.UseRouting();

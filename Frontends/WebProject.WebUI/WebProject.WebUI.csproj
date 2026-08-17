@@ -87,7 +87,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\Catalog\WebProject.Catalog\WebProject.Catalog.csproj" />
     <ProjectReference Include="..\WebProject.DtoLayer\WebProject.DtoLayer.csproj" />
   </ItemGroup>
 

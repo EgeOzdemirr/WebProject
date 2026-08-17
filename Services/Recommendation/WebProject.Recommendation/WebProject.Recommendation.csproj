@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Catalog\WebProject.Catalog\WebProject.Catalog.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Entities\" />
   </ItemGroup>
 

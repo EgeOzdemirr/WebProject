@@ -15,7 +15,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.RequireHttpsMetadata = false;
 });
 
-builder.Services.AddDbContext<CargoContext>();
+builder.Services.AddDbContext<CargoContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ICargoCompanyDal, EfCargoCompanyDal>();
 builder.Services.AddScoped<ICargoCompanyService, CargoCompanyManager>();
 builder.Services.AddScoped<ICargoCustomerDal, EfCargoCustomerDal>();
