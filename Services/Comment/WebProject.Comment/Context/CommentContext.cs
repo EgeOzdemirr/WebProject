@@ -7,8 +7,7 @@ namespace WebProject.Comment.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost,1442;initial " +
-                "Catalog=WebProjectCommentDb;User=sa;Password=123456aA*");
+            optionsBuilder.UseSqlServer("Server=localhost,1433;Database=WebProjectCommentDb;User Id=sa;Password=123456aA*;TrustServerCertificate=True");
         }
         public DbSet<UserComment> UserComments { get; set; }
     }

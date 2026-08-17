@@ -12,8 +12,7 @@ namespace WebProject.Cargo.DataAccessLayer.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost,1441;initial " +
-                "Catalog=WebProjectCargoDb;User=sa;Password=123456aA*");
+            optionsBuilder.UseSqlServer("Server=localhost,1433;Database=WebProjectCargoDb;User Id=sa;Password=123456aA*;TrustServerCertificate=True");
         }
         public DbSet<CargoCompany> CargoCompanies { get; set; }
         public DbSet<CargoDetail> CargoDetails { get; set; }

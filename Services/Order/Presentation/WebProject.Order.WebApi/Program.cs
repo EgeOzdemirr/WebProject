@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
 using WebProject.Order.Application.Interfaces;
@@ -44,6 +45,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<OrderContext>().Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
