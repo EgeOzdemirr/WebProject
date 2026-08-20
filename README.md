@@ -1,5 +1,9 @@
 # WebProject
 
+**🔗 Canlı demo: <!-- LIVE_URL -->_(yayına alındığında buraya eklenecek)_<!-- /LIVE_URL -->**
+
+Denemek için hazır hesaplar: `bob` / `Pass123$` (admin paneli dahil) veya `alice` / `Pass123$` (normal kullanıcı).
+
 .NET 6 tabanlı bir e-ticaret mikroservis mimarisi: IdentityServer4 ile kimlik doğrulama, Ocelot API Gateway, ve Catalog/Basket/Order/Discount/Cargo/Comment/Payment/Message/Image/Recommendation gibi bağımsız mikroservisler, hepsi ortak bir MVC frontend (`WebProject.WebUI`) tarafından tüketiliyor.
 
 ## Mimari
@@ -11,14 +15,14 @@ WebProject.WebUI (5083/7177)  ->  Ocelot Gateway (5000)  ->  Mikroservisler (707
 
 | Servis | Port (http) | Veritabanı |
 |---|---|---|
-| IdentityServer | 5001 | SQL Server: `WebProjectIdentityDb` |
+| IdentityServer | 5001 | PostgreSQL: `WebProjectIdentityDb` |
 | Ocelot Gateway | 5000 | - |
-| Catalog | 7070 | MongoDB: `WebProjectCatalogDb` + SQL Server: `WebProjectOrderDb` (okuma) |
-| Discount | 7071 | SQL Server: `WebProjectDiscountDb` |
-| Order | 7072 | SQL Server: `WebProjectOrderDb` |
-| Cargo | 7073 | SQL Server: `WebProjectCargoDb` |
+| Catalog | 7070 | MongoDB: `WebProjectCatalogDb` + PostgreSQL: `WebProjectOrderDb` (okuma) |
+| Discount | 7071 | PostgreSQL: `WebProjectDiscountDb` |
+| Order | 7072 | PostgreSQL: `WebProjectOrderDb` |
+| Cargo | 7073 | PostgreSQL: `WebProjectCargoDb` |
 | Basket | 7074 | Redis |
-| Comment | 7075 | SQL Server: `WebProjectCommentDb` |
+| Comment | 7075 | PostgreSQL: `WebProjectCommentDb` |
 | Payment | 7076 | - |
 | Image | 7077 | - |
 | Message | 7078 | PostgreSQL: `WebProjectMessageDb` |
@@ -31,9 +35,36 @@ Tüm mikroservisler `IdentityServerUrl` üzerinden JWT doğrular ve trafik Ocelo
 ## Gereksinimler
 
 - [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (SQL Server, MongoDB, PostgreSQL, Redis, RabbitMQ için)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (PostgreSQL, MongoDB, Redis, RabbitMQ için)
 
-## Kurulum
+## Hızlı başlangıç (her şey Docker'da)
+
+Tüm stack'i (11 .NET servisi + PostgreSQL, MongoDB, Redis) tek komutla ayağa kaldırır:
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+İlk build 10-20 dakika sürer. Ardından IdentityServer'ı bir kez seed edin:
+
+```bash
+docker compose -f docker-compose.prod.yml run --rm identityserver dotnet WebProject.IdentityServer.dll /seed
+```
+
+İsteğe bağlı olarak örnek katalog verisini yükleyin:
+
+```bash
+docker cp scripts/seed_catalog.js $(docker compose -f docker-compose.prod.yml ps -q mongodb):/tmp/seed_catalog.js
+docker compose -f docker-compose.prod.yml exec mongodb mongosh --quiet /tmp/seed_catalog.js
+```
+
+Sonra <http://localhost> adresini açın. Servislerin veritabanı migration'ları
+açılışta otomatik uygulanır. Toplam bellek kullanımı ~550 MB'dır.
+
+Aşağıdaki bölüm ise servisleri Docker yerine doğrudan `dotnet run` ile
+çalıştırmak (geliştirme yaparken) içindir.
+
+## Kurulum (geliştirme: servisler yerelde)
 
 ### 1) Altyapıyı ayağa kaldır
 
@@ -43,7 +74,7 @@ Repo kökünde:
 docker compose up -d
 ```
 
-Bu, SQL Server (1433), MongoDB (27017), PostgreSQL (5432), Redis (6379) ve RabbitMQ'yu (5672, yönetim paneli 15672) başlatır. SQL Server'ın tam olarak hazır olması ~20-30 saniye sürebilir.
+Bu, PostgreSQL (5432), MongoDB (27017), Redis (6379) ve RabbitMQ'yu (5672, yönetim paneli 15672) başlatır.
 
 ### 2) HTTPS geliştirme sertifikasını güven listesine ekle (tek seferlik)
 
@@ -111,7 +142,7 @@ IdentityServer ve Gateway'in diğerlerinden biraz önce ayakta olması yeterli; 
 ## Bilinen sınırlamalar
 
 - **Images.WebUI** servisi gerçek bir Google Cloud Storage bucket + servis hesabı JSON dosyası gerektiriyor (`appsettings.json` içinde placeholder bir Windows yolu var). Bu servis olmadan da ana WebUI çalışır; ürün görselleri için `Image` servisi kullanılıyor.
-- SQL Server image'ı yalnızca `linux/amd64` için yayınlanıyor; Apple Silicon Mac'lerde Rosetta emülasyonuyla çalışır, ilk açılış birkaç saniye daha uzun sürebilir.
+- `/Information/Index` ve `/AppUser/Profile/Index` yarım kalmış sayfalar (view'ı olmayan ya da model beklerken model almayan controller'lar); uygulamanın hiçbir yerinden linklenmiyorlar.
 - **RapidApiWebUI** kendi API anahtarınızı ister:
   ```bash
   cd RapidApi/WebProject.RapidApiWebUI

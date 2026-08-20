@@ -1,12 +1,37 @@
-# Canlıya alma (Oracle Cloud Always Free)
+# Canlıya alma (Google Cloud — ücretsiz katman)
 
-Bu doküman, VM hazır olduğunda sunucu üzerinde çalıştırılacak adımları anlatır.
+Bu doküman projeyi kalıcı ve ücretsiz bir sunucuda yayına almayı anlatır.
 
-## 1) Sunucuya bağlan ve Docker kur
+Google Cloud'un "Always Free" katmanı, süresiz ücretsiz bir `e2-micro` VM
+veriyor. Stack'in bellek kullanımı ~550 MB olduğu için bu makineye sığıyor
+(SQL Server kaldırılıp PostgreSQL'e geçildiği için — bkz. README).
+
+> Ücretsiz olması için VM **`us-west1`, `us-central1` veya `us-east1`**
+> bölgelerinden birinde ve `e2-micro` tipinde olmalı. Başka bölge/tip
+> seçilirse normal ücretlendirme işler.
+
+## 1) VM oluştur
+
+[console.cloud.google.com](https://console.cloud.google.com) → Compute Engine
+→ VM instances → **Create instance**:
+
+| Ayar | Değer |
+|---|---|
+| Region | `us-central1` (veya `us-west1` / `us-east1`) |
+| Machine type | `e2-micro` |
+| Boot disk | Ubuntu 22.04 LTS, 30 GB **Standard persistent disk** |
+| Firewall | ☑ Allow HTTP traffic |
+
+30 GB standard disk de ücretsiz katmana dahil; SSD seçilirse ücretlendirilir.
+
+`e2-micro` 1 GB RAM'e sahip. İlk `docker build` sırasında bellek yetmeyebilir,
+bu yüzden aşağıda swap ekliyoruz.
+
+## 2) Sunucuya bağlan ve Docker kur
+
+Konsoldaki **SSH** düğmesiyle bağlan, sonra:
 
 ```bash
-ssh -i <indirdiğin-private-key> ubuntu@<VM_PUBLIC_IP>
-
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -15,38 +40,44 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo usermod -aG docker $USER
-# çıkış yapıp tekrar ssh ile bağlan (grup değişikliğinin etkili olması için)
 ```
 
-## 2) Oracle Cloud güvenlik listesinde 80 (ve istersen 443) portunu aç
+Grup değişikliğinin geçerli olması için çıkıp tekrar bağlan.
 
-Oracle Cloud Console → Networking → Virtual Cloud Networks → (VCN'in) → Security Lists → Default Security List → Add Ingress Rules:
-- Source CIDR: `0.0.0.0/0`, IP Protocol: TCP, Destination Port: `80`
-- (opsiyonel, ileride domain+HTTPS için) Destination Port: `443`
+## 3) Swap ekle (1 GB RAM için gerekli)
 
-Sunucunun kendi güvenlik duvarı da aynı portu açık tutmalı:
+Build sırasında derleyici geçici olarak çok bellek ister:
+
 ```bash
-sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-sudo netfilter-persistent save 2>/dev/null || true
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ```
 
-## 3) Repoyu çek ve ayağa kaldır
+## 4) Repoyu çek ve ayağa kaldır
 
 ```bash
 git clone https://github.com/EgeOzdemirr/WebProject.git
 cd WebProject
+export PUBLIC_URL="http://$(curl -s ifconfig.me)"
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-İlk build 10-20 dakika sürebilir (11 .NET servisi + SQL Server image indirme). İlerlemeyi izlemek için:
+İlk build `e2-micro` üzerinde 30-50 dakika sürebilir (tek çekirdek). İzlemek için:
 
 ```bash
 docker compose -f docker-compose.prod.yml logs -f
 ```
 
-## 4) IdentityServer'ı seed et (tek seferlik)
+> Build çok yavaş gelirse alternatif: image'ları kendi bilgisayarında
+> `--platform linux/amd64` ile build edip bir registry'ye (Docker Hub /
+> GitHub Container Registry) push et, sunucuda sadece `pull` et.
 
-Tüm container'lar ayağa kalktıktan (özellikle `sqlserver` sağlıklı olduktan) sonra:
+## 5) IdentityServer'ı seed et (tek seferlik)
+
+Tüm container'lar ayağa kalktıktan sonra:
 
 ```bash
 docker compose -f docker-compose.prod.yml run --rm identityserver dotnet WebProject.IdentityServer.dll /seed
@@ -54,20 +85,35 @@ docker compose -f docker-compose.prod.yml run --rm identityserver dotnet WebProj
 
 Bu `bob` (Admin) ve `alice` (normal kullanıcı) hesaplarını oluşturur — bkz. [README.md](README.md).
 
-## 5) Örnek katalog verisini yükle (opsiyonel, sadece demo için)
+## 6) Örnek katalog verisini yükle (demo için)
 
 ```bash
 docker cp scripts/seed_catalog.js $(docker compose -f docker-compose.prod.yml ps -q mongodb):/tmp/seed_catalog.js
 docker compose -f docker-compose.prod.yml exec mongodb mongosh --quiet /tmp/seed_catalog.js
 ```
 
-## 6) Test et
+## 7) Test et ve README'ye linki koy
 
-Tarayıcıdan `http://<VM_PUBLIC_IP>` adresine git.
+Tarayıcıdan `http://<VM_EXTERNAL_IP>` adresine git. Çalıştığını gördükten
+sonra README'deki canlı demo satırını güncelle:
+
+```bash
+sed -i "s|<!-- LIVE_URL -->.*<!-- /LIVE_URL -->|<!-- LIVE_URL -->http://<VM_EXTERNAL_IP><!-- /LIVE_URL -->|" README.md
+```
+
+VM'in IP'sinin sabit kalması için Console → VPC network → IP addresses
+üzerinden external IP'yi **Static** yapmak gerekir (aksi halde VM yeniden
+başlatılınca IP değişir). Kullanımdaki statik IP ücretsiz katmana dahildir.
 
 ## Notlar / sonraki adımlar
 
-- Şu an site düz HTTP üzerinden yayında (henüz domain/HTTPS yok). Bir domain alıp VM'in IP'sine yönlendirdikten sonra, önüne Caddy/nginx ile ücretsiz Let's Encrypt HTTPS eklemek kolay bir sonraki adım.
-- `docker-compose.prod.yml` içindeki `AllowedOrigins__0` değerini gerçek public URL ile güncellemek gerekir (şu an placeholder).
-- Bu ilk sürümde Payment, Image, RabbitMQMessage, SignalRRealTime, Images.WebUI ve RapidApiWebUI servisleri dahil edilmedi — ana WebUI akışı bunlara ihtiyaç duymuyor (bkz. README). İstenirse ayrıca eklenebilir.
-- Güncelleme yapmak için: `git pull && docker compose -f docker-compose.prod.yml up -d --build`
+- Site düz HTTP üzerinden yayında. Bir domain alıp VM'in IP'sine
+  yönlendirdikten sonra önüne Caddy koyup ücretsiz Let's Encrypt HTTPS
+  eklemek kolay bir sonraki adım.
+- `PUBLIC_URL` ortam değişkeni WebUI'ın CORS ayarını besliyor; domain
+  aldığında bu değeri güncelleyip `up -d` ile yeniden başlat.
+- Bu sürümde Payment, Image, RabbitMQMessage, SignalRRealTime, Images.WebUI
+  ve RapidApiWebUI servisleri dahil edilmedi — ana WebUI akışı bunlara
+  ihtiyaç duymuyor (bkz. README).
+- Güncelleme: `git pull && docker compose -f docker-compose.prod.yml up -d --build`
+- Bellek durumunu izlemek için: `docker stats --no-stream`
