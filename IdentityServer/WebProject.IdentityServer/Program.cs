@@ -18,6 +18,10 @@ namespace WebProject.IdentityServer
     {
         public static int Main(string[] args)
         {
+            // Npgsql 6, DateTime'ı varsayılan olarak 'timestamp with time zone'a
+            // eşliyor ve Kind=Utc olmayan değerleri reddediyor; eski davranışı koruyoruz.
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)

@@ -14,7 +14,7 @@ namespace WebProject.Discount.Services
         }
         public async Task CreateDiscountCouponAsync(CreateDiscountCouponDto createCouponDto)
         {
-            string query = "insert into Coupons (Code,Rate,IsActive,ValidDate) values (@code,@rate,@isActive,@validDate)";
+            string query = "insert into \"Coupons\" (\"Code\",\"Rate\",\"IsActive\",\"ValidDate\") values (@code,@rate,@isActive,@validDate)";
             var parameters = new DynamicParameters();
             parameters.Add("@code", createCouponDto.Code);
             parameters.Add("@rate", createCouponDto.Rate);
@@ -27,7 +27,7 @@ namespace WebProject.Discount.Services
         }
         public async Task DeleteDiscountCouponAsync(int id)
         {
-            string query = "Delete From Coupons Where CouponId=@couponId";
+            string query = "Delete From \"Coupons\" Where \"CouponId\"=@couponId";
             var parameters = new DynamicParameters();
             parameters.Add("@couponId", id);
             using (var connection = _context.CreateConnection())
@@ -37,7 +37,7 @@ namespace WebProject.Discount.Services
         }
         public async Task<int> GetActiveDiscountCouponsCount()
         {
-            string query = "Select Count(*) From Coupons Where IsActive=1";
+            string query = "Select Count(*) From \"Coupons\" Where \"IsActive\"=true";
             using (var connection = _context.CreateConnection())
             {
                 int values = await connection.QueryFirstOrDefaultAsync<int>(query, null);
@@ -46,7 +46,7 @@ namespace WebProject.Discount.Services
         }
         public async Task<List<ResultDiscountCouponDto>> GetAllDiscountCouponsAsync()
         {
-            string query = "Select * From Coupons";
+            string query = "Select * From \"Coupons\"";
             using (var connection = _context.CreateConnection())
             {
                 var values = await connection.QueryAsync<ResultDiscountCouponDto>(query);
@@ -55,7 +55,7 @@ namespace WebProject.Discount.Services
         }
         public async Task<GetByIdDiscountCouponDto> GetByCouponCodeAndIsValidDiscountCouponAsync(string code)
         {
-            string query = "Select * From Coupons Where Code=@code And IsActive = 1";
+            string query = "Select * From \"Coupons\" Where \"Code\"=@code And \"IsActive\" = true";
             var parameters = new DynamicParameters();
             parameters.Add("@code", code);
             using (var connection = _context.CreateConnection())
@@ -66,7 +66,7 @@ namespace WebProject.Discount.Services
         }
         public async Task<GetByIdDiscountCouponDto> GetByIdDiscountCouponAsync(int id)
         {
-            string query = "Select * From Coupons Where CouponId=@couponId";
+            string query = "Select * From \"Coupons\" Where \"CouponId\"=@couponId";
             var parameters = new DynamicParameters();
             parameters.Add("@couponId", id);
             using (var connection = _context.CreateConnection())
@@ -77,7 +77,7 @@ namespace WebProject.Discount.Services
         }
         public async Task<int> GetDiscountCouponsCount()
         {
-            string query = "Select Count(*) From Coupons";
+            string query = "Select Count(*) From \"Coupons\"";
             using (var connection = _context.CreateConnection())
             {
                 int values = await connection.QueryFirstOrDefaultAsync<int>(query, null);
@@ -86,7 +86,7 @@ namespace WebProject.Discount.Services
         }
         public async Task<int> GetPassiveDiscountCouponsCount()
         {
-            string query = "Select Count(*) From Coupons Where IsActive=0";
+            string query = "Select Count(*) From \"Coupons\" Where \"IsActive\"=false";
             using (var connection = _context.CreateConnection())
             {
                 int values = await connection.QueryFirstOrDefaultAsync<int>(query, null);
@@ -95,7 +95,7 @@ namespace WebProject.Discount.Services
         }
         public async Task UpdateDiscountCouponAsync(UpdateDiscountCouponDto updateCouponDto)
         {
-            string query = "Update Coupons Set Code=@code,Rate=@rate,IsActive=@isActive,ValidDate=@validDate Where CouponId=@couponId";
+            string query = "Update \"Coupons\" Set \"Code\"=@code,\"Rate\"=@rate,\"IsActive\"=@isActive,\"ValidDate\"=@validDate Where \"CouponId\"=@couponId";
             var parameters = new DynamicParameters();
             parameters.Add("@code", updateCouponDto.Code);
             parameters.Add("@rate", updateCouponDto.Rate);

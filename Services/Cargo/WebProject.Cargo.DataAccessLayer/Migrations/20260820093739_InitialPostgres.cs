@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace WebProject.Cargo.DataAccessLayer.Migrations
 {
-    public partial class mig1 : Migration
+    public partial class InitialPostgres : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,9 +14,9 @@ namespace WebProject.Cargo.DataAccessLayer.Migrations
                 name: "CargoCompanies",
                 columns: table => new
                 {
-                    CargoCompanyId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CargoCompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CargoCompanyId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CargoCompanyName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,15 +27,16 @@ namespace WebProject.Cargo.DataAccessLayer.Migrations
                 name: "CargoCustomers",
                 columns: table => new
                 {
-                    CargoCustomerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CargoCustomerId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    SurName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    District = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    UserCustomerId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,11 +47,11 @@ namespace WebProject.Cargo.DataAccessLayer.Migrations
                 name: "CargoOperations",
                 columns: table => new
                 {
-                    CargoOperationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OperationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CargoOperationId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Barcode = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    OperationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,12 +62,12 @@ namespace WebProject.Cargo.DataAccessLayer.Migrations
                 name: "CargoDetails",
                 columns: table => new
                 {
-                    CargoDetailId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CargoCompanyId = table.Column<int>(type: "int", nullable: false),
-                    SenderCustomer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverCustomer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Barcode = table.Column<int>(type: "int", nullable: false)
+                    CargoDetailId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SenderCustomer = table.Column<string>(type: "text", nullable: false),
+                    ReceiverCustomer = table.Column<string>(type: "text", nullable: false),
+                    Barcode = table.Column<int>(type: "integer", nullable: false),
+                    CargoCompanyId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

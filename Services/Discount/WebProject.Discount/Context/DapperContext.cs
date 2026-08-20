@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using WebProject.Discount.Entities;
@@ -16,9 +16,9 @@ namespace WebProject.Discount.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseNpgsql(_connectionString);
         }
         public DbSet<Coupon> Coupons  { get; set; }
-        public IDbConnection CreateConnection()=>new SqlConnection(_connectionString);
+        public IDbConnection CreateConnection()=>new NpgsqlConnection(_connectionString);
     }
 }

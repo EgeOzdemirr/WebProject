@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Npgsql;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using WebProject.Catalog.Dtos.ProductDtos;
@@ -23,15 +23,24 @@ namespace WebProject.Catalog.Services
         {
             var orderedProducts = new HashSet<string>();
 
-            using (var connection = new SqlConnection(_sqlConnectionString))
+            // Anonim istekte (veya token'da name claim'i yoksa) userId null gelir;
+            // parametre boş bırakılamayacağı için sorguyu hiç çalıştırmıyoruz.
+            if (string.IsNullOrEmpty(userId))
+            {
+                return orderedProducts;
+            }
+
+            using (var connection = new NpgsqlConnection(_sqlConnectionString))
             {
                 await connection.OpenAsync();
 
-                var command = new SqlCommand(@"
-                    SELECT DISTINCT od.ProductName
-                    FROM Orderings o
-                    JOIN OrderDetails od ON o.OrderingId = od.OrderingId
-                    WHERE o.UserId = @UserId", connection);
+                // PostgreSQL tırnaksız adları küçük harfe katlıyor; EF tabloları
+                // büyük-küçük harf koruyarak oluşturduğu için adlar tırnaklı.
+                var command = new NpgsqlCommand(@"
+                    SELECT DISTINCT od.""ProductName""
+                    FROM ""Orderings"" o
+                    JOIN ""OrderDetails"" od ON o.""OrderingId"" = od.""OrderingId""
+                    WHERE o.""UserId"" = @UserId", connection);
 
                 command.Parameters.AddWithValue("@UserId", userId);
 

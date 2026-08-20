@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using WebProject.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using WebProject.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
@@ -6,6 +6,11 @@ using WebProject.Order.Application.Interfaces;
 using WebProject.Order.Application.Services;
 using WebProject.Order.Persistence.Context;
 using WebProject.Order.Persistence.Repositories;
+
+// Npgsql 6, DateTime'ı varsayılan olarak 'timestamp with time zone'a eşliyor ve
+// Kind=Utc olmayan değerleri reddediyor. Tarihler formdan Kind=Unspecified
+// geldiği için eski (SQL Server ile aynı) davranışı koruyoruz.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +24,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 // Add services to the container.
 
 builder.Services.AddDbContext<OrderContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IOrderingRepository), typeof(OrderingRepository));
