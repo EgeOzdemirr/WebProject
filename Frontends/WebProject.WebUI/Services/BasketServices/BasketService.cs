@@ -65,38 +65,70 @@ namespace WebProject.WebUI.Services.BasketServices
         public async Task<BasketTotalDto> GetBasket(BasketItemDto? basketItemDto)
         {
             var responseMessage = await _httpClient.GetAsync("Baskets");
-            if (responseMessage.IsSuccessStatusCode)
+            var values = await ReadBasketOrNull(responseMessage);
+            if (values != null)
             {
-                var values = await responseMessage.Content.ReadFromJsonAsync<BasketTotalDto>();
                 return values;
             }
-            else
+
+            // Redis'te henüz sepet yok (servis 204 No Content dönüyor).
+            var appUser = await _userService.GetUserInfo();
+
+            if (basketItemDto == null)
             {
-                var appUser = await _userService.GetUserInfo();
-                BasketTotalDto basketTotal = new BasketTotalDto()
+                // Sepet sayfası/view component'i sadece okuma yapıyor; boş sepet dönüyoruz.
+                return new BasketTotalDto()
                 {
                     UserId = appUser.Id,
-                    BasketItems = new List<BasketItemDto>()
-                    {
-                        new BasketItemDto()
-                        {
-                            ImageUrl = basketItemDto.ImageUrl,
-                            Price = basketItemDto.Price,
-                            ProductId = basketItemDto.ProductId,
-                            ProductName = basketItemDto.ProductName,
-                            Quantity = basketItemDto.Quantity,
-                        },
-                    },
+                    BasketItems = new List<BasketItemDto>(),
                     DiscountCode = "-",
                     DiscountRate = 0
                 };
-                await _httpClient.PostAsJsonAsync<BasketTotalDto>("Baskets", basketTotal);
-
-                var responseMessage2 = await _httpClient.GetAsync("Baskets");
-                var values = await responseMessage2.Content.ReadFromJsonAsync<BasketTotalDto>();
-                return values;
             }
+
+            BasketTotalDto basketTotal = new BasketTotalDto()
+            {
+                UserId = appUser.Id,
+                BasketItems = new List<BasketItemDto>()
+                {
+                    new BasketItemDto()
+                    {
+                        ImageUrl = basketItemDto.ImageUrl,
+                        Price = basketItemDto.Price,
+                        ProductId = basketItemDto.ProductId,
+                        ProductName = basketItemDto.ProductName,
+                        Quantity = basketItemDto.Quantity,
+                    },
+                },
+                DiscountCode = "-",
+                DiscountRate = 0
+            };
+            await _httpClient.PostAsJsonAsync<BasketTotalDto>("Baskets", basketTotal);
+
+            var responseMessage2 = await _httpClient.GetAsync("Baskets");
+            return await ReadBasketOrNull(responseMessage2) ?? basketTotal;
         }
+
+        // 204 No Content ve boş gövde JSON olarak parse edilemez; bu durumda null dönüyoruz.
+        private static async Task<BasketTotalDto?> ReadBasketOrNull(HttpResponseMessage responseMessage)
+        {
+            if (!responseMessage.IsSuccessStatusCode ||
+                responseMessage.StatusCode == System.Net.HttpStatusCode.NoContent ||
+                responseMessage.Content.Headers.ContentLength == 0)
+            {
+                return null;
+            }
+
+            var values = await responseMessage.Content.ReadFromJsonAsync<BasketTotalDto>();
+            if (values == null)
+            {
+                return null;
+            }
+
+            values.BasketItems ??= new List<BasketItemDto>();
+            return values;
+        }
+
         public async Task<bool> RemoveBasketItem(string productId)
         {
             var values = await GetBasket(null);
