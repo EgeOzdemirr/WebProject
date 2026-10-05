@@ -1,0 +1,28 @@
+# Sunucuda (ör. GCP e2-micro) çalıştırılır:  docker compose up -d
+# PostgreSQL (Neon) ve MongoDB (Atlas) dışarıdadır; burada sadece uygulama ve HTTPS proxy var.
+services:
+  app:
+    image: ghcr.io/egeozdemirr/webproject-allinone:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: "10000"
+    volumes:
+      - keys:/keys          # IdentityServer imza anahtarı (oturumlar yeniden başlatmada düşmesin)
+      - dpkeys:/dpkeys      # WebUI çerez şifreleme anahtarları
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on:
+      - app
+volumes:
+  keys:
+  dpkeys:
+  caddy_data:

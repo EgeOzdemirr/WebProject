@@ -1,0 +1,4 @@
+# Let's Encrypt sertifikasını otomatik alır. DOMAIN örn: 34-12-56-78.sslip.io
+{$DOMAIN} {
+	reverse_proxy app:10000
+}
