@@ -114,8 +114,5 @@ başlatılınca IP değişir). Kullanımdaki statik IP ücretsiz katmana dahildi
   eklemek kolay bir sonraki adım.
 - `.env` içindeki `PUBLIC_URL` WebUI'ın CORS ayarını besliyor; domain
   aldığında bu değeri güncelleyip `up -d` ile yeniden başlat.
-- Bu sürümde Payment, Image, RabbitMQMessage, SignalRRealTime, Images.WebUI
-  ve RapidApiWebUI servisleri dahil edilmedi — ana WebUI akışı bunlara
-  ihtiyaç duymuyor (bkz. README).
 - Güncelleme: `git pull && docker compose -f docker-compose.prod.yml up -d --build`
 - Bellek durumunu izlemek için: `docker stats --no-stream`

@@ -4,7 +4,7 @@
 
 Denemek için hazır hesap: `alice` / `Pass123$` (normal kullanıcı). Admin paneli herkese açık değildir.
 
-.NET 6 tabanlı bir e-ticaret mikroservis mimarisi: IdentityServer4 ile kimlik doğrulama, Ocelot API Gateway, ve Catalog/Basket/Order/Discount/Cargo/Comment/Payment/Message/Image/Recommendation gibi bağımsız mikroservisler, hepsi ortak bir MVC frontend (`WebProject.WebUI`) tarafından tüketiliyor.
+.NET 6 tabanlı bir e-ticaret mikroservis mimarisi: IdentityServer4 ile kimlik doğrulama, Ocelot API Gateway, ve Catalog/Basket/Order/Discount/Cargo/Comment/Message/Recommendation gibi bağımsız mikroservisler, hepsi ortak bir MVC frontend (`WebProject.WebUI`) tarafından tüketiliyor.
 
 ## Mimari
 
@@ -23,11 +23,8 @@ WebProject.WebUI (5083/7177)  ->  Ocelot Gateway (5000)  ->  Mikroservisler (707
 | Cargo | 7073 | PostgreSQL: `WebProjectCargoDb` |
 | Basket | 7074 | Redis |
 | Comment | 7075 | PostgreSQL: `WebProjectCommentDb` |
-| Payment | 7076 | - |
-| Image | 7077 | - |
 | Message | 7078 | PostgreSQL: `WebProjectMessageDb` |
 | Recommendation | 7080 | MongoDB: `WebProjectCatalogDb` |
-| RabbitMQMessage, SignalRRealTime, Images.WebUI (GCP), RapidApiWebUI | - | opsiyonel, ana WebUI akışı için gerekli değil |
 | **WebUI (frontend)** | **5083 (http) / 7177 (https)** | - |
 
 Tüm mikroservisler `IdentityServerUrl` üzerinden JWT doğrular ve trafik Ocelot Gateway üzerinden `http://localhost:5000/services/<servis>/...` şeklinde yönlenir.
@@ -35,7 +32,7 @@ Tüm mikroservisler `IdentityServerUrl` üzerinden JWT doğrular ve trafik Ocelo
 ## Gereksinimler
 
 - [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (PostgreSQL, MongoDB, Redis, RabbitMQ için)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (PostgreSQL, MongoDB, Redis için)
 
 ## Hızlı başlangıç (her şey Docker'da)
 
@@ -82,7 +79,7 @@ Repo kökünde:
 docker compose up -d
 ```
 
-Bu, PostgreSQL (5432), MongoDB (27017), Redis (6379) ve RabbitMQ'yu (5672, yönetim paneli 15672) başlatır.
+Bu, PostgreSQL (5432), MongoDB (27017) ve Redis'i (6379) başlatır.
 
 ### 2) HTTPS geliştirme sertifikasını güven listesine ekle (tek seferlik)
 
@@ -151,14 +148,7 @@ IdentityServer ve Gateway'in diğerlerinden biraz önce ayakta olması yeterli; 
 
 ## Bilinen sınırlamalar
 
-- **Images.WebUI** servisi gerçek bir Google Cloud Storage bucket + servis hesabı JSON dosyası gerektiriyor (`appsettings.json` içinde placeholder bir Windows yolu var). Bu servis olmadan da ana WebUI çalışır; ürün görselleri için `Image` servisi kullanılıyor.
 - `/Information/Index` ve `/AppUser/Profile/Index` yarım kalmış sayfalar (view'ı olmayan ya da model beklerken model almayan controller'lar); uygulamanın hiçbir yerinden linklenmiyorlar.
-- **RapidApiWebUI** kendi API anahtarınızı ister:
-  ```bash
-  cd RapidApi/WebProject.RapidApiWebUI
-  dotnet user-secrets init
-  dotnet user-secrets set "RapidApi:Key" "kendi-anahtarınız"
-  ```
 
 ## Docker container'larını durdurma
 
