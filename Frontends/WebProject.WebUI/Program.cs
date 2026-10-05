@@ -57,12 +57,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAccessTokenManagement();
 
+// Render/Caddy gibi bir TLS proxy'sinin arkasında istek şemasını (https) doğru algıla
+builder.Services.Configure<ForwardedHeadersOptions>(o =>
+{
+    o.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+    o.KnownNetworks.Clear();
+    o.KnownProxies.Clear();
+});
+
 // Oturum çerezi/TempData şifreleme anahtarları kalıcı olsun (aksi halde her yeniden başlatmada herkes çıkış yapar)
 var dataProtectionPath = builder.Configuration["DataProtectionKeysPath"];
 if (!string.IsNullOrEmpty(dataProtectionPath))
 {
     builder.Services.AddDataProtection()
         .SetApplicationName("WebProject.WebUI")
+        .SetDefaultKeyLifetime(TimeSpan.FromDays(3650))
         .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionPath));
 }
 
@@ -257,6 +266,8 @@ builder.Services.AddLocalization(opt =>
 builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
 var app = builder.Build();
+
+app.UseForwardedHeaders();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
