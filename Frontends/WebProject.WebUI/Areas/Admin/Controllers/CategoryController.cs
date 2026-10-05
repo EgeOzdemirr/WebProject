@@ -84,6 +84,10 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
             ViewBag.v3 = "Ürün Listesi";
 
             var value2 = await _categoryService.GetByIdCategoryAsync(id);
+            if (value2 == null)
+            {
+                return NotFound();
+            }
 
             var value = await _categoryService.GetProductsByCategoryIdAsync(id);
 

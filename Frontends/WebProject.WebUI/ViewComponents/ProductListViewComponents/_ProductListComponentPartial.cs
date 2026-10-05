@@ -25,6 +25,10 @@ namespace WebProject.WebUI.ViewComponents.ProductListViewComponents
             else
             {
                 var values2 = await _categoryService.GetByIdCategoryAsync(id);
+                if (values2 == null)
+                {
+                    return View(new List<ResultProductWithCategoryDto>());
+                }
 
                 var values = await _categoryService.GetProductsByCategoryIdAsync(id);
                 ViewBag.ct = values.Count > 0 ? values2.CategoryName + " " + "Kategorisindeki Ürünler" : values2.CategoryName + " " + "Kategorisinde Henüz Ürün Yok";

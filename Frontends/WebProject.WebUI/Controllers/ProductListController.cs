@@ -42,6 +42,10 @@ namespace WebProject.WebUI.Controllers
             {
                 ViewData["pId"] = id;
                 var product = await _productService.GetByIdProductAsync(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
                 ViewBag.Dr5 = product.ProductName;
                 ViewBag.pDId = product.ProductId;
             }
