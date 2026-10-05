@@ -43,5 +43,15 @@ if (db.Categories.countDocuments() > 0) {
     { Title: "Elektronikte İndirim", SubTitle: "%20'ye varan indirim", ImageUrl: "img/offer-1.jpg", ButtonTitle: "Alışverişe Başla" }
   ]);
 
+  // Ürün detay sayfası için her ürüne açıklama ve görsel
+  db.Products.find().forEach(function (p) {
+    db.ProductDetails.insertOne({
+      ProductDescription: p.ProductDescription + " Dayanıklı malzeme ve şık tasarımla günlük kullanıma uygundur.",
+      ProductInfo: "Garanti: 2 yıl. Ücretsiz kargo, 14 gün koşulsuz iade.",
+      ProductId: p._id.toString()
+    });
+    db.ProductImages.insertOne({ ProductImage1: p.ProductImageUrl, ProductId: p._id.toString() });
+  });
+
   print("Seed tamamlandı: " + db.Categories.countDocuments() + " kategori, " + db.Products.countDocuments() + " ürün, " + db.Brands.countDocuments() + " marka");
 }
