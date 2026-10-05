@@ -2,7 +2,7 @@
 
 **🔗 Canlı demo: <!-- LIVE_URL -->_(yayına alındığında buraya eklenecek)_<!-- /LIVE_URL -->**
 
-Denemek için hazır hesaplar: `bob` / `Pass123$` (admin paneli dahil) veya `alice` / `Pass123$` (normal kullanıcı).
+Denemek için hazır hesap: `alice` / `Pass123$` (normal kullanıcı). Admin paneli herkese açık değildir.
 
 .NET 6 tabanlı bir e-ticaret mikroservis mimarisi: IdentityServer4 ile kimlik doğrulama, Ocelot API Gateway, ve Catalog/Basket/Order/Discount/Cargo/Comment/Payment/Message/Image/Recommendation gibi bağımsız mikroservisler, hepsi ortak bir MVC frontend (`WebProject.WebUI`) tarafından tüketiliyor.
 
@@ -39,13 +39,21 @@ Tüm mikroservisler `IdentityServerUrl` üzerinden JWT doğrular ve trafik Ocelo
 
 ## Hızlı başlangıç (her şey Docker'da)
 
+Önce gizli değerleri içeren `.env` dosyasını oluşturun (git'e girmez):
+
+```bash
+cp .env.example .env
+# POSTGRES_PASSWORD, CLIENT_SECRET ve SEED_ADMIN_PASSWORD için rastgele değerler yazın:
+#   openssl rand -base64 24
+```
+
 Tüm stack'i (11 .NET servisi + PostgreSQL, MongoDB, Redis) tek komutla ayağa kaldırır:
 
 ```bash
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-İlk build 10-20 dakika sürer. Ardından IdentityServer'ı bir kez seed edin:
+İlk build 10-20 dakika sürer. Ardından IdentityServer'ı bir kez seed edin (`bob` admin parolası `.env`'deki `SEED_ADMIN_PASSWORD`'dür, boşsa konsola yazılır):
 
 ```bash
 docker compose -f docker-compose.prod.yml run --rm identityserver dotnet WebProject.IdentityServer.dll /seed
@@ -91,12 +99,14 @@ cd IdentityServer/WebProject.IdentityServer
 dotnet run -- /seed
 ```
 
-Bu iki test kullanıcısı ve bir "Admin" rolü oluşturur:
+Bu iki kullanıcı ve bir "Admin" rolü oluşturur:
 
 | Kullanıcı | Şifre | Rol |
 |---|---|---|
-| `alice` | `Pass123$` | normal kullanıcı |
-| `bob` | `Pass123$` | **Admin** (`/Admin/*` alanına erişebilir) |
+| `alice` | `Pass123$` (demo) | normal kullanıcı |
+| `bob` | `SEED_ADMIN_PASSWORD` ortam değişkeni; verilmezse rastgele üretilip konsola **bir kez** yazılır | **Admin** (`/Admin/*` alanına erişebilir) |
+
+Yerelde sabit bir admin parolası istersen: `SEED_ADMIN_PASSWORD='SenYaz1!' dotnet run -- /seed`
 
 ### 4) Tüm servisleri başlat
 

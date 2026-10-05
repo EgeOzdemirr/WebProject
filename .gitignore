@@ -365,3 +365,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Services/Images/WebProject.Images.WebUI/wwwroot/modular-oven-442915-c2-3a1b6860bbae.json
+
+## Yerel sırlar
+.env
+tempkey.jwk
+**/keys/

@@ -1,10 +1,11 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
 using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using IdentityModel;
 using WebProject.IdentityServer.Data;
 using WebProject.IdentityServer.Models;
@@ -17,6 +18,14 @@ namespace WebProject.IdentityServer
 {
     public class SeedData
     {
+        private static string GeneratePassword()
+        {
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+            var bytes = RandomNumberGenerator.GetBytes(20);
+            var body = new string(bytes.Select(b => chars[b % chars.Length]).ToArray());
+            return body + "aA1!"; // Identity parola kurallarını (rakam, büyük/küçük harf, sembol) garanti eder
+        }
+
         public static void EnsureSeedData(string connectionString)
         {
             var services = new ServiceCollection();
@@ -44,6 +53,16 @@ namespace WebProject.IdentityServer
                         Log.Debug("Admin role created");
                     }
 
+                    // 'alice' herkese açık, yetkisiz bir demo kullanıcısıdır.
+                    var demoPassword = Environment.GetEnvironmentVariable("SEED_DEMO_PASSWORD") ?? "Pass123$";
+                    // 'bob' Admin'dir: parola ortam değişkeniyle verilir, yoksa rastgele üretilip bir kez yazdırılır.
+                    var adminPassword = Environment.GetEnvironmentVariable("SEED_ADMIN_PASSWORD");
+                    if (string.IsNullOrWhiteSpace(adminPassword))
+                    {
+                        adminPassword = GeneratePassword();
+                        Log.Warning("SEED_ADMIN_PASSWORD verilmedi. 'bob' (Admin) için üretilen parola: {Password}", adminPassword);
+                    }
+
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
@@ -53,7 +72,7 @@ namespace WebProject.IdentityServer
                             Email = "AliceSmith@email.com",
                             EmailConfirmed = true,
                         };
-                        var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                        var result = userMgr.CreateAsync(alice, demoPassword).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
@@ -85,7 +104,7 @@ namespace WebProject.IdentityServer
                             Email = "BobSmith@email.com",
                             EmailConfirmed = true
                         };
-                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                        var result = userMgr.CreateAsync(bob, adminPassword).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);

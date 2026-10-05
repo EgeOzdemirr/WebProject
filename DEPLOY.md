@@ -61,7 +61,9 @@ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ```bash
 git clone https://github.com/EgeOzdemirr/WebProject.git
 cd WebProject
-export PUBLIC_URL="http://$(curl -s ifconfig.me)"
+cp .env.example .env
+# .env içindeki POSTGRES_PASSWORD, CLIENT_SECRET, SEED_ADMIN_PASSWORD'ü doldur (openssl rand -base64 24)
+sed -i "s|^PUBLIC_URL=.*|PUBLIC_URL=http://$(curl -s ifconfig.me)|" .env
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
@@ -83,7 +85,7 @@ Tüm container'lar ayağa kalktıktan sonra:
 docker compose -f docker-compose.prod.yml run --rm identityserver dotnet WebProject.IdentityServer.dll /seed
 ```
 
-Bu `bob` (Admin) ve `alice` (normal kullanıcı) hesaplarını oluşturur — bkz. [README.md](README.md).
+Bu `bob` (Admin, parolası `.env`'deki `SEED_ADMIN_PASSWORD`; boşsa konsola bir kez yazılır) ve `alice` (herkese açık demo kullanıcısı) hesaplarını oluşturur.
 
 ## 6) Örnek katalog verisini yükle (demo için)
 
@@ -110,7 +112,7 @@ başlatılınca IP değişir). Kullanımdaki statik IP ücretsiz katmana dahildi
 - Site düz HTTP üzerinden yayında. Bir domain alıp VM'in IP'sine
   yönlendirdikten sonra önüne Caddy koyup ücretsiz Let's Encrypt HTTPS
   eklemek kolay bir sonraki adım.
-- `PUBLIC_URL` ortam değişkeni WebUI'ın CORS ayarını besliyor; domain
+- `.env` içindeki `PUBLIC_URL` WebUI'ın CORS ayarını besliyor; domain
   aldığında bu değeri güncelleyip `up -d` ile yeniden başlat.
 - Bu sürümde Payment, Image, RabbitMQMessage, SignalRRealTime, Images.WebUI
   ve RapidApiWebUI servisleri dahil edilmedi — ana WebUI akışı bunlara

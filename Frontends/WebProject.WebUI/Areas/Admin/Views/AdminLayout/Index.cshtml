@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = null;
 }
 
@@ -38,7 +38,7 @@
     <script src="https://cdn.datatables.net/buttons/1.6.3/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(() => {
-            var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7244/SignalRHub").build();
+            var connection = new signalR.HubConnectionBuilder().withUrl("/SignalRHub").build();
             $("#connstatus").text(connection.state);
 
             connection.start().then(() => {

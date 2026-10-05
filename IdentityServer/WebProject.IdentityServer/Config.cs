@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -11,6 +11,10 @@ namespace WebProject.IdentityServer
 {
     public static class Config
     {
+        // Üretimde CLIENT_SECRET ortam değişkeniyle verilir; yerel geliştirmede varsayılan kullanılır.
+        private static string ClientSecret =>
+            System.Environment.GetEnvironmentVariable("CLIENT_SECRET") ?? "webprojectsecret";
+
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
             new ApiResource("ResourceCatalog") { Scopes = {"CatalogFullPermission", "CatalogReadPermission"}},
@@ -58,7 +62,7 @@ namespace WebProject.IdentityServer
                 ClientId = "WebProjectVisitorId",
                 ClientName = "Web Project Visitor User",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = {new Secret("webprojectsecret".Sha256())},
+                ClientSecrets = {new Secret(ClientSecret.Sha256())},
                 AllowedScopes =
                 {
                     "CatalogReadPermission", "CatalogFullPermission", "OcelotFullPermission", "CommentFullPermission",
@@ -74,7 +78,7 @@ namespace WebProject.IdentityServer
                 ClientId = "WebProjectManagerId",
                 ClientName = "Web Project Manager User",
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                ClientSecrets = {new Secret("webprojectsecret".Sha256())},
+                ClientSecrets = {new Secret(ClientSecret.Sha256())},
                 AllowedScopes =
                 {
                     "CatalogFullPermission", "CatalogReadPermission", "CargoFullPermission", "BasketFullPermission", "OcelotFullPermission",
@@ -94,7 +98,7 @@ namespace WebProject.IdentityServer
                 ClientId = "WebProjectAdminId",
                 ClientName = "Web Project Admin User",
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                ClientSecrets = {new Secret("webprojectsecret".Sha256())},
+                ClientSecrets = {new Secret(ClientSecret.Sha256())},
                 AllowedScopes =
                 {
                     "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission",

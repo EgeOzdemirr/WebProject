@@ -62,7 +62,7 @@ namespace WebProject.IdentityServer
                 .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            builder.AddDeveloperSigningCredential(persistKey: true, filename: Configuration["SigningKeyPath"]);
 
             services.AddAuthentication()
                 .AddGoogle(options =>
