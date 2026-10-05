@@ -15,6 +15,16 @@
         @await Component.InvokeAsync("_AdminLayoutSidebarComponentPartial")
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            @if (User.IsInRole("DemoAdmin"))
+            {
+                <div style="background:#FFD333;color:#3D464D;padding:10px 20px;font-weight:600;font-size:14px;">
+                    Demo modu: admin panelini gezebilirsiniz, ancak değişiklikler kaydedilmez.
+                    @if (TempData["DemoMessage"] != null)
+                    {
+                        <span style="display:block;font-weight:400;margin-top:2px">@TempData["DemoMessage"]</span>
+                    }
+                </div>
+            }
             <!-- Content Header (Page header) -->
             @await Component.InvokeAsync("_AdminLayoutMainSectionViewBagComponentPartial")
             <!-- Main content -->

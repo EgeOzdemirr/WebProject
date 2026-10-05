@@ -63,6 +63,12 @@ namespace WebProject.IdentityServer
                         Log.Warning("SEED_ADMIN_PASSWORD verilmedi. 'bob' (Admin) için üretilen parola: {Password}", adminPassword);
                     }
 
+                    if (!roleMgr.RoleExistsAsync("DemoAdmin").Result)
+                    {
+                        roleMgr.CreateAsync(new IdentityRole("DemoAdmin")).Wait();
+                        Log.Debug("DemoAdmin role created");
+                    }
+
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
@@ -132,6 +138,32 @@ namespace WebProject.IdentityServer
                     {
                         userMgr.AddToRoleAsync(bob, "Admin").Wait();
                         Log.Debug("bob added to Admin role");
+                    }
+
+                    // Herkese açık, salt-okunur admin demo hesabı (değişiklik yapamaz, WebUI tarafında engellenir)
+                    var demoAdminPassword = Environment.GetEnvironmentVariable("SEED_DEMOADMIN_PASSWORD") ?? "Demo.Admin1";
+                    var demoAdmin = userMgr.FindByNameAsync("demoadmin").Result;
+                    if (demoAdmin == null)
+                    {
+                        demoAdmin = new ApplicationUser
+                        {
+                            UserName = "demoadmin",
+                            Email = "demoadmin@example.com",
+                            Name = "Demo",
+                            Surname = "Admin",
+                            EmailConfirmed = true
+                        };
+                        var created = userMgr.CreateAsync(demoAdmin, demoAdminPassword).Result;
+                        if (!created.Succeeded)
+                        {
+                            throw new Exception(created.Errors.First().Description);
+                        }
+                        Log.Debug("demoadmin created");
+                    }
+                    if (!userMgr.IsInRoleAsync(demoAdmin, "DemoAdmin").Result)
+                    {
+                        userMgr.AddToRoleAsync(demoAdmin, "DemoAdmin").Wait();
+                        Log.Debug("demoadmin added to DemoAdmin role");
                     }
                 }
             }

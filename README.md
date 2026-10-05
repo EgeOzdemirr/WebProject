@@ -2,7 +2,12 @@
 
 **🔗 Canlı demo: <!-- LIVE_URL -->_(yayına alındığında buraya eklenecek)_<!-- /LIVE_URL -->**
 
-Denemek için hazır hesap: `alice` / `Pass123$` (normal kullanıcı). Admin paneli herkese açık değildir.
+Denemek için hazır hesaplar:
+
+| Hesap | Kullanıcı / Şifre | Ne yapabilir |
+|---|---|---|
+| Alışveriş (demo) | `alice` / `Pass123$` | sepet, sipariş, mesajlar |
+| Admin paneli (salt-okunur demo) | `demoadmin` / `Demo.Admin1` | tüm admin sayfalarını gezer; kaydetme/silme engellenir |
 
 .NET 6 tabanlı bir e-ticaret mikroservis mimarisi: IdentityServer4 ile kimlik doğrulama, Ocelot API Gateway, ve Catalog/Basket/Order/Discount/Cargo/Comment/Message/Recommendation gibi bağımsız mikroservisler, hepsi ortak bir MVC frontend (`WebProject.WebUI`) tarafından tüketiliyor.
 
@@ -101,6 +106,7 @@ Bu iki kullanıcı ve bir "Admin" rolü oluşturur:
 | Kullanıcı | Şifre | Rol |
 |---|---|---|
 | `alice` | `Pass123$` (demo) | normal kullanıcı |
+| `demoadmin` | `Demo.Admin1` (herkese açık) | **DemoAdmin**: admin panelini gezer, değişiklik yapamaz |
 | `bob` | `SEED_ADMIN_PASSWORD` ortam değişkeni; verilmezse rastgele üretilip konsola **bir kez** yazılır | **Admin** (`/Admin/*` alanına erişebilir) |
 
 Yerelde sabit bir admin parolası istersen: `SEED_ADMIN_PASSWORD='SenYaz1!' dotnet run -- /seed`

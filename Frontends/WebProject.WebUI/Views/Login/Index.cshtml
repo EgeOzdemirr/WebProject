@@ -14,12 +14,11 @@
 	<!-- Font-->
 	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/css/opensans-font.css">
 	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/fonts/line-awesome/css/line-awesome.min.css">
-	<!-- Jquery -->
-	<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
 	<!-- Main Style Css -->
 	<link rel="stylesheet" href="~/colorlib-regform-30/css/style.css" />
+	<link rel="stylesheet" href="~/css/auth-polish.css" />
 </head>
-<body class="form-v4">
+<body class="form-v4 auth-login">
 	<div class="page-content">
 		<div class="form-v4-content">
 			<div class="form-left">
@@ -36,7 +35,7 @@
 				<h2>MultiShop Giriş Formu</h2>
 				@if (ViewBag.LoginError != null)
 				{
-					<p style="color:#e74c3c;margin-bottom:15px">@ViewBag.LoginError</p>
+					<p class="auth-error">@ViewBag.LoginError</p>
 				}
 				<div class="form-row">
 					<label for="user_name">Kullanıcı Adınız</label>
@@ -49,6 +48,11 @@
 					</div>
 				</div>
 				<button type="submit" class="register" style="padding:15px">Giriş Yap</button>
+				<div class="auth-demo">
+					<strong>Admin panelini denemek ister misiniz?</strong>
+					Demo hesabı: <code>demoadmin</code> / <code>Demo.Admin1</code><br>
+					Tüm admin sayfalarını gezebilirsiniz; demo hesabı salt-okunurdur, değişiklikler kaydedilmez.
+				</div>
 			</form>
 		</div>
 	</div>

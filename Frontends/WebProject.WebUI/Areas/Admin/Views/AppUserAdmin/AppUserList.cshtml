@@ -24,15 +24,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @{
+    var isDemo = User.IsInRole("DemoAdmin");
+    string Mask(string email)
+    {
+        if (string.IsNullOrEmpty(email) || !email.Contains('@')) return "***";
+        var parts = email.Split('@');
+        return parts[0].Substring(0, 1) + "***@" + parts[1];
+    }
+}
+@foreach (var item in Model)
                         {
                             count++;
 
                             <tr>
                                 <th scope="row">@count</th>
-                                <td>@item.Name @item.Surname</td>
+                                <td>@(isDemo ? item.Name + " " + (string.IsNullOrEmpty(item.Surname) ? "" : item.Surname.Substring(0, 1) + ".") : item.Name + " " + item.Surname)</td>
                                 <td>@item.UserName</td>
-                                <td>@item.Email</td>
+                                <td>@(isDemo ? Mask(item.Email) : item.Email)</td>
                                 <td><a href="/Admin/AppUserAdmin/UserCargoAddressInfo/@item.Id" class="btn btn-warning">Adres Detayı</a></td>
                             </tr>
                         }

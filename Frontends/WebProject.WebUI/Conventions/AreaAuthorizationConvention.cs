@@ -17,8 +17,9 @@ namespace WebProject.WebUI.Conventions
             {
                 controller.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
-                    .RequireRole("Admin")
+                    .RequireRole("Admin", DemoReadOnlyFilter.Role)
                     .Build()));
+                controller.Filters.Add(new DemoReadOnlyFilter());
             }
             else if (string.Equals(area, "AppUser", StringComparison.OrdinalIgnoreCase))
             {
