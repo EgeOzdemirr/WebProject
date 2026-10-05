@@ -30,7 +30,7 @@
                             <tr>
                                 <th scope="row">@count</th>
                                 <td>@item.ProductName</td>
-                                <td>@item.ProductPrice.ToString("#,###")</td>
+                                <td>@item.ProductPrice.ToString("#,##0.00")</td>
                                 <td class="text-center"><a href="/Admin/Product/DeleteProduct/@item.ProductId" class="btn btn-danger btn-sm">Sil</a></td>
                                 <td class="text-center"><a href="/Admin/Product/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a></td>
                             </tr>
