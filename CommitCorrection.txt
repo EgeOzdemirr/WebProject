@@ -1,1 +1,0 @@
-Comment Microservisi Ocelot Konfigrasyonu -> Contact Microservisi Ocelot Konfigrasyonu
