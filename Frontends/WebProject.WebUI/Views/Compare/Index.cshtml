@@ -1,0 +1,74 @@
+@model List<ResultProductWithCategoryDto>
+@{
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+}
+
+<div class="container-fluid pt-4 pb-5">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Ürün Karşılaştırma</span></h2>
+    @if (Model.Count == 0)
+    {
+        <div class="mx-xl-5 wp-empty">
+            <i class="fa fa-sync-alt"></i>
+            <h5>Karşılaştıracak ürün seçmediniz</h5>
+            <p class="text-muted">Ürün kartlarındaki <i class="fa fa-sync-alt"></i> simgesiyle en fazla 4 ürünü yan yana karşılaştırabilirsiniz.</p>
+            <a href="/ProductList/Index/" class="btn btn-primary">Ürünlere Göz At</a>
+        </div>
+    }
+    else
+    {
+        <div class="mx-xl-5">
+            <div class="table-responsive">
+                <table class="table bg-light wp-compare">
+                    <thead>
+                        <tr>
+                            <th scope="row" class="wp-compare-label"></th>
+                            @foreach (var item in Model)
+                            {
+                                <td class="text-center">
+                                    <div class="wp-compare-img"><a href="/ProductList/ProductDetail/@item.ProductId"><img src="@item.ProductImageUrl" alt="@item.ProductName"></a></div>
+                                    <a class="h6 text-decoration-none d-block mt-2" href="/ProductList/ProductDetail/@item.ProductId">@item.ProductName</a>
+                                </td>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="wp-compare-label">Fiyat</th>
+                            @foreach (var item in Model)
+                            {
+                                <td class="text-center"><strong class="wp-compare-price">₺ @item.ProductPrice.ToString("#,###.#0")</strong></td>
+                            }
+                        </tr>
+                        <tr>
+                            <th scope="row" class="wp-compare-label">Kategori</th>
+                            @foreach (var item in Model)
+                            {
+                                <td class="text-center">@(item.Category?.CategoryName ?? "-")</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th scope="row" class="wp-compare-label">Açıklama</th>
+                            @foreach (var item in Model)
+                            {
+                                <td>@item.ProductDescription</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th scope="row" class="wp-compare-label"></th>
+                            @foreach (var item in Model)
+                            {
+                                <td class="text-center">
+                                    <a class="btn btn-primary btn-sm mb-2" href="/ShoppingCart/AddBasketItem/@item.ProductId"><i class="fa fa-shopping-cart mr-1"></i> Sepete Ekle</a>
+                                    <form method="post" action="/Compare/Remove/@item.ProductId" class="m-0">
+                                        <button type="submit" class="btn btn-outline-dark btn-sm"><i class="fa fa-times mr-1"></i> Çıkar</button>
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form method="post" action="/Compare/Clear" class="text-right"><button type="submit" class="btn btn-link text-dark">Listeyi temizle</button></form>
+        </div>
+    }
+</div>

@@ -29,6 +29,24 @@ namespace WebProject.WebUI.Services.DiscountServices
             return value;
         }
 
+        public async Task<List<ResultDiscountCouponDto>> GetActiveDiscountCouponsAsync()
+        {
+            try
+            {
+                var responseMessage = await _httpClient.GetAsync("Discounts/GetActiveDiscountCoupons");
+                if (!responseMessage.IsSuccessStatusCode)
+                {
+                    return new List<ResultDiscountCouponDto>();
+                }
+                var jsondata = await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<ResultDiscountCouponDto>>(jsondata) ?? new List<ResultDiscountCouponDto>();
+            }
+            catch
+            {
+                return new List<ResultDiscountCouponDto>();
+            }
+        }
+
         public async Task<GetByIdDiscountCouponDto> GetByCodeDiscountCouponAsync(string code)
         {
             var responseMessage = await _httpClient.GetAsync("Discounts/GetDiscountCouponByCode/" + code);

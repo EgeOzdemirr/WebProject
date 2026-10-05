@@ -1,0 +1,22 @@
+@model ResultProductWithCategoryDto
+
+<div class="row align-items-center">
+    <div class="col-md-5 mb-3 mb-md-0">
+        <div class="wp-quick-img">
+            <img src="@Model.ProductImageUrl" alt="@Model.ProductName">
+        </div>
+    </div>
+    <div class="col-md-7">
+        @if (Model.Category != null)
+        {
+            <p class="wp-quick-cat text-uppercase mb-1">@Model.Category.CategoryName</p>
+        }
+        <h4 class="mb-2">@Model.ProductName</h4>
+        <h3 class="wp-quick-price mb-3">₺ @Model.ProductPrice.ToString("#,###.#0")</h3>
+        <p class="text-muted mb-4">@Model.ProductDescription</p>
+        <div class="d-flex flex-wrap">
+            <a class="btn btn-primary mr-2 mb-2" href="/ShoppingCart/AddBasketItem/@Model.ProductId"><i class="fa fa-shopping-cart mr-1"></i> Sepete Ekle</a>
+            <a class="btn btn-outline-dark mb-2" href="/ProductList/ProductDetail/@Model.ProductId">Ürün Sayfasına Git</a>
+        </div>
+    </div>
+</div>

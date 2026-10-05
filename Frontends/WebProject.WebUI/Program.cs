@@ -36,6 +36,8 @@ using WebProject.WebUI.SignalRHubs;
 using WebProject.WebUI.Services.StatisticServices.CommentStatisticServices;
 using WebProject.WebUI.Services.CatalogServices.ProductRecommendationServices;
 using WebProject.WebUI.Conventions;
+using Microsoft.AspNetCore.DataProtection;
+using WebProject.WebUI.Services.WishlistServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +56,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 
 builder.Services.AddAccessTokenManagement();
+
+// Oturum çerezi/TempData şifreleme anahtarları kalıcı olsun (aksi halde her yeniden başlatmada herkes çıkış yapar)
+var dataProtectionPath = builder.Configuration["DataProtectionKeysPath"];
+if (!string.IsNullOrEmpty(dataProtectionPath))
+{
+    builder.Services.AddDataProtection()
+        .SetApplicationName("WebProject.WebUI")
+        .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionPath));
+}
 
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()
     ?? new[] { "http://localhost:5083", "https://localhost:7177" };
@@ -104,6 +115,11 @@ builder.Services.AddHttpClient<IAppUserStatisticService, AppUserStatisticService
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 builder.Services.AddHttpClient<IBasketService, BasketService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IWishlistService, WishlistService>(opt =>
 {
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();

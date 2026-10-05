@@ -192,12 +192,15 @@ services:
       DOTNET_gcServer: "0"
       ServiceApiSettings__OcelotUrl: "http://gateway"
       ServiceApiSettings__IdentityServerUrl: "http://identityserver"
+      DataProtectionKeysPath: /dpkeys
       ClientSettings__WebProjectVisitorClient__ClientSecret: "${CLIENT_SECRET:?CLIENT_SECRET .env dosyasinda tanimli olmali}"
       ClientSettings__WebProjectManagerClient__ClientSecret: "${CLIENT_SECRET:?CLIENT_SECRET .env dosyasinda tanimli olmali}"
       ClientSettings__WebProjectAdminClient__ClientSecret: "${CLIENT_SECRET:?CLIENT_SECRET .env dosyasinda tanimli olmali}"
       AllowedOrigins__0: "${PUBLIC_URL:-http://localhost}"
     ports:
       - "80:80"
+    volumes:
+      - webui_keys:/dpkeys
     depends_on:
       - gateway
       - identityserver
@@ -207,3 +210,4 @@ volumes:
   mongo_data:
   postgres_data:
   identity_keys:
+  webui_keys:

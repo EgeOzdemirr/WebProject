@@ -9,6 +9,8 @@ Denemek için hazır hesaplar:
 | Alışveriş (demo) | `alice` / `Pass123$` | sepet, sipariş, mesajlar |
 | Admin paneli (salt-okunur demo) | `demoadmin` / `Demo.Admin1` | tüm admin sayfalarını gezer; kaydetme/silme engellenir |
 
+Giriş yaptıktan sonra üst çubukta adınız, **Admin Paneli** düğmesi (admin hesaplarında), Favorilerim, Karşılaştır ve Çıkış görünür. Ürün kartının üzerine gelince sepete ekle, favori, karşılaştır ve hızlı bakış butonları çıkar. Sepette aktif kuponlar listelenir (örnek kuponlar: `HOSGELDIN10`, `YAZ20`, `SUPER30`).
+
 .NET 6 tabanlı bir e-ticaret mikroservis mimarisi: IdentityServer4 ile kimlik doğrulama, Ocelot API Gateway, ve Catalog/Basket/Order/Discount/Cargo/Comment/Message/Recommendation gibi bağımsız mikroservisler, hepsi ortak bir MVC frontend (`WebProject.WebUI`) tarafından tüketiliyor.
 
 ## Mimari

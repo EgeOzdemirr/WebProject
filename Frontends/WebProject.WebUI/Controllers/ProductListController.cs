@@ -31,6 +31,16 @@ namespace WebProject.WebUI.Controllers
             }
             return View();
         }
+        public async Task<IActionResult> QuickView(string id)
+        {
+            var all = await _productService.GetProductsWithCategoryAsync();
+            var product = all.FirstOrDefault(p => p.ProductId == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return PartialView("_QuickView", product);
+        }
         public async Task<IActionResult> ProductDetail(string id)
         {
             ViewBag.Dr1 = "Anasayfa";

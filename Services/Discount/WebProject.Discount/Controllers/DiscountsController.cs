@@ -22,6 +22,16 @@ namespace WebProject.Discount.Controllers
             var values = await _discountService.GetAllDiscountCouponsAsync();
             return Ok(values);
         }
+        // Sepette seçilebilecek, şu an kullanılabilir (aktif ve süresi geçmemiş) kuponlar
+        [HttpGet("GetActiveDiscountCoupons")]
+        public async Task<IActionResult> GetActiveDiscountCoupons()
+        {
+            var all = await _discountService.GetAllDiscountCouponsAsync();
+            var active = all
+                .Where(x => x.IsActive && x.ValidDate.Date >= DateTime.UtcNow.Date)
+                .OrderBy(x => x.Rate);
+            return Ok(active);
+        }
         [HttpGet("GetDiscountCouponById/{id}")]
         public async Task<IActionResult> GetDiscountCouponById(int id)
         {

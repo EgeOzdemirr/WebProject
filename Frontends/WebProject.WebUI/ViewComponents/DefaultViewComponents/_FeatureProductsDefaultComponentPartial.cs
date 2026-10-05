@@ -3,6 +3,7 @@ using WebProject.DtoLayer.CatalogDtos.ProductDtos;
 using WebProject.WebUI.Services;
 using WebProject.WebUI.Services.CatalogServices.ProductRecommendationServices;
 using WebProject.WebUI.Services.CatalogServices.ProductServices;
+using WebProject.WebUI.Services.WishlistServices;
 
 namespace WebProject.WebUI.ViewComponents.DefaultViewComponents
 {
@@ -10,11 +11,14 @@ namespace WebProject.WebUI.ViewComponents.DefaultViewComponents
     {
         private readonly IProductService _productService;
         private readonly IProductRecommendationService _recommendationService;
+        private readonly IWishlistService _wishlistService;
 
         public _FeatureProductsDefaultComponentPartial(
             IProductService productService,
-            IProductRecommendationService recommendationService)
+            IProductRecommendationService recommendationService,
+            IWishlistService wishlistService)
         {
+            _wishlistService = wishlistService;
             _productService = productService;
             _recommendationService = recommendationService;
         }
@@ -46,6 +50,9 @@ namespace WebProject.WebUI.ViewComponents.DefaultViewComponents
                     products = products.OrderBy(x => Guid.NewGuid()).Take(4).ToList();
                 }
 
+                ViewBag.WishIds = User.Identity?.IsAuthenticated == true
+                    ? (await _wishlistService.GetIdsAsync()).ToHashSet()
+                    : new HashSet<string>();
                 return View(products);
             }
             catch (Exception ex)

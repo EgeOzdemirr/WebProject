@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using WebProject.DtoLayer.CatalogDtos.ProductDtos;
 using WebProject.WebUI.Services.CatalogServices.CategoryServices;
 using WebProject.WebUI.Services.CatalogServices.ProductServices;
+using WebProject.WebUI.Services.WishlistServices;
 
 namespace WebProject.WebUI.ViewComponents.ProductListViewComponents
 {
@@ -10,13 +11,18 @@ namespace WebProject.WebUI.ViewComponents.ProductListViewComponents
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-        public _ProductListComponentPartial(IProductService productService, ICategoryService categoryService)
+        private readonly IWishlistService _wishlistService;
+        public _ProductListComponentPartial(IProductService productService, ICategoryService categoryService, IWishlistService wishlistService)
         {
+            _wishlistService = wishlistService;
             _productService = productService;
             _categoryService = categoryService;
         }
         public async Task<IViewComponentResult> InvokeAsync(string id)
         {
+            ViewBag.WishIds = User.Identity?.IsAuthenticated == true
+                ? (await _wishlistService.GetIdsAsync()).ToHashSet()
+                : new HashSet<string>();
             if (id == null)
             {
                 var values = await _productService.GetProductsWithCategoryAsync();

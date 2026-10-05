@@ -63,3 +63,57 @@
     .cat-item, .product-item { transition: none; }
     .cat-item:hover, .product-item:hover { transform: none; }
 }
+
+/* ---- Üst bar: giriş bilgisi ---- */
+.wp-topbar { font-size: 13px; gap: 4px 18px; min-height: 28px; }
+.wp-topbar-user { color: var(--wp-dark); }
+.wp-topbar-user i { color: var(--wp-dark); margin-right: 2px; }
+.wp-badge { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 10px; background: var(--wp-yellow); color: var(--wp-dark); font-size: 11px; font-weight: 700; vertical-align: 1px; }
+.wp-topbar-link, .wp-topbar-link:hover { color: var(--wp-dark); text-decoration: none; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.wp-topbar-link:hover { text-decoration: underline; }
+.wp-topbar-btn { font-weight: 700; color: var(--wp-dark) !important; padding: 2px 12px; }
+
+/* ---- Ürün kartı butonları ---- */
+.product-action .btn-square.is-active { background: var(--wp-yellow); border-color: var(--wp-yellow); color: var(--wp-dark); }
+.product-action .btn-square.is-active i { color: var(--wp-dark); }
+
+/* ---- Bildirim (toast) ---- */
+.wp-toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 2000;
+    background: var(--wp-dark); color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 14px; border-left: 4px solid var(--wp-yellow);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .25); transition: opacity .2s, transform .2s; }
+.wp-toast-show { opacity: 1; transform: translate(-50%, 0); }
+.wp-toast-err { border-left-color: #e74c3c; }
+
+/* ---- Hızlı bakış ---- */
+.wp-quick-img { background: #fff; border: 1px solid #eee; border-radius: 6px; height: 280px; display: flex; align-items: center; justify-content: center; padding: 14px; }
+.wp-quick-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.wp-quick-cat { font-size: 12px; letter-spacing: .08em; color: #999; }
+.wp-quick-price { color: var(--wp-dark); font-weight: 700; }
+
+/* ---- Boş durum (favoriler / karşılaştırma) ---- */
+.wp-empty { background: #fff; border-radius: 6px; text-align: center; padding: 56px 20px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
+.wp-empty > i { font-size: 38px; color: var(--wp-yellow); margin-bottom: 14px; }
+
+/* ---- Karşılaştırma tablosu ---- */
+.wp-compare th, .wp-compare td { vertical-align: top; min-width: 200px; }
+.wp-compare .wp-compare-label { min-width: 110px; width: 110px; color: var(--wp-dark); font-weight: 700; }
+.wp-compare-img { height: 150px; display: flex; align-items: center; justify-content: center; }
+.wp-compare-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.wp-compare-price { color: var(--wp-dark); font-size: 18px; }
+
+/* ---- Sepet: seçilebilir kuponlar ---- */
+.wp-coupon-error { color: #c0392b; font-size: 13px; margin: -4px 0 12px; }
+.wp-coupons-title { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--wp-dark); margin-bottom: 8px; }
+.wp-coupon { display: flex; align-items: center; background: #fff; border: 1px dashed #c9ced1; border-left: 4px solid var(--wp-yellow); border-radius: 4px;
+    padding: 8px 10px; margin-bottom: 8px; text-decoration: none !important; color: var(--wp-dark); transition: box-shadow .2s, transform .2s, border-color .2s; }
+.wp-coupon:hover { box-shadow: 0 6px 18px rgba(61, 70, 77, .14); transform: translateY(-2px); border-color: var(--wp-yellow); }
+.wp-coupon-rate { background: var(--wp-dark); color: var(--wp-yellow); font-weight: 700; border-radius: 4px; padding: 6px 8px; min-width: 52px; text-align: center; margin-right: 10px; }
+.wp-coupon-info { flex: 1; line-height: 1.25; }
+.wp-coupon-info strong { display: block; letter-spacing: .04em; }
+.wp-coupon-info small { color: #888; }
+.wp-coupon-apply { font-size: 12px; font-weight: 700; background: var(--wp-yellow); color: var(--wp-dark); padding: 4px 10px; border-radius: 3px; }
+
+/* Görsel bir bağlantının içindeyse (favoriler, karşılaştırma) kutuya sığsın */
+.product-item .product-img > a,
+.wp-compare-img > a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.wp-compare-img img { max-height: 150px; }

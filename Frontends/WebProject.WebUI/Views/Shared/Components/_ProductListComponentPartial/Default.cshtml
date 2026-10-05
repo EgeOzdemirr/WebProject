@@ -1,4 +1,8 @@
 ﻿@model List<ResultProductWithCategoryDto>
+@{
+    var wishIds = (ViewBag.WishIds as HashSet<string>) ?? new HashSet<string>();
+    var compareIds = (Context.Request.Cookies["wp_compare"] ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries).ToHashSet();
+}
 
 <div class="col-12 mb-2">
     <div class="row ml-3">
@@ -12,9 +16,12 @@
         <div class="product-item bg-light mb-4">
             <div class="product-img position-relative overflow-hidden" style="height:250px">
                 <img class="img-fluid w-375" src="@item.ProductImageUrl" alt="@item.ProductName">
-                <div class="product-action">
-                    <a class="btn btn-outline-dark btn-square" href="/ShoppingCart/AddBasketItem/@item.ProductId"><i class="fa fa-shopping-cart"></i></a>
-                </div>
+                        <div class="product-action">
+                            <a class="btn btn-outline-dark btn-square" href="/ShoppingCart/AddBasketItem/@item.ProductId" title="Sepete ekle"><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square @(wishIds.Contains(item.ProductId) ? "is-active" : "")" href="/Wishlist/Index" data-wp-action="wishlist" data-id="@item.ProductId" title="Favorilere ekle / çıkar"><i class="@(wishIds.Contains(item.ProductId) ? "fas" : "far") fa-heart"></i></a>
+                            <a class="btn btn-outline-dark btn-square @(compareIds.Contains(item.ProductId) ? "is-active" : "")" href="/Compare/Index" data-wp-action="compare" data-id="@item.ProductId" title="Karşılaştır"><i class="fa fa-sync-alt"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href="/ProductList/ProductDetail/@item.ProductId" data-wp-action="quickview" data-id="@item.ProductId" title="Hızlı bakış"><i class="fa fa-search"></i></a>
+                        </div>
             </div>
             <div class="text-center py-4">
                 <a class="h6 text-decoration-none text-truncate" href="/ProductList/ProductDetail/@item.ProductId">@item.ProductName</a>

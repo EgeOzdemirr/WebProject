@@ -5,6 +5,7 @@ namespace WebProject.WebUI.Services.DiscountServices
     public interface IDiscountService
     {
         Task<List<ResultDiscountCouponDto>> GetAllDiscountCouponsAsync();
+        Task<List<ResultDiscountCouponDto>> GetActiveDiscountCouponsAsync();
         Task CreateDiscountCouponAsync(CreateDiscountCouponDto createCouponDto);
         Task UpdateDiscountCouponAsync(UpdateDiscountCouponDto updateCouponDto);
         Task DeleteDiscountCouponAsync(int id);

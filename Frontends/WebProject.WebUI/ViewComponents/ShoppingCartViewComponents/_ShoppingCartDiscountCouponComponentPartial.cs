@@ -1,12 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using WebProject.WebUI.Services.DiscountServices;
 
 namespace WebProject.WebUI.ViewComponents.ShoppingCartViewComponents
 {
-    public class _ShoppingCartDiscountCouponComponentPartial:ViewComponent
+    public class _ShoppingCartDiscountCouponComponentPartial : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly IDiscountService _discountService;
+
+        public _ShoppingCartDiscountCouponComponentPartial(IDiscountService discountService)
         {
-            return View();
+            _discountService = discountService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var activeCoupons = await _discountService.GetActiveDiscountCouponsAsync();
+            return View(activeCoupons);
         }
     }
 }

@@ -1,14 +1,41 @@
-﻿<div class="col-lg-4">
+@model List<ResultDiscountCouponDto>
+
+<div class="col-lg-4">
     @if (ViewData["codeRate"] == null)
     {
-        <form class="mb-30" method="get" action="/ShoppingCart/Index/">
+        <form class="mb-3" method="get" action="/ShoppingCart/Index/">
             <div class="input-group">
-                <input type="text" class="form-control border-0 p-4" name="code" placeholder="Kupon Kodu">
+                <input type="text" class="form-control border-0 p-4" name="code" placeholder="Kupon Kodu" autocomplete="off">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">Kuponu Uygula</button>
                 </div>
             </div>
         </form>
+        @if (ViewBag.CouponError != null)
+        {
+            <p class="wp-coupon-error">@ViewBag.CouponError</p>
+        }
+        @if (Model != null && Model.Any())
+        {
+            <div class="wp-coupons mb-30">
+                <p class="wp-coupons-title">Kullanabileceğiniz kuponlar</p>
+                @foreach (var coupon in Model)
+                {
+                    <a class="wp-coupon" href="/ShoppingCart/Index/?code=@Uri.EscapeDataString(coupon.Code)" title="Uygulamak için tıklayın">
+                        <span class="wp-coupon-rate">%@coupon.Rate</span>
+                        <span class="wp-coupon-info">
+                            <strong>@coupon.Code</strong>
+                            <small>Son kullanım: @coupon.ValidDate.ToString("dd.MM.yyyy")</small>
+                        </span>
+                        <span class="wp-coupon-apply">Uygula</span>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="mb-30"></div>
+        }
     }
     else
     {

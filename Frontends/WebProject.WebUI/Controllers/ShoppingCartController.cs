@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebProject.DtoLayer.BasketDtos;
 using WebProject.WebUI.Models;
 using WebProject.WebUI.Services.BasketServices;
@@ -8,6 +9,7 @@ using WebProject.WebUI.Services.Interfaces;
 
 namespace WebProject.WebUI.Controllers
 {
+    [Authorize]
     [Route("ShoppingCart")]
     public class ShoppingCartController : Controller
     {
@@ -33,9 +35,16 @@ namespace WebProject.WebUI.Controllers
             if (code != null)
             {
                 var values = await _discountService.GetByCodeDiscountCouponAsync(code);
-                ViewData["codeRate"] = values.Rate;
-                ViewData["codeName"] = values.Code;
-                ViewBag.codeName = values.Code;
+                if (values == null || values.ValidDate.Date < DateTime.UtcNow.Date)
+                {
+                    ViewBag.CouponError = "Bu kupon geçersiz ya da süresi dolmuş.";
+                }
+                else
+                {
+                    ViewData["codeRate"] = values.Rate;
+                    ViewData["codeName"] = values.Code;
+                    ViewBag.codeName = values.Code;
+                }
             }
             return View();
         }
