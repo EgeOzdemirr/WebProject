@@ -22,4 +22,8 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 
+  <!-- Güvenlik: açıklı dolaylı bağımlılıkları düzeltilmiş sürümlere sabitler -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.3" />
+  </ItemGroup>
 </Project>
