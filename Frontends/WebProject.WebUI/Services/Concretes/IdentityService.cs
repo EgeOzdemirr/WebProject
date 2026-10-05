@@ -1,4 +1,4 @@
-﻿using IdentityModel.Client;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
@@ -98,6 +98,10 @@ namespace WebProject.WebUI.Services.Concretes
             };
 
             var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
+            if (token.IsError)
+            {
+                return false;
+            }
 
             var userInfoRequest = new UserInfoRequest
             {
@@ -106,6 +110,10 @@ namespace WebProject.WebUI.Services.Concretes
             };
 
             var userValues = await _httpClient.GetUserInfoAsync(userInfoRequest);
+            if (userValues.IsError)
+            {
+                return false;
+            }
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(userValues.Claims, CookieAuthenticationDefaults.AuthenticationScheme, "name", "role");
 

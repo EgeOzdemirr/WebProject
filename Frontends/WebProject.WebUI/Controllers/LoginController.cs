@@ -1,4 +1,4 @@
-﻿//using AspNetCore;
+//using AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,12 @@ namespace WebProject.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(SignInDto signInDto)
         {
-            await _identityService.SignIn(signInDto);
+            var signedIn = await _identityService.SignIn(signInDto);
+            if (!signedIn)
+            {
+                ViewBag.LoginError = "Kullanıcı adı veya şifre hatalı (ya da hesap geçici olarak kilitlendi).";
+                return View();
+            }
             return RedirectToAction("Index", "Default");
         }
     }

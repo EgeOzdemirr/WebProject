@@ -1,4 +1,4 @@
-﻿@model CreateLoginDto
+@model CreateLoginDto
 @{
     Layout = null;
 }
@@ -34,6 +34,10 @@
 			</div>
 			<form class="form-detail" method="post">
 				<h2>MultiShop Giriş Formu</h2>
+				@if (ViewBag.LoginError != null)
+				{
+					<p style="color:#e74c3c;margin-bottom:15px">@ViewBag.LoginError</p>
+				}
 				<div class="form-row">
 					<label for="user_name">Kullanıcı Adınız</label>
 					<input type="text" asp-for="UserName" id="user_name" class="input-text" required>
