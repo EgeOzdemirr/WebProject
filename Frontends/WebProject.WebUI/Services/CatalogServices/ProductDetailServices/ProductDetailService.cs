@@ -20,19 +20,9 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductDetailServices
         }
         public async Task<List<ResultProductDetailDto>> GetAllProductDetailAsync()
         {
-            //var client = _httpClientFactory.CreateClient();
-            //var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
-            //if (responseMessage.IsSuccessStatusCode)
-            //{
-            //    var jsondata = await responseMessage.Content.ReadAsStringAsync();
-            //    var values = JsonConvert.DeserializeObject<List<ResultProductDetailDto>>(jsondata);
-            //    return View(values);
-            //}
             var responseMessage = await _httpClient.GetAsync("ProductDetails");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultProductDetailDto>>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("ProductDetails");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultProductDetailDto>>();
             return values;
         }
         public async Task<UpdateProductDetailDto> GetByIdProductDetailAsync(string id)
@@ -40,7 +30,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductDetailServices
             var responseMessage = await _httpClient.GetAsync("ProductDetails/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateProductDetailDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdProductDetailDto>();
             return value;
         }
         public async Task UpdateProductDetailAsync(UpdateProductDetailDto updateProductDetailDto)
@@ -53,8 +42,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductDetailServices
             var responseMessage = await _httpClient.GetAsync("ProductDetails/GetProductDetailByProductId/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<UpdateProductDetailDto>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("ProductDetails");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultProductDetailDto>>();
             return values;
         }
     }

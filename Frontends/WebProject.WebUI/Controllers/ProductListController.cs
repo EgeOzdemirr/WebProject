@@ -54,14 +54,6 @@ namespace WebProject.WebUI.Controllers
             createCommentDto.ImageUrl = "yok";
             createCommentDto.Status = false;
             await _commentService.CreateCommentAsync(createCommentDto);
-            //var client = _httpClientFactory.CreateClient();
-            //var jsondata = JsonConvert.SerializeObject(createCommentDto);
-            //StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            //var responseMessage = await client.PostAsync("http://localhost:7123/api/Comments", stringContent);
-            //if (responseMessage.IsSuccessStatusCode)
-            //{
-            //    return RedirectToAction("Index", "Default");
-            //}
             return RedirectToAction("ProductDetail", "ProductList", new { id = createCommentDto.ProductId });
         }
     }

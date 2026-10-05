@@ -15,10 +15,6 @@ namespace WebProject.WebUI.Services.MessageServices
         }
         public async Task CreateMessageAsync(CreateMessageDto createMessageDto)
         {
-            //var client = _httpClientFactory.CreateClient();
-            //var jsondata = JsonConvert.SerializeObject(createMessageDto);
-            //StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            //await client.PostAsync("http://localhost:7078/api/UserMessages", stringContent);
 
             await _httpClient.PostAsJsonAsync<CreateMessageDto>("UserMessages", createMessageDto);
         }
@@ -31,7 +27,6 @@ namespace WebProject.WebUI.Services.MessageServices
             var responseMessage = await _httpClient.GetAsync("UserMessages");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultMessageDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<UpdateMessageDto> GetByIdMessageAsync(int id)
@@ -39,7 +34,6 @@ namespace WebProject.WebUI.Services.MessageServices
             var responseMessage = await _httpClient.GetAsync("UserMessages/GetMessageById/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateMessageDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<List<ResultInboxMessageDto>> GetInboxMessageAsync(string id)
@@ -47,7 +41,6 @@ namespace WebProject.WebUI.Services.MessageServices
             var responseMessage = await _httpClient.GetAsync("UserMessages/GetInboxMessages/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultInboxMessageDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<List<ResultSendboxMessageDto>> GetSendboxMessageAsync(string id)
@@ -55,7 +48,6 @@ namespace WebProject.WebUI.Services.MessageServices
             var responseMessage = await _httpClient.GetAsync("UserMessages/GetSendboxMessages/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultSendboxMessageDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<int> GetTotalMessageCountByUserId(string id)

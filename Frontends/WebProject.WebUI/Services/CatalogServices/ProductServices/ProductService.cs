@@ -26,8 +26,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductServices
             var responseMessage = await _httpClient.GetAsync("Products");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("categories");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultCategoryDto>>();
             return values;
         }
 
@@ -36,7 +34,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductServices
             var responseMessage = await _httpClient.GetAsync("Products/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateProductDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
 
@@ -45,8 +42,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ProductServices
             var responseMessage = await _httpClient.GetAsync("Products/ProductListWithCategory");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("categories");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultCategoryDto>>();
             return values;
         }
 

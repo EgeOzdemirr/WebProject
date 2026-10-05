@@ -59,28 +59,12 @@ namespace WebProject.Catalog.Services.ProductServices
         public async Task<List<ResultProductWithCategoryDto>> GetProductsWithCategoryAsync()
         {
             var values = await _productCollection.Find(x => true).ToListAsync();
-            //List<ResultProductWithCategoryDto> model = new List<ResultProductWithCategoryDto>();
             foreach (var item in values)
             {
                 item.Category = await _categoryCollection.Find<Category>(x => x.CategoryId == item.CategoryId).FirstAsync();
-                //ResultProductWithCategoryDto m = new ResultProductWithCategoryDto();
-                //m.CategoryName = cat.CategoryName;
-                //m.ProductName = item.ProductName;
-                //m.ProductID = item.ProductID;
-                //m.ProductPrice = item.ProductPrice;
-                //m.ProductDescription = item.ProductDescription;
-                //m.ProductImageUrl = item.ProductImageUrl;
-                //m.CategoryID = item.CategoryID;                
             }
-            //return model;
             return _mapper.Map<List<ResultProductWithCategoryDto>>(values);
         }
-
-        //public async Task<List<Product>> GetSimilarProducts(string productId)
-        //{
-        //    var products = await _productRepository.GetAllProductsAsync();  // Tüm ürünleri buradan çekin.
-        //    return products.Where(p => p.ProductDescription.Contains(description));
-        //}
 
         public async Task UpdateProductAsync(UpdateProductDto updateProductDto)
         {

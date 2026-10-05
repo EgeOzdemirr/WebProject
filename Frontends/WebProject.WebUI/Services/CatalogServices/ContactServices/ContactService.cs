@@ -20,19 +20,9 @@ namespace WebProject.WebUI.Services.CatalogServices.ContactServices
         }
         public async Task<List<ResultContactDto>> GetAllContactAsync()
         {
-            //var client = _httpClientFactory.CreateClient();
-            //var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
-            //if (responseMessage.IsSuccessStatusCode)
-            //{
-            //    var jsondata = await responseMessage.Content.ReadAsStringAsync();
-            //    var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsondata);
-            //    return View(values);
-            //}
             var responseMessage = await _httpClient.GetAsync("Contacts");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("categories");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultCategoryDto>>();
             return values;
         }
         public async Task<UpdateContactDto> GetByIdContactAsync(string id)
@@ -40,7 +30,6 @@ namespace WebProject.WebUI.Services.CatalogServices.ContactServices
             var responseMessage = await _httpClient.GetAsync("Contacts/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateContactDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task UpdateContactAsync(UpdateContactDto updateContactDto)

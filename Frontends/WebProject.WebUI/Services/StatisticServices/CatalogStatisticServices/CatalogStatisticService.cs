@@ -42,8 +42,6 @@ namespace WebProject.WebUI.Services.StatisticServices.CatalogStatisticServices
         {
             var responseMessage = await _httpClient.GetAsync("Statistics/GetMaxProductPrice");
             var value = await responseMessage.Content.ReadAsStringAsync();
-            //var jsondata = await responseMessage.Content.ReadAsStringAsync();
-            //var value = JsonConvert.DeserializeObject<string>(jsondata);
             return value;
         }
 
@@ -51,7 +49,6 @@ namespace WebProject.WebUI.Services.StatisticServices.CatalogStatisticServices
         {
             var responseMessage = await _httpClient.GetAsync("Statistics/GetMinProductPrice");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
-            //var value = JsonConvert.DeserializeObject<string>(jsondata);
             return jsondata;
         }
     }

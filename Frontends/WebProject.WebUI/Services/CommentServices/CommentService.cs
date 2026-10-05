@@ -24,19 +24,9 @@ namespace WebProject.WebUI.Services.CommentServices
 
         public async Task<List<ResultCommentDto>> GetAllCommentAsync()
         {
-            //var client = _httpClientFactory.CreateClient();
-            //var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
-            //if (responseMessage.IsSuccessStatusCode)
-            //{
-            //    var jsondata = await responseMessage.Content.ReadAsStringAsync();
-            //    var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsondata);
-            //    return View(values);
-            //}
             var responseMessage = await _httpClient.GetAsync("Comments");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("Comments");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultCommentDto>>();
             return values;
         }
 
@@ -45,7 +35,6 @@ namespace WebProject.WebUI.Services.CommentServices
             var responseMessage = await _httpClient.GetAsync("Comments/GetComment/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateCommentDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCommentDto>();
             return value;
         }
 
@@ -60,8 +49,6 @@ namespace WebProject.WebUI.Services.CommentServices
             var responseMessage = await _httpClient.GetAsync("Comments/CommentListByProductId/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsondata);
-            //var responseMessage = await _httpClient.GetAsync("Comments");
-            //var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultCommentDto>>();
             return values;
         }
 

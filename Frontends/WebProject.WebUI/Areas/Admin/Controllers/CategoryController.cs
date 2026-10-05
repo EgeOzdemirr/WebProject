@@ -61,36 +61,16 @@ namespace WebProject.WebUI.Areas.Admin.Controllers
         {
             CategoryViewBagList();
             var value = await _categoryService.GetByIdCategoryAsync(id);
-            //UpdateCategoryDto model = new UpdateCategoryDto()
-            //{
             //    CategoryID = id,
             //    CategoryName = value.CategoryName,
             //    ImageUrl = value.ImageUrl
-            //};
 
-            //var client = _httpClientFactory.CreateClient();
-            //var responseMessage = await client.GetAsync("http://localhost:7070/api/Categories/" + id);
-            //if (responseMessage.IsSuccessStatusCode)
-            //{
-            //    var jsondata = await responseMessage.Content.ReadAsStringAsync();
-            //    var values = JsonConvert.DeserializeObject<UpdateCategoryDto>(jsondata);
-            //    return View(values);
-            //}
             return View(value);
         }
         [Route("UpdateCategory/{id}")]
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
-            //var client = _httpClientFactory.CreateClient();
-            //var jsondata = JsonConvert.SerializeObject(updateCategoryDto);
-            //StringContent stringContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
-            //var responseMessage = await client.PutAsync("https://localhost:7070/api/Categories", stringContent);
-            //if (responseMessage.IsSuccessStatusCode)
-            //{
-            //    var url = "/Admin/Category/Index/";
-            //    return Redirect(url);
-            //}
             await _categoryService.UpdateCategoryAsync(updateCategoryDto);
             var url = "/Admin/Category/Index/";
             return Redirect(url);

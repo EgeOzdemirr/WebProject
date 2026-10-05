@@ -26,7 +26,6 @@ namespace WebProject.WebUI.Services.DiscountServices
             var responseMessage = await _httpClient.GetAsync("Discount");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultDiscountCouponDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<List<ResultDiscountCouponDto>>();
             return value;
         }
 
@@ -35,7 +34,6 @@ namespace WebProject.WebUI.Services.DiscountServices
             var responseMessage = await _httpClient.GetAsync("Discounts/GetDiscountCouponByCode/" + code);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetByIdDiscountCouponDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdDiscountCouponDto>();
             return value;
         }
 
@@ -44,7 +42,6 @@ namespace WebProject.WebUI.Services.DiscountServices
             var responseMessage = await _httpClient.GetAsync("Discounts/GetDiscountCouponById/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetByIdDiscountCouponDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
 

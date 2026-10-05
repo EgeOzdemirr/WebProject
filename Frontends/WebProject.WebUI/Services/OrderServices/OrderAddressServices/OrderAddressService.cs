@@ -24,7 +24,6 @@ namespace WebProject.WebUI.Services.OrderServices.OrderAddressServices
             var responseMessage = await _httpClient.GetAsync("Addresses/GetAddressListByUserId/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<UpdateOrderAddressDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<List<ResultAddressesByUserDto>> GetAllAddressAsync()
@@ -32,7 +31,6 @@ namespace WebProject.WebUI.Services.OrderServices.OrderAddressServices
             var responseMessage = await _httpClient.GetAsync("Addresses");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultAddressesByUserDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<UpdateOrderAddressDto> GetByIdAddressAsync(int id)
@@ -40,7 +38,6 @@ namespace WebProject.WebUI.Services.OrderServices.OrderAddressServices
             var responseMessage = await _httpClient.GetAsync("Addresses/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateOrderAddressDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task UpdateAddressAsync(UpdateOrderAddressDto updateOrderAddressDto)

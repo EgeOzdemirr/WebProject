@@ -24,7 +24,6 @@ namespace WebProject.WebUI.Services.OrderServices.OrderOrderingServices
             var responseMessage = await _httpClient.GetAsync("Orderings");
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultOrderingByUserIdDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<UpdateOrderingDto> GetByIdOrderingAsync(int id)
@@ -32,7 +31,6 @@ namespace WebProject.WebUI.Services.OrderServices.OrderOrderingServices
             var responseMessage = await _httpClient.GetAsync("Orderings/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<UpdateOrderingDto>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task<List<ResultOrderingByUserIdDto>> GetOrderingByUserIdAsync(string id)
@@ -40,7 +38,6 @@ namespace WebProject.WebUI.Services.OrderServices.OrderOrderingServices
             var responseMessage = await _httpClient.GetAsync("Orderings/GetOrderingByUserId/" + id);
             var jsondata = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<List<ResultOrderingByUserIdDto>>(jsondata);
-            //var value = await responseMessage.Content.ReadFromJsonAsync<GetByIdCategoryDto>();
             return value;
         }
         public async Task UpdateOrderingAsync(UpdateOrderingDto updateOrderingDto)
